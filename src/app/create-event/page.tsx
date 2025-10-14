@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useWriteContract } from "wagmi";
 import factoryAbi from "@/constants/abi/ticket-factory.json";
+import { createHash } from "crypto";
 
 export default function CreateEventPage() {
   const { writeContract, isPending } = useWriteContract();
@@ -18,13 +19,37 @@ export default function CreateEventPage() {
     royaltyFee: "",
   });
 
-  // 🧩 Wallets & Shares array
+  const [zones, setZones] = useState([{ name: "", price: "", maxSupply: "" }]);
   const [payouts, setPayouts] = useState([{ wallet: "", share: "" }]);
+
+  const generateEventId = (organizerAddress: string, eventName: string) => {
+    const uniqueString = `${organizerAddress}-${eventName}-${Date.now()}`;
+    return createHash("sha256").update(uniqueString).digest("hex").slice(0, 16);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleZoneChange = (
+    index: number,
+    field: "name" | "price" | "maxSupply",
+    value: string
+  ) => {
+    const newZones = [...zones];
+    newZones[index][field] = value;
+    setZones(newZones);
+  };
+
+  const addZone = () => {
+    setZones([...zones, { name: "", price: "", maxSupply: "" }]);
+  };
+
+  const removeZones = (index: number) => {
+    const newZones = zones.filter((_, i) => i !== index);
+    setZones(newZones);
   };
 
   const handlePayoutChange = (
@@ -87,14 +112,6 @@ export default function CreateEventPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4 text-gray-200">
         <input
-          name="eventId"
-          placeholder="Event ID (unik)"
-          value={form.eventId}
-          onChange={handleChange}
-          className="w-full bg-gray-800 p-2 rounded-md"
-          required
-        />
-        <input
           name="eventName"
           placeholder="Event Name"
           value={form.eventName}
@@ -119,15 +136,58 @@ export default function CreateEventPage() {
           className="w-full bg-gray-800 p-2 rounded-md"
           required
         />
-        <input
-          name="zone"
-          placeholder="Zone (e.g., VIP, Regular)"
-          value={form.zone}
-          onChange={handleChange}
-          className="w-full bg-gray-800 p-2 rounded-md"
-          required
-        />
+        <div className="space-y-2">
+          <h2 className="text-lg font-semibold mt-4">Zones</h2>
 
+          {zones.map((p, index) => (
+            <div key={index} className="flex gap-2">
+              <input
+                placeholder="Zone Name"
+                value={p.name}
+                onChange={(e) =>
+                  handleZoneChange(index, "name", e.target.value)
+                }
+                className="flex-1 bg-gray-800 p-2 rounded-md"
+                required
+              />
+              <input
+                placeholder="Price"
+                value={p.price}
+                onChange={(e) =>
+                  handleZoneChange(index, "price", e.target.value)
+                }
+                className="w-40 bg-gray-800 p-2 rounded-md"
+                required
+              />
+              <input
+                placeholder="max supply"
+                value={p.maxSupply}
+                onChange={(e) =>
+                  handleZoneChange(index, "maxSupply", e.target.value)
+                }
+                className="w-40 bg-gray-800 p-2 rounded-md"
+                required
+              />
+              {zones.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeZones(index)}
+                  className="bg-red-600 hover:bg-red-700 text-white px-2 rounded-md"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={addZone}
+            className="text-sm text-indigo-400 hover:text-indigo-300 mt-2"
+          >
+            + Add Zone
+          </button>
+        </div>
         <div className="flex gap-2">
           <input
             name="price"
