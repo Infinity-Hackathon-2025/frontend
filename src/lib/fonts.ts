@@ -62,3 +62,36 @@ export const nexa = localFont({
   variable: "--font-nexa",
   fallback: ["sans-serif"],
 });
+
+export const roboto = localFont({
+  src: [
+    {
+      path: "../fonts/roboto/Roboto-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+    {
+      path: "../fonts/roboto/Roboto-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../fonts/roboto/Roboto-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/roboto/Roboto-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../fonts/roboto/Roboto-Thin.ttf",
+      weight: "200",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-roboto",
+  fallback: ["sans-serif"],
+});

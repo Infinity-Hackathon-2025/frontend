@@ -13,9 +13,7 @@
 
   --font-mont: var(--font-mont);
   --font-nexa: var(--font-nexa);
-
-  --color-iniputih-100: #ffffff;
-  --color-iniputih-200: #ffff00;
+  --font-roboto: var(--font-roboto);
 }
 
 @media (prefers-color-scheme: dark) {
