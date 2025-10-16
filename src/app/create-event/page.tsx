@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useAccount } from "wagmi";
 import factoryAbi from "@/constants/abi/ticket-factory.json";
 import { createHash } from "crypto";
+import { parseEther } from "viem";
 
 export default function CreateEventPage() {
-  const { writeContract, isPending } = useWriteContract();
+  const { writeContractAsync, isPending } = useWriteContract();
+
+  const { address, isConnected } = useAccount();
 
   const [form, setForm] = useState({
-    eventId: "",
     eventName: "",
     description: "",
     image: "",
@@ -74,35 +76,59 @@ export default function CreateEventPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const wallets = payouts.map((p) => p.wallet);
-      const shares = payouts.map((p) => parseInt(p.share));
+    if (!address) {
+      alert("Please connect your wallet first");
+      return;
+    }
 
-      const tx = await writeContract({
+    try {
+      const zonesName = zones.map((z) => z.name);
+      const price = zones.map((z) => parseEther(z.price));
+      const maxSupply = zones.map((z) => BigInt(z.maxSupply));
+
+      const wallets = payouts.map((p) => p.wallet);
+      const shares = payouts.map((p) => BigInt(p.share));
+
+      const eventId = generateEventId(address, form.eventName);
+
+      if (payouts.reduce((a, b) => a + Number(b.share), 0) !== 10000) {
+        alert("Total share harus 10000 (100%)");
+        return;
+      }
+
+      console.log("Preparing transaction...");
+      const tx = await writeContractAsync({
         address: process.env.NEXT_PUBLIC_FACTORY_ADDRESS as `0x${string}`,
         abi: factoryAbi.abi,
         functionName: "createEvent",
         args: [
-          form.eventId,
+          eventId,
           form.eventName,
           form.description,
           form.image,
-          form.zone,
-          BigInt(parseFloat(form.price) * 1e18),
-          BigInt(form.maxSupply),
           BigInt(form.royaltyFee),
           wallets,
           shares,
+          zonesName,
+          price,
+          maxSupply,
         ],
+        gas: BigInt(6_000_000),
       });
 
-      console.log("tx sent:", tx);
+      console.log("tx sent: ", tx);
+      console.log("event id: ", eventId);
+      console.log(wallets, shares, zonesName, price, maxSupply);
       alert("🎉 Event creation submitted! Check your wallet.");
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       alert("❌ Gagal membuat event. Coba periksa input atau koneksi wallet.");
     }
   };
+
+  if (!isConnected) {
+    return <p>⚠️ Please connect your wallet first.</p>;
+  }
 
   return (
     <div className="max-w-2xl mx-auto py-10 px-6">
@@ -187,24 +213,6 @@ export default function CreateEventPage() {
           >
             + Add Zone
           </button>
-        </div>
-        <div className="flex gap-2">
-          <input
-            name="price"
-            placeholder="Price (ETH)"
-            value={form.price}
-            onChange={handleChange}
-            className="w-1/2 bg-gray-800 p-2 rounded-md"
-            required
-          />
-          <input
-            name="maxSupply"
-            placeholder="Max Supply"
-            value={form.maxSupply}
-            onChange={handleChange}
-            className="w-1/2 bg-gray-800 p-2 rounded-md"
-            required
-          />
         </div>
 
         <input
