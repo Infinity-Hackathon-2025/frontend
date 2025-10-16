@@ -28,8 +28,28 @@ export const mont = localFont({
 export const nexa = localFont({
   src: [
     {
+      path: "../fonts/nexa/Nexa-Black.otf",
+      weight: "900",
+      style: "normal",
+    },
+    {
       path: "../fonts/nexa/Nexa-Heavy.ttf",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../fonts/nexa/Nexa-Bold.otf",
       weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../fonts/nexa/Nexa-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/nexa/Nexa-Light.otf",
+      weight: "300",
       style: "normal",
     },
     {
