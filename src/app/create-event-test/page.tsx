@@ -1,23 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { useWriteContract, useAccount } from "wagmi";
-import factoryAbi from "@/constants/abi/ticket-factory.json";
+import { useState, useEffect } from "react";
 import { createHash } from "crypto";
 import { parseEther } from "viem";
+import {
+  useAccount,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
+import { ethers } from "ethers";
+import { createEvent } from "@/lib/blockchain/ticket-factory";
 
 export default function CreateEventPage() {
-  const { writeContractAsync, isPending } = useWriteContract();
-
   const { address, isConnected } = useAccount();
+  const { data: hash, writeContract, isPending, error } = useWriteContract();
+  const { isLoading, isSuccess } = useWaitForTransactionReceipt({ hash });
+
+  useEffect(() => {
+    console.log("isPending:", isPending);
+  }, [isPending]);
 
   const [form, setForm] = useState({
     eventName: "",
     description: "",
     image: "",
     zone: "",
-    price: "",
-    maxSupply: "",
     royaltyFee: "",
   });
 
@@ -75,54 +82,26 @@ export default function CreateEventPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!address) {
-      alert("Please connect your wallet first");
-      return;
-    }
+    console.log("submitting...");
 
     try {
-      const zonesName = zones.map((z) => z.name);
-      const price = zones.map((z) => parseEther(z.price));
-      const maxSupply = zones.map((z) => BigInt(z.maxSupply));
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
 
-      const wallets = payouts.map((p) => p.wallet);
-      const shares = payouts.map((p) => BigInt(p.share));
+      const eventData = {
+        eventName: form.eventName,
+        description: form.description,
+        image: form.image,
+        royaltyFee: form.royaltyFee,
+        payouts: payouts,
+        zones: zones,
+      };
 
-      const eventId = generateEventId(address, form.eventName);
-
-      if (payouts.reduce((a, b) => a + Number(b.share), 0) !== 10000) {
-        alert("Total share harus 10000 (100%)");
-        return;
-      }
-
-      console.log("Preparing transaction...");
-      const tx = await writeContractAsync({
-        address: process.env.NEXT_PUBLIC_FACTORY_ADDRESS as `0x${string}`,
-        abi: factoryAbi.abi,
-        functionName: "createEvent",
-        args: [
-          eventId,
-          form.eventName,
-          form.description,
-          form.image,
-          BigInt(form.royaltyFee),
-          wallets,
-          shares,
-          zonesName,
-          price,
-          maxSupply,
-        ],
-        gas: BigInt(6_000_000),
-      });
-
-      console.log("tx sent: ", tx);
-      console.log("event id: ", eventId);
-      console.log(wallets, shares, zonesName, price, maxSupply);
-      alert("🎉 Event creation submitted! Check your wallet.");
-    } catch (err: any) {
-      console.error(err);
-      alert("❌ Gagal membuat event. Coba periksa input atau koneksi wallet.");
+      const tx = await createEvent(signer, eventData);
+      console.log("✅ Event deployed:", tx);
+    } catch (err) {
+      console.log("error: ", err);
+      alert("❌ Gagal membuat event");
     }
   };
 
@@ -270,7 +249,7 @@ export default function CreateEventPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+          className="w-full py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold"
         >
           {isPending ? "Deploying..." : "Create Event"}
         </button>
