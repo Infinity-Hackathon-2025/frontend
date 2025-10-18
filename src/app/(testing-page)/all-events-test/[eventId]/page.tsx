@@ -21,9 +21,9 @@ const page = ({ params }: { params: Promise<{ eventId: string }> }) => {
         const _event = await getEventById(provider, eventId);
         setEvent(_event);
 
-        // const _zones = await getEventZones(provider, _event.eventAddress);
-        // setZones(_zones);
-        // console.log("zones:", _zones);
+        const _zones = await getEventZones(provider, _event.eventAddress);
+        setZones(_zones);
+        console.log("zones:", _zones);
       } catch (error) {
         console.error(error);
       } finally {
