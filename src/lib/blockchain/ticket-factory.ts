@@ -25,7 +25,7 @@ interface CreateEventProps {
   eventName: string;
   description: string;
   image: string;
-  royaltyFee: string;
+  royaltyFee: number;
   payouts: Payout[];
   zones: Zone[];
 }

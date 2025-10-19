@@ -25,21 +25,78 @@ export default function CreateEventPage() {
     description: "",
     image: "",
     zone: "",
-    royaltyFee: "",
+    royaltyFee: 0,
+    terms: "",
   });
+
+  const [imageFile, setImageFile] = useState<File>();
+  const [termsFile, setTermsFile] = useState<File>();
+
+  const [uploading, setUploading] = useState(false);
 
   const [zones, setZones] = useState([{ name: "", price: "", maxSupply: "" }]);
   const [payouts, setPayouts] = useState([{ wallet: "", share: "" }]);
-
-  const generateEventId = (organizerAddress: string, eventName: string) => {
-    const uniqueString = `${organizerAddress}-${eventName}-${Date.now()}`;
-    return createHash("sha256").update(uniqueString).digest("hex").slice(0, 16);
-  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImageFile(e.target?.files?.[0]);
+  };
+
+  const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTermsFile(e.target?.files?.[0]);
+  };
+
+  const uploadImage = async () => {
+    try {
+      if (!imageFile) {
+        alert("No file selected");
+        return;
+      }
+
+      setUploading(true);
+      const data = new FormData();
+      data.set("file", imageFile);
+      const uploadRequest = await fetch("/api/files", {
+        method: "POST",
+        body: data,
+      });
+      const signedUrl = await uploadRequest.json();
+      setForm({ ...form, image: signedUrl });
+      setUploading(false);
+    } catch (e) {
+      console.log(e);
+      setUploading(false);
+      alert("Trouble uploading image");
+    }
+  };
+
+  const uploadTerms = async () => {
+    try {
+      if (!termsFile) {
+        alert("No file selected");
+        return;
+      }
+
+      setUploading(true);
+      const data = new FormData();
+      data.set("file", termsFile);
+      const uploadRequest = await fetch("/api/files", {
+        method: "POST",
+        body: data,
+      });
+      const signedUrl = await uploadRequest.json();
+      setForm({ ...form, terms: signedUrl });
+      setUploading(false);
+    } catch (e) {
+      console.log(e);
+      setUploading(false);
+      alert("Trouble uploading image");
+    }
   };
 
   const handleZoneChange = (
@@ -92,7 +149,7 @@ export default function CreateEventPage() {
         eventName: form.eventName,
         description: form.description,
         image: form.image,
-        royaltyFee: form.royaltyFee,
+        royaltyFee: form.royaltyFee * 100,
         payouts: payouts,
         zones: zones,
       };
@@ -133,14 +190,14 @@ export default function CreateEventPage() {
           rows={3}
           required
         />
-        <input
-          name="image"
-          placeholder="Image URL"
-          value={form.image}
-          onChange={handleChange}
-          className="w-full bg-gray-800 p-2 rounded-md"
-          required
-        />
+        <div className="flex flex-row gap-4">
+          <input type="file" onChange={handleImageChange} />
+          <button type="button" disabled={uploading} onClick={uploadImage}>
+            {uploading ? "Uploading..." : "Upload"}
+          </button>
+        </div>
+        {form.image}
+        {form.image && <img src={form.image} alt="Image from Pinata" />}
         <div className="space-y-2">
           <h2 className="text-lg font-semibold mt-4">Zones</h2>
 
@@ -196,7 +253,7 @@ export default function CreateEventPage() {
 
         <input
           name="royaltyFee"
-          placeholder="Royalty (e.g., 500 = 5%)"
+          placeholder="Royalty (%)"
           value={form.royaltyFee}
           onChange={handleChange}
           className="w-full bg-gray-800 p-2 rounded-md"
@@ -245,6 +302,14 @@ export default function CreateEventPage() {
             + Add Wallet
           </button>
         </div>
+
+        <div className="flex flex-row gap-4">
+          <input accept="pdf" type="file" onChange={handleTermsChange} />
+          <button type="button" disabled={uploading} onClick={uploadTerms}>
+            {uploading ? "Uploading..." : "Upload"}
+          </button>
+        </div>
+        {form.terms}
 
         <button
           type="submit"
