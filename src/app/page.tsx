@@ -1,12 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
+import LandingPage from "./landingpage/page";
 
-export default function Home() {
-  return (
-    <div className="w-screen flex justify-center">
-      <Link href={"/merch"} className="bg-blue-500">
-        merch
-      </Link>
-    </div>
-  );
-}
+export default LandingPage;
