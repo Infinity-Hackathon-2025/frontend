@@ -34,7 +34,7 @@ const EventCard: React.FC<EventCardProps> = ({
   return (
     <div className="bg-white rounded-[15px] shadow-md border border-gray-200 overflow-hidden flex flex-col">
       <div className="relative w-full h-40 bg-gray-200">
-        <Image
+        <img
           src={imageUrl}
           alt={title}
           width={600}

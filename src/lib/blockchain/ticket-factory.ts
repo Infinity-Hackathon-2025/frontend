@@ -25,6 +25,7 @@ type Payout = {
 interface CreateEventProps {
   eventName: string;
   description: string;
+  eventDateTime: number;
   image: string;
   termsUrl: string;
   royaltyFee: string;
@@ -44,14 +45,15 @@ export async function createEvent(
   const wallets = props.payouts.map((z) => z.wallet);
   const shares = props.payouts.map((z) => BigInt(z.shareInWei));
 
-  const royaltyInWei = Number(props.royaltyFee) * 100;
+  const royaltyInBps = Math.floor(Number(props.royaltyFee) * 100);
 
   const tx = await factory.createEvent(
     props.eventName,
     props.description,
+    BigInt(props.eventDateTime),
     props.image,
     props.termsUrl,
-    BigInt(royaltyInWei),
+    BigInt(royaltyInBps),
     wallets,
     shares,
     zones,
@@ -78,7 +80,28 @@ export async function getAllEvents(provider: ethers.Provider) {
       royaltyFee: Number(e.royaltyFee),
     }));
   } catch (err) {
-    console.error("❌ Failed to fetch events:", err);
+    console.error("Failed to fetch events:", err);
+    throw err;
+  }
+}
+
+export async function getMyEvents(provider: ethers.Provider) {
+  const factory = getFactoryContract(provider);
+
+  try {
+    const events = await factory.getMyEvents();
+
+    return events.map((e: any) => ({
+      eventAddress: e.eventAddress,
+      organizer: e.organizer,
+      eventName: e.eventName,
+      eventId: e.eventId,
+      description: e.description,
+      image: e.image,
+      royaltyFee: Number(e.royaltyFee),
+    }));
+  } catch (err) {
+    console.error("Failed to fetch events:", err);
     throw err;
   }
 }

@@ -23,6 +23,32 @@ export async function getEventZones(
   }));
 }
 
+export async function getEventDate(
+  provider: ethers.Provider,
+  eventAddress: string
+) {
+  const contract = new ethers.Contract(eventAddress, ticketAbi.abi, provider);
+
+  try {
+    const eventDate = contract.eventDateTime();
+    const timestamp = Number(eventDate);
+    const date = new Date(timestamp * 1000);
+
+    const formatted = date.toLocaleString("id-ID", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    return formatted;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function buyTicket(
   signer: ethers.Signer,
   zoneIndex: number,

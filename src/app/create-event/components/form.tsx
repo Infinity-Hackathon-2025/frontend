@@ -1,25 +1,215 @@
 "use client";
 
-import React, { useState } from "react";
-import { Plus } from "lucide-react";
+import React, { useRef, useState } from "react";
+import { Plus, X } from "lucide-react";
 import SeatSetting from "./seat-setting";
 import Image from "next/image";
+import { createEvent } from "@/lib/blockchain/ticket-factory";
+import { ethers } from "ethers";
+import { convertEthToIdr } from "@/lib/price";
 
 export default function Form() {
-  const [poster, setPoster] = useState<File | null>(null);
-  const [posterUrl, setPosterUrl] = useState<string | null>(null);
-  const [seatTypes, setSeatTypes] = useState([{ id: 1 }]);
+  const termsRef = useRef<HTMLInputElement | null>(null);
+
+  const [posterFile, setPosterFile] = useState<File>();
+  const [termsFile, setTermsFile] = useState<File>();
+
+  const [form, setForm] = useState({
+    eventName: "",
+    description: "",
+    eventDateTime: "",
+    imageUrl: "",
+    zone: "",
+    royaltyFee: "",
+    termsUrl: "",
+  });
+
+  const [posterUploading, setPosterUploading] = useState(false);
+  const [termsUploading, setTermsUploading] = useState(false);
+
+  const [zones, setZones] = useState([
+    {
+      name: "",
+      price: "",
+      maxSupply: "",
+      loadingConversion: false,
+      idrPrice: "",
+    },
+  ]);
+  const [payouts, setPayouts] = useState([
+    { wallet: "", share: "", shareInWei: "" },
+  ]);
+
+  const handleTermsClick = () => {
+    termsRef.current?.click();
+  };
+
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handlePosterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setPoster(file);
-      setPosterUrl(URL.createObjectURL(file));
+    setPosterFile(e.target?.files?.[0]);
+  };
+
+  const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTermsFile(e.target?.files?.[0]);
+  };
+
+  const uploadImage = async () => {
+    try {
+      if (!posterFile) {
+        alert("No file selected");
+        return;
+      }
+
+      setPosterUploading(true);
+      const data = new FormData();
+      data.set("file", posterFile);
+      const uploadRequest = await fetch("/api/files", {
+        method: "POST",
+        body: data,
+      });
+      const signedUrl = await uploadRequest.json();
+      setForm({ ...form, imageUrl: signedUrl });
+      setPosterUploading(false);
+    } catch (e) {
+      console.log(e);
+      setPosterUploading(false);
+      alert("Trouble uploading image");
     }
   };
 
-  const addSeatType = () => {
-    setSeatTypes((prev) => [...prev, { id: prev.length + 1 }]);
+  const uploadTerms = async () => {
+    try {
+      if (!termsFile) {
+        alert("No file selected");
+        return;
+      }
+
+      setTermsUploading(true);
+      const data = new FormData();
+      data.set("file", termsFile);
+      const uploadRequest = await fetch("/api/files", {
+        method: "POST",
+        body: data,
+      });
+      const signedUrl = await uploadRequest.json();
+      setForm({ ...form, termsUrl: signedUrl });
+      setTermsUploading(false);
+    } catch (e) {
+      console.log(e);
+      setTermsUploading(false);
+      alert("Trouble uploading image");
+    }
+  };
+
+  const handleZoneChange = async (
+    index: number,
+    field: "name" | "price" | "maxSupply",
+    value: string
+  ) => {
+    const newZones = [...zones];
+
+    newZones[index] = { ...newZones[index], [field]: value };
+
+    setZones(newZones);
+
+    if (field === "price") {
+      newZones[index] = { ...newZones[index], loadingConversion: true };
+      setZones(newZones);
+
+      const ethValue = Number(newZones[index].price);
+      try {
+        const idr = await convertEthToIdr(ethValue);
+        newZones[index] = {
+          ...newZones[index],
+          idrPrice: idr,
+          loadingConversion: false,
+        };
+        setZones([...newZones]);
+      } catch (err) {
+        console.error("Failed to convert ETH to IDR", err);
+        newZones[index] = { ...newZones[index], loadingConversion: false };
+        setZones([...newZones]);
+      }
+    }
+  };
+
+  const addZone = () => {
+    setZones([
+      ...zones,
+      {
+        name: "",
+        price: "",
+        maxSupply: "",
+        loadingConversion: false,
+        idrPrice: "",
+      },
+    ]);
+  };
+
+  const removeZones = (index: number) => {
+    const newZones = zones.filter((_, i) => i !== index);
+    setZones(newZones);
+  };
+
+  const handlePayoutChange = (
+    index: number,
+    field: "wallet" | "share" | "shareInWei",
+    value: string
+  ) => {
+    const newPayouts = [...payouts];
+    newPayouts[index][field] = value;
+
+    if (field === "share" || field === "shareInWei") {
+      const _shareInWei = String(Number(newPayouts[index].share) * 100);
+      newPayouts[index] = { ...newPayouts[index], shareInWei: _shareInWei };
+    }
+
+    setPayouts(newPayouts);
+  };
+
+  const addPayout = () => {
+    setPayouts([...payouts, { wallet: "", share: "", shareInWei: "" }]);
+  };
+
+  const removePayout = (index: number) => {
+    const newPayouts = payouts.filter((_, i) => i !== index);
+    setPayouts(newPayouts);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("submitting...");
+
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+
+      const timestamp = Math.floor(
+        new Date(form.eventDateTime).getTime() / 1000
+      );
+
+      const eventData = {
+        eventName: form.eventName,
+        description: form.description,
+        eventDateTime: timestamp,
+        image: form.imageUrl,
+        termsUrl: form.termsUrl,
+        royaltyFee: form.royaltyFee,
+        payouts: payouts,
+        zones: zones,
+      };
+
+      const tx = await createEvent(signer, eventData);
+      console.log("✅ Event deployed:", tx);
+    } catch (err) {
+      console.log("error: ", err);
+      alert("❌ Gagal membuat event");
+    }
   };
 
   return (
@@ -33,27 +223,33 @@ export default function Form() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="text-[#122B59] grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-5">
-          <div className="bg-white rounded-2xl shadow-md p-5">
-            <label className="block font-semibold text-[#122B59] mb-2">
-              Jadwal Acara *
-            </label>
-            <input
-              type="text"
-              placeholder="Pilih hari"
-              className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-md p-5">
+          <div className="bg-white text-black rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2">
               Nama Acara *
             </label>
             <input
+              name="eventName"
+              onChange={handleFormChange}
+              value={form.eventName}
               type="text"
               placeholder="Masukkan nama acara"
+              className="w-full  p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+
+          <div className="bg-white text-black rounded-2xl shadow-md p-5">
+            <label className="block font-semibold text-[#122B59] mb-2">
+              Nama Acara *
+            </label>
+            <textarea
+              name="description"
+              onChange={handleFormChange}
+              value={form.description}
+              placeholder="Masukkan deskripsi acara"
               className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+              rows={3}
             />
           </div>
 
@@ -72,126 +268,310 @@ export default function Form() {
             <label className="block font-semibold text-[#122B59] mb-2">
               Tanggal dan Waktu *
             </label>
-            <div className="flex gap-4">
-              <input
-                type="date"
-                className="w-1/2 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
-              />
-              <input
-                type="time"
-                className="w-1/2 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
+            <input
+              name="eventDateTime"
+              onChange={handleFormChange}
+              type="datetime-local"
+              className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+            />
           </div>
 
+          {/* TERMS */}
           <div className="bg-white rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2">
               Unggah Syarat & Ketentuan *
             </label>
-            <div className="border-2 border-dashed border-blue-300 rounded-xl p-6 flex flex-col items-center justify-center text-gray-500">
-              <input
-                type="file"
-                accept=".pdf,.doc,.docx"
-                className="hidden"
-                id="terms-upload"
-              />
-              <label htmlFor="terms-upload" className="cursor-pointer">
-                <div className="flex flex-col items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-8 h-8 mb-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 16.5v-9m0 0-3.75 3.75M12 7.5l3.75 3.75"
-                    />
-                  </svg>
-                  masukkan file PDF/DOC di sini atau klik ke jelajah{" "}
-                  <span className="text-blue-600">click to browse</span>
+            <div
+              className="border-2 border-dashed border-blue-300 rounded-xl p-6 flex flex-col items-center justify-center text-gray-500"
+              onClick={handleTermsClick}
+            >
+              {termsFile ? (
+                <div className="flex flex-col  justify-center gap-4">
+                  {termsFile.name}
+                  {form.termsUrl ? (
+                    <div className="bg-[#0038BD]/70  text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit">
+                      Uploaded
+                    </div>
+                  ) : (
+                    <button
+                      onClick={uploadTerms}
+                      // disabled={form.termsUrl}
+                      className="bg-[#0038BD] hover:bg-blue-700 text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit"
+                    >
+                      {termsUploading ? "Uploading..." : "Upload"}
+                    </button>
+                  )}
                 </div>
-              </label>
-              <p className="text-xs mt-2 text-gray-400">
-                Ukuran file maksimal: 10MB
-              </p>
+              ) : (
+                <div>
+                  <input
+                    ref={termsRef}
+                    accept=".pdf"
+                    type="file"
+                    className="hidden"
+                    onChange={handleTermsChange}
+                  />
+                  <label htmlFor="terms-input" className="cursor-pointer">
+                    <div className="flex flex-col items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-8 h-8 mb-2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 16.5v-9m0 0-3.75 3.75M12 7.5l3.75 3.75"
+                        />
+                      </svg>
+                      masukkan file PDF/DOC di sini atau klik ke jelajah{" "}
+                      <span className="text-blue-600">click to browse</span>
+                    </div>
+                  </label>
+                  <p className="text-xs mt-2 text-gray-400">
+                    Ukuran file maksimal: 10MB
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
+        {/* POSTER */}
         <div className="bg-white rounded-2xl shadow-md p-5 flex flex-col">
           <label className="block font-semibold text-[#122B59] mb-3">
             Poster Acara
           </label>
 
           <div className="border-2 border-dashed border-blue-300 rounded-xl h-[700px] flex flex-col items-center justify-center bg-gray-50 overflow-hidden">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handlePosterChange}
-              id="poster-upload"
-              className="hidden"
-            />
-
-            {posterUrl ? (
-              <div className="relative w-full h-full">
-                <Image
-                  src={posterUrl}
-                  alt="Poster preview"
-                  fill
-                  className="object-cover rounded-lg"
-                />
+            {posterFile ? (
+              <div className="flex flex-col  justify-center gap-4 items-center">
+                {posterFile.name}
+                {form.imageUrl ? (
+                  <div className="bg-[#0038BD]/70  text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit">
+                    Uploaded
+                  </div>
+                ) : (
+                  <button
+                    onClick={uploadImage}
+                    // disabled={form.termsUrl}
+                    className="bg-[#0038BD] hover:bg-blue-700 text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit"
+                  >
+                    {posterUploading ? "Uploading..." : "Upload"}
+                  </button>
+                )}
               </div>
             ) : (
-              <label
-                htmlFor="poster-upload"
-                className="flex flex-col items-center justify-center cursor-pointer text-gray-500"
-              >
-                <div className="bg-yellow-400 rounded-full p-4 mb-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="white"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 16.5v-9m0 0-3.75 3.75M12 7.5l3.75 3.75"
+              <div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePosterChange}
+                  id="poster-upload"
+                  className="hidden"
+                />
+
+                {form.imageUrl ? (
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={form.imageUrl}
+                      alt="Poster preview"
+                      fill
+                      className="object-cover rounded-lg"
                     />
-                  </svg>
-                </div>
-                <p>Klik untuk upload poster</p>
-              </label>
+                  </div>
+                ) : (
+                  <label
+                    htmlFor="poster-upload"
+                    className="flex flex-col items-center justify-center cursor-pointer text-gray-500"
+                  >
+                    <div className="bg-yellow-400 rounded-full p-4 mb-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="white"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 16.5v-9m0 0-3.75 3.75M12 7.5l3.75 3.75"
+                        />
+                      </svg>
+                    </div>
+                    <p>Klik untuk upload poster</p>
+                  </label>
+                )}
+              </div>
             )}
           </div>
         </div>
       </div>
 
+      <div className="bg-white rounded-2xl text-[#122B59] shadow-md p-5">
+        <label className="block font-semibold text-[#122B59] mb-2">
+          Royalti *
+        </label>
+        <input
+          name="royaltyFee"
+          type="number"
+          onChange={handleFormChange}
+          placeholder="Royalti untuk penjualan kedua (Max: 10%)"
+          value={form.royaltyFee}
+          className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+
+      {/* ZONES */}
       <div className="bg-white rounded-2xl shadow-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="font-semibold text-[#122B59] text-lg">
             Pengaturan tempat duduk
           </h2>
           <button
-            onClick={addSeatType}
+            onClick={addZone}
             className="bg-[#0038BD] hover:bg-blue-700 text-white px-3 py-1 rounded-lg flex items-center gap-1 text-sm"
           >
             <Plus size={16} /> Tambah
           </button>
         </div>
-        {seatTypes.map((seat) => (
-          <SeatSetting key={seat.id} index={seat.id} />
+        {zones.map((zone, index) => (
+          <div
+            key={index}
+            className="relative bg-gray-50 rounded-xl p-5 mb-4 border shadow-sm transition-all duration-200"
+          >
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="font-semibold text-[#122B59]">
+                Tipe Bangku {index + 1}
+              </h3>
+              {zones.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeZones(index)}
+                  className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600 font-medium transition-colors"
+                >
+                  <X size={16} />
+                  Remove
+                </button>
+              )}
+            </div>
+
+            <div className="flex flex-col text-[#122B59] gap-4 items-center w-full">
+              {/* Nama Bangku */}
+              <input
+                placeholder="Nama bangku (e.g., VIP)"
+                onChange={(e) =>
+                  handleZoneChange(index, "name", e.target.value)
+                }
+                required
+                value={zone.name}
+                className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+              />
+
+              {/* Grid Input */}
+              <div className="grid grid-cols-3 gap-4 w-full">
+                {/* Jumlah */}
+                <input
+                  placeholder="Jumlah"
+                  onChange={(e) =>
+                    handleZoneChange(index, "maxSupply", e.target.value)
+                  }
+                  required
+                  value={zone.maxSupply}
+                  className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                />
+
+                {/* Harga */}
+                <input
+                  placeholder="Harga dalam ETH"
+                  onChange={(e) =>
+                    handleZoneChange(index, "price", e.target.value)
+                  }
+                  type="number"
+                  required
+                  value={zone.price}
+                  className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                />
+
+                {/* Maks */}
+                <div className="p-3 bg-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full">
+                  Konversi IDR:{" "}
+                  {zone.loadingConversion
+                    ? "Sedang dikonversi..."
+                    : zone.idrPrice}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* PAYOUTS */}
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="font-semibold text-[#122B59] text-lg">
+            Pengaturan Payouts
+          </h2>
+          <button
+            onClick={addPayout}
+            className="bg-[#0038BD] hover:bg-blue-700 text-white px-3 py-1 rounded-lg flex items-center gap-1 text-sm"
+          >
+            <Plus size={16} /> Tambah
+          </button>
+        </div>
+        {payouts.map((payout, index) => (
+          <div className="relative bg-gray-50 rounded-xl p-5 mb-4 border shadow-sm transition-all duration-200">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="font-semibold text-[#122B59]">
+                Payout {index + 1}
+              </h3>
+              {payouts.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removePayout(index)}
+                  className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600 font-medium transition-colors"
+                >
+                  <X size={16} />
+                  Remove
+                </button>
+              )}
+            </div>
+
+            <div className="flex flex-row text-[#122B59] gap-4 items-center w-full">
+              {/* Nama Bangku */}
+              <input
+                placeholder="Wallet address"
+                onChange={(e) =>
+                  handlePayoutChange(index, "wallet", e.target.value)
+                }
+                required
+                value={payout.wallet}
+                className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+              />
+              <input
+                placeholder="Share (%)"
+                onChange={(e) =>
+                  handlePayoutChange(index, "share", e.target.value)
+                }
+                required
+                value={payout.share}
+                className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-[30%]"
+              />
+            </div>
+          </div>
         ))}
       </div>
 
       <div className="flex justify-end">
-        <button className="px-6 py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 shadow-md">
+        <button
+          onClick={handleSubmit}
+          className="px-6 py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 shadow-md"
+        >
           Buat Acara
         </button>
       </div>
