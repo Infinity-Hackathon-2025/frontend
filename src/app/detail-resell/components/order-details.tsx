@@ -17,18 +17,17 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ location, date, ticketDetai
 
   return (
     <div className="relative w-full lg:w-[300px] rounded-[12px] shadow-lg overflow-hidden text-gray-800 bg-white">
-      <div className="relative">
+      <div className="relative w-full min-h-[350px]">
         <Image
           src="/images/cardtiket.png"
           alt="Background tiket konser"
-          width={300}
-          height={400}
-          className="w-full h-auto object-cover"
+          fill
+          className="object-cover"
           priority
         />
 
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm p-6 flex flex-col justify-between min-h-[350px]">
-          <div className="flex-1">
+        <div className="relative bg-black/30 backdrop-blur-sm p-6 flex flex-col justify-between rounded-[12px]">
+          <div>
             <h3 className="font-semibold text-lg mb-4 text-white">Detail Pesanan</h3>
 
             <div className="mb-5 text-sm text-white">
