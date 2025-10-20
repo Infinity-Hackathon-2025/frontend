@@ -7,28 +7,20 @@ export async function getEventZones(
   provider: ethers.Provider,
   eventAddress: string
 ) {
-  const ticketContract = new ethers.Contract(
-    eventAddress,
-    ticketAbi.abi,
-    provider
-  );
+  const contract = new ethers.Contract(eventAddress, ticketAbi.abi, provider);
 
-  const totalZones = await ticketContract.zones.length;
+  const zones = await contract.getEventZones(eventAddress);
+  // Solidity return: array of structs
+  // ethers automatically parses it into JS objects
 
-  const zones: any[] = [];
-  let index: number = 0;
+  console.log("berhasil ambil zones:", zones);
 
-  while (true) {
-    try {
-      const zone = ticketContract.zones(index);
-      zones.push(zone);
-      index++;
-    } catch (error) {
-      break;
-    }
-  }
-
-  return zones;
+  return zones.map((z: any) => ({
+    name: z.name,
+    price: z.price,
+    maxSupply: z.maxSupply,
+    totalMinted: z.totalMinted,
+  }));
 }
 
 export async function buyTicket(
