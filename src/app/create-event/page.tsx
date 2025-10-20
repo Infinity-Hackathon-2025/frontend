@@ -1,9 +1,9 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import CreateEventForm from "./components/create-form";
+import Form from "./components/form";
 
-export default function CreateEventPage(props: PageProps<"/createevent">) {
+export default function CreateEventPage(props: PageProps<"/create-event">) {
   const router = useRouter();
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function CreateEventPage(props: PageProps<"/createevent">) {
 
   return (
     <main className="pt-28 px-6 md:px-10 max-w-6xl mx-auto">
-      <CreateEventForm />
+      <Form />
     </main>
   );
 }

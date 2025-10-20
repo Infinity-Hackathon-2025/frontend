@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import SeatSetting from "./seat-setting";
 import Image from "next/image";
 
-export default function CreateEventForm() {
+export default function Form() {
   const [poster, setPoster] = useState<File | null>(null);
   const [posterUrl, setPosterUrl] = useState<string | null>(null);
   const [seatTypes, setSeatTypes] = useState([{ id: 1 }]);
@@ -35,7 +35,6 @@ export default function CreateEventForm() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-5">
-     
           <div className="bg-white rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2">
               Jadwal Acara *

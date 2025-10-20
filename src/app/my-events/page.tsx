@@ -3,9 +3,9 @@ import FinancialReport from "./components/financial-report";
 import RoyaltyReport from "./components/royalty-report";
 import WeeklyTicketSales from "./components/weekly-ticketsales";
 import QuickAction from "./components/quick-action";
-import EventSummary from "./components/event-summary";
+import EventSummary from "./components/summary";
 
-const Home = (props: PageProps<"/event">) => {
+const Home = (props: PageProps<"/my-events">) => {
   return (
     <div
       className="min-h-screen bg-gray-100 px-6 md:px-12 lg:px-20 py-10 md:py-16 bg-cover bg-no-repeat bg-center"
@@ -31,7 +31,7 @@ const Home = (props: PageProps<"/event">) => {
             title="Gala Merah"
             ticketsSold={300}
             totalTickets={300}
-            ticketAmount={3.0} 
+            ticketAmount={3.0}
             merchSold={86}
             merchAmount={2.1}
             status="Selesai"
@@ -41,7 +41,7 @@ const Home = (props: PageProps<"/event">) => {
             title="Konferensi Blockchain"
             ticketsSold={0}
             totalTickets={400}
-            ticketAmount={0} 
+            ticketAmount={0}
             merchSold={0}
             merchAmount={0}
             status="Dibatalkan"

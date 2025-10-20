@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -34,13 +34,13 @@ const EventCard: React.FC<EventCardProps> = ({
   return (
     <div className="bg-white rounded-[15px] shadow-md border border-gray-200 overflow-hidden flex flex-col">
       <div className="relative w-full h-40 bg-gray-200">
-       <Image
-         src={imageUrl}
-        alt={title}
-         width={600} 
-         height={160} 
-       className="w-full h-full object-cover"
-       />
+        <Image
+          src={imageUrl}
+          alt={title}
+          width={600}
+          height={160}
+          className="w-full h-full object-cover"
+        />
       </div>
 
       <div className="p-5 border-b border-gray-200 flex justify-between items-center">
