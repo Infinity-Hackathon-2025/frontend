@@ -34,14 +34,14 @@ const TrendingConcerts = () => {
   return (
     <section className="mx-auto w-full max-w-screen-lg">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl font-bold text-[#1E3A8A]">Trending Concerts</h2>
+        <h2 className="text-3xl font-bold text-[#0038BD]">Trending Concerts</h2>
         <button className="bg-[#1E3A8A] text-white px-4 py-2 rounded-full shadow-md hover:opacity-90 transition">
           Lihat lebih banyak
         </button>
       </div>
 
       <div className="relative flex items-center">
-        <button onClick={handlePrev} className="absolute left-[-25px] bg-[#1E3A8A] text-white p-2 rounded-full shadow-md -ml-8">
+        <button onClick={handlePrev} className="absolute left-[-25px] bg-[#0038BD] text-white p-2 rounded-full shadow-md -ml-8">
           <ChevronLeft size={24} />
         </button>
 
@@ -68,7 +68,7 @@ const TrendingConcerts = () => {
           </div>
         </div>
 
-        <button onClick={handleNext} className="absolute right-[-25px] bg-[#1E3A8A] text-white p-2 rounded-full shadow-md -mr-8">
+        <button onClick={handleNext} className="absolute right-[-25px] bg-[#0038BD] text-white p-2 rounded-full shadow-md -mr-8">
           <ChevronRight size={24} />
         </button>
       </div>

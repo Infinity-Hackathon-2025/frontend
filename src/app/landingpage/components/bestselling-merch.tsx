@@ -40,7 +40,7 @@ const BestsellingMerch = () => {
       </div>
 
       <div className="relative flex items-center">
-        <button onClick={handlePrev} className="absolute left-[-25px] bg-[#1E3A8A] text-white p-2 rounded-full shadow-md -ml-8">
+        <button onClick={handlePrev} className="absolute left-[-25px] bg-[#0038BD] text-white p-2 rounded-full shadow-md -ml-8">
           <ChevronLeft size={24} />
         </button>
 
@@ -67,7 +67,7 @@ const BestsellingMerch = () => {
           </div>
         </div>
 
-        <button onClick={handleNext} className="absolute right-[-25px] bg-[#1E3A8A] text-white p-2 rounded-full shadow-md -mr-8">
+        <button onClick={handleNext} className="absolute right-[-25px] bg-[#0038BD] text-white p-2 rounded-full shadow-md -mr-8">
           <ChevronRight size={24} />
         </button>
       </div>

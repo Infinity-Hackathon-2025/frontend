@@ -65,7 +65,7 @@ const Resells = () => {
       <div className="relative flex items-center">
         <button
           onClick={handlePrev}
-          className="absolute left-[-25px] bg-[#1E3A8A] text-white p-2 rounded-full shadow-md -ml-8"
+          className="absolute left-[-25px] bg-[#0038BD] text-white p-2 rounded-full shadow-md -ml-8"
         >
           <ChevronLeft size={24} />
         </button>
@@ -104,7 +104,7 @@ const Resells = () => {
 
         <button
           onClick={handleNext}
-          className="absolute right-[-25px] bg-[#1E3A8A] text-white p-2 rounded-full shadow-md -mr-8"
+          className="absolute right-[-25px] bg-[#0038BD] text-white p-2 rounded-full shadow-md -mr-8"
         >
           <ChevronRight size={24} />
         </button>
