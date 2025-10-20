@@ -5,30 +5,22 @@ import type { Metadata } from "next";
 import { Providers } from "./provider";
 import { mont, nexa, roboto } from "@/lib/fonts";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
   title: "Trustix | Event Marketplace",
   description:
     "Temukan konser, merch, dan tiket resale favoritmu di satu tempat.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-
       <body
-        className={`${mont.variable} ${nexa.variable} ${roboto.variable} ${geistSans.variable} ${geistMono.variable} antialiased min-h-screen text-[#171717]`}
+        className={`${mont.variable} ${nexa.variable} ${roboto.variable} antialiased min-h-screen text-[#171717]`}
       >
-        
         <Providers>
           <div
             className="pointer-events-none fixed inset-0 -z-10 
@@ -39,7 +31,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <Footer />
         </Providers>
-
       </body>
     </html>
   );
