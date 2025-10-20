@@ -4,10 +4,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const BestsellingMerch = () => {
   const items = [
-    { id: 1, title: "Enhypen", venue: "M Bloc Space, Jakarta", date: "14 Des 2025", time: "18.30 WIB", img: "/concert1.jpg" },
-    { id: 2, title: "CAS", venue: "Bandung Creative Park", date: "17 Jan 2025", time: "19.00 WIB", img: "/concert2.jpg", soldOut: true },
-    { id: 3, title: "Bangkit!", venue: "Gedung Sariwangi, Jakarta", date: "21 Jul 2025", time: "20.00 WIB", img: "/concert3.jpg" },
-    { id: 4, title: "Cigarettes After Stage", venue: "Jakarta", date: "11 Feb 2025", time: "20.00 WIB", img: "/concert4.jpg" },
+    { id: 1, title: "Taylor Swift: The Era's Tour", venue: "T-Shirt", date: "4 ETH", time: "", img: "/images/ts.jpg" },
+    { id: 2, title: "BTS: Love Yourself Tour", venue: "Merch Box", date: "10 ETH", time: "", img: "/images/bts.jpg", soldOut: true },
+    { id: 3, title: "Blackpink: Born Pink Tour", venue: "Lifestyle and Collectibles", date: "8 ETH", time: "", img: "/images/bp.jpg" },
+    { id: 4, title: "Taylor Swift: The Era's Tour", venue: "T-Shirt", date: "4 ETH", time: "4 ETHH", img: "/images/ts.jpg" },
   ];
 
   const [index, setIndex] = useState(0);
@@ -33,7 +33,7 @@ const BestsellingMerch = () => {
   return (
     <section className="mx-auto w-full max-w-screen-lg">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl font-bold text-[#1E3A8A]">Bestselling Merch</h2>
+        <h2 className="text-3xl font-bold text-[#0038BD]">Bestselling Merch</h2>
         <button className="bg-[#1E3A8A] text-white px-4 py-2 rounded-full shadow-md hover:opacity-90 transition">
           Lihat lebih banyak
         </button>
@@ -58,9 +58,9 @@ const BestsellingMerch = () => {
                   </span>
                 )}
                 <img src={item.img} alt={item.title} className="rounded-[40px] w-full h-[280px] object-cover" />
-                <h3 className="text-lg font-bold mt-3">{item.title}</h3>
+                <h3 className="text-[#1E3A8A] text-lg font-bold mt-3">{item.title}</h3>
                 <p className="text-sm text-gray-600">{item.venue}</p>
-                <p className="text-[11px] text-gray-500">{item.date} | {item.time}</p>
+                <p className="text-[11px] text-gray-600">{item.date}{item.time ? ` | ${item.time}` : ''}</p>
               </div>
             </div>            
             ))}
