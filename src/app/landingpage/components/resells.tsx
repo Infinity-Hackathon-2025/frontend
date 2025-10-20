@@ -6,36 +6,36 @@ const Resells = () => {
   const items = [
     {
       id: 1,
-      title: "Enhypen",
+      title: "Enhypen: Fate in Jakarta",
       venue: "M Bloc Space, Jakarta",
       date: "14 Des 2025",
       time: "18.30 WIB",
-      img: "/concert1.jpg",
+      img: "/images/enha.jpg",
     },
     {
       id: 2,
-      title: "CAS",
+      title: "CAS in Jakarta",
       venue: "Bandung Creative Park",
       date: "17 Jan 2025",
       time: "19.00 WIB",
-      img: "/concert2.jpg",
+      img: "/images/cas.jpg",
       soldOut: true,
     },
     {
       id: 3,
-      title: "Bangkit!",
+      title: "Bangkit! Orchestra",
       venue: "Gedung Sariwangi, Jakarta",
       date: "21 Jul 2025",
       time: "20.00 WIB",
-      img: "/concert3.jpg",
+      img: "/images/orche.jpg",
     },
     {
       id: 4,
-      title: "Cigarettes After Stage",
+      title: "Enhypen: Fate in Jakarta",
       venue: "Jakarta",
       date: "11 Feb 2025",
       time: "20.00 WIB",
-      img: "/concert4.jpg",
+      img: "/images/enha.jpg",
     },
   ];
 
@@ -56,7 +56,7 @@ const Resells = () => {
   return (
     <section className="mx-auto w-full max-w-screen-lg">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl font-bold text-[#1E3A8A]">Resells</h2>
+        <h2 className="text-3xl font-bold text-[#0038BD]">Resells</h2>
         <button className="bg-[#1E3A8A] text-white px-4 py-2 rounded-full shadow-md hover:opacity-90 transition">
           Lihat lebih banyak
         </button>
@@ -91,7 +91,7 @@ const Resells = () => {
                     alt={item.title}
                     className="rounded-[40px] w-full h-[280px] object-cover"
                   />
-                  <h3 className="text-lg font-bold mt-3">{item.title}</h3>
+                  <h3 className="text-[#1E3A8A] text-lg font-bold mt-3">{item.title}</h3>
                   <p className="text-sm text-gray-600">{item.venue}</p>
                   <p className="text-[11px] text-gray-500">
                     {item.date} | {item.time}

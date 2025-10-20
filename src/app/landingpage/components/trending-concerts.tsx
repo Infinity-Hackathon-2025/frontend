@@ -61,7 +61,7 @@ const TrendingConcerts = () => {
                 <img src={item.img} alt={item.title} className="rounded-[40px] w-full h-[280px] object-cover" />
                 <h3 className="text-[#1E3A8A] text-lg font-bold mt-3">{item.title}</h3>
                 <p className="text-sm text-gray-600">{item.venue}</p>
-                <p className="text-[11px] text-gray-600">{item.date} | {item.time}</p>
+                <p className="text-[11px] text-gray-500">{item.date} | {item.time}</p>
               </div>
             </div>            
             ))}
