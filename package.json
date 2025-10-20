@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+
+    "lucide-react": "^0.545.0",
     "@rainbow-me/rainbowkit": "^2.2.8",
     "@tanstack/react-query": "^5.90.2",
     "ethers": "^6.15.0",
@@ -19,6 +21,7 @@
     "react-dom": "19.1.0",
     "viem": "^2.38.0",
     "wagmi": "^2.18.0"
+
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
