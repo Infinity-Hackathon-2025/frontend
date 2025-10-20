@@ -19,13 +19,15 @@ type Zone = {
 type Payout = {
   wallet: string;
   share: string;
+  shareInWei: string;
 };
 
 interface CreateEventProps {
   eventName: string;
   description: string;
   image: string;
-  royaltyFee: number;
+  termsUrl: string;
+  royaltyFee: string;
   payouts: Payout[];
   zones: Zone[];
 }
@@ -40,13 +42,16 @@ export async function createEvent(
   const prices = props.zones.map((z) => parseEther(z.price));
   const maxSupplies = props.zones.map((z) => BigInt(z.maxSupply));
   const wallets = props.payouts.map((z) => z.wallet);
-  const shares = props.payouts.map((z) => BigInt(z.share));
+  const shares = props.payouts.map((z) => BigInt(z.shareInWei));
+
+  const royaltyInWei = Number(props.royaltyFee) * 100;
 
   const tx = await factory.createEvent(
     props.eventName,
     props.description,
     props.image,
-    BigInt(props.royaltyFee),
+    props.termsUrl,
+    BigInt(royaltyInWei),
     wallets,
     shares,
     zones,
@@ -103,6 +108,16 @@ export async function getEventDetail(
     organizer: eventDetail.organizer,
     royaltyFee: Number(eventDetail.royaltyFee),
   };
+}
+
+export async function getEventByAddress(
+  provider: ethers.Provider,
+  eventAddress: string
+) {
+  const factory = getFactoryContract(provider);
+  const event = await factory.getEventByAddress(eventAddress);
+
+  return event;
 }
 
 export async function getEventById(provider: ethers.Provider, eventId: string) {

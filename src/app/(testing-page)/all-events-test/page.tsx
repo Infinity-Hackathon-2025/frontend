@@ -55,7 +55,7 @@ const page = () => {
         const royaltyFee = e.royaltyFee ?? e[6];
 
         return (
-          <Link key={idx} href={`/all-events-test/${eventId}`}>
+          <Link key={idx} href={`/all-events-test/${eventAddress}`}>
             <div className="border p-3 rounded-md mb-3">
               <h3 className="font-semibold text-lg">{eventName}</h3>
               <p className="text-sm text-gray-400">Event Id: {eventId}</p>

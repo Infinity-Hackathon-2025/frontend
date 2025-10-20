@@ -10,11 +10,70 @@ import {
 } from "wagmi";
 import { ethers } from "ethers";
 import { createEvent } from "@/lib/blockchain/ticket-factory";
+import { convertEthToIdr } from "@/lib/price";
+
+type CreateEventProps = {
+  eventName: string;
+  description: string;
+  image: string;
+  termsUrl: string;
+  royaltyFee: string; // dalam persen (misal 5 = 5%)
+  payouts: {
+    wallet: string;
+    share: string;
+    shareInWei: string; // total 10000
+  }[];
+  zones: {
+    name: string;
+    price: string; // dalam ETH
+    maxSupply: string;
+  }[];
+};
+
+const testEvent: CreateEventProps = {
+  eventName: "AI Robotics Summit 2025",
+  description:
+    "Konferensi dan pameran robotika & AI terbesar di Asia Tenggara.",
+  image: "https://ipfs.io/ipfs/QmExampleHash123456789",
+  termsUrl: "https://example.com/terms-and-conditions",
+  royaltyFee: "5", // 5%
+  payouts: [
+    {
+      wallet: "0x1234567890abcdef1234567890abcdef12345678", // organizer
+      share: "70",
+      shareInWei: "7000", // 70%
+    },
+    {
+      wallet: "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd", // partner
+      share: "30",
+      shareInWei: "3000", // 30%
+    },
+  ],
+  zones: [
+    {
+      name: "VIP",
+      price: "0.05", // 0.05 ETH
+      maxSupply: "100",
+    },
+    {
+      name: "Regular",
+      price: "0.02",
+      maxSupply: "500",
+    },
+    {
+      name: "Student",
+      price: "0.01",
+      maxSupply: "200",
+    },
+  ],
+};
 
 export default function CreateEventPage() {
   const { address, isConnected } = useAccount();
   const { data: hash, writeContract, isPending, error } = useWriteContract();
   const { isLoading, isSuccess } = useWaitForTransactionReceipt({ hash });
+
+  const [priceIdr, setPriceIdr] = useState([{ zone: "", price: 0 }]);
 
   useEffect(() => {
     console.log("isPending:", isPending);
@@ -25,7 +84,7 @@ export default function CreateEventPage() {
     description: "",
     image: "",
     zone: "",
-    royaltyFee: 0,
+    royaltyFee: "",
     terms: "",
   });
 
@@ -34,8 +93,20 @@ export default function CreateEventPage() {
 
   const [uploading, setUploading] = useState(false);
 
-  const [zones, setZones] = useState([{ name: "", price: "", maxSupply: "" }]);
-  const [payouts, setPayouts] = useState([{ wallet: "", share: "" }]);
+  const [zones, setZones] = useState([
+    {
+      name: "",
+      price: "",
+      maxSupply: "",
+      loadingConversion: false,
+      idrPrice: 0,
+    },
+  ]);
+  const [payouts, setPayouts] = useState([
+    { wallet: "", share: "", shareInWei: "" },
+  ]);
+
+  // useEffect(() => {}, [zones]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -99,18 +170,49 @@ export default function CreateEventPage() {
     }
   };
 
-  const handleZoneChange = (
+  const handleZoneChange = async (
     index: number,
     field: "name" | "price" | "maxSupply",
     value: string
   ) => {
     const newZones = [...zones];
-    newZones[index][field] = value;
+
+    newZones[index] = { ...newZones[index], [field]: value };
+
     setZones(newZones);
+
+    if (field === "price") {
+      newZones[index] = { ...newZones[index], loadingConversion: true };
+      setZones(newZones);
+
+      const ethValue = Number(newZones[index].price);
+      try {
+        const idr = await convertEthToIdr(ethValue);
+        newZones[index] = {
+          ...newZones[index],
+          idrPrice: idr,
+          loadingConversion: false,
+        };
+        setZones([...newZones]);
+      } catch (err) {
+        console.error("Failed to convert ETH to IDR", err);
+        newZones[index] = { ...newZones[index], loadingConversion: false };
+        setZones([...newZones]);
+      }
+    }
   };
 
   const addZone = () => {
-    setZones([...zones, { name: "", price: "", maxSupply: "" }]);
+    setZones([
+      ...zones,
+      {
+        name: "",
+        price: "",
+        maxSupply: "",
+        loadingConversion: false,
+        idrPrice: 0,
+      },
+    ]);
   };
 
   const removeZones = (index: number) => {
@@ -120,16 +222,22 @@ export default function CreateEventPage() {
 
   const handlePayoutChange = (
     index: number,
-    field: "wallet" | "share",
+    field: "wallet" | "share" | "shareInWei",
     value: string
   ) => {
     const newPayouts = [...payouts];
     newPayouts[index][field] = value;
+
+    if (field === "share" || field === "shareInWei") {
+      const _shareInWei = String(Number(newPayouts[index].share) * 100);
+      newPayouts[index] = { ...newPayouts[index], shareInWei: _shareInWei };
+    }
+
     setPayouts(newPayouts);
   };
 
   const addPayout = () => {
-    setPayouts([...payouts, { wallet: "", share: "" }]);
+    setPayouts([...payouts, { wallet: "", share: "", shareInWei: "" }]);
   };
 
   const removePayout = (index: number) => {
@@ -149,7 +257,8 @@ export default function CreateEventPage() {
         eventName: form.eventName,
         description: form.description,
         image: form.image,
-        royaltyFee: form.royaltyFee * 100,
+        termsUrl: form.terms,
+        royaltyFee: form.royaltyFee,
         payouts: payouts,
         zones: zones,
       };
@@ -162,6 +271,19 @@ export default function CreateEventPage() {
     }
   };
 
+  async function handleCreateEventTest() {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer = await provider.getSigner();
+
+    try {
+      console.log("⏳ Creating event...");
+      const txReceipt = await createEvent(signer, testEvent);
+      console.log("✅ Event created:", txReceipt);
+    } catch (error) {
+      console.error("❌ Failed to create event:", error);
+    }
+  }
+
   if (!isConnected) {
     return <p>⚠️ Please connect your wallet first.</p>;
   }
@@ -171,7 +293,7 @@ export default function CreateEventPage() {
       <h1 className="text-2xl font-bold mb-6 text-white">
         🎟️ Create New Event
       </h1>
-
+      {/* <p>1 ETH ≈ ${priceIdr} USD</p>; */}
       <form onSubmit={handleSubmit} className="space-y-4 text-gray-200">
         <input
           name="eventName"
@@ -230,6 +352,7 @@ export default function CreateEventPage() {
                 className="w-40 bg-gray-800 p-2 rounded-md"
                 required
               />
+              <p>{p.loadingConversion ? "LAGI LOADINGG" : p.idrPrice}</p>
               {zones.length > 1 && (
                 <button
                   type="button"
@@ -282,6 +405,7 @@ export default function CreateEventPage() {
                 className="w-40 bg-gray-800 p-2 rounded-md"
                 required
               />
+              {p.shareInWei}
               {payouts.length > 1 && (
                 <button
                   type="button"
@@ -319,6 +443,13 @@ export default function CreateEventPage() {
           {isPending ? "Deploying..." : "Create Event"}
         </button>
       </form>
+
+      <button
+        onClick={handleCreateEventTest}
+        className="rounded mt-10 bg-purple-600 px-10 py-2"
+      >
+        Event Test
+      </button>
     </div>
   );
 }
