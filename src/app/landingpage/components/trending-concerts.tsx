@@ -4,10 +4,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const TrendingConcerts = () => {
   const items = [
-    { id: 1, title: "Enhypen", venue: "M Bloc Space, Jakarta", date: "14 Des 2025", time: "18.30 WIB", img: "/concert1.jpg" },
-    { id: 2, title: "CAS", venue: "Bandung Creative Park", date: "17 Jan 2025", time: "19.00 WIB", img: "/concert2.jpg", soldOut: true },
-    { id: 3, title: "Bangkit!", venue: "Gedung Sariwangi, Jakarta", date: "21 Jul 2025", time: "20.00 WIB", img: "/concert3.jpg" },
-    { id: 4, title: "Cigarettes After Stage", venue: "Jakarta", date: "11 Feb 2025", time: "20.00 WIB", img: "/concert4.jpg" },
+    { id: 1, title: "Enhypen: Fate in Jakarta", venue: "M Bloc Space, Jakarta", date: "14 Des 2025", time: "18.30 WIB", img: "/images/enha.jpg" },
+    { id: 2, title: "CAS in Jakarta", venue: "Bandung Creative Park", date: "17 Jan 2025", time: "19.00 WIB", img: "/images/cas.jpg", soldOut: true },
+    { id: 3, title: "Bangkit! Orchestra", venue: "Gedung Sariwangi, Jakarta", date: "21 Jul 2025", time: "20.00 WIB", img: "/images/orche.jpg" },
+    { id: 4, title: "Enhypen: Fate in Jakarta", venue: "Jakarta", date: "11 Feb 2025", time: "20.00 WIB", img: "/images/enha.jpg" },
   ];
 
   const [index, setIndex] = useState(0);
@@ -59,9 +59,9 @@ const TrendingConcerts = () => {
                   </span>
                 )}
                 <img src={item.img} alt={item.title} className="rounded-[40px] w-full h-[280px] object-cover" />
-                <h3 className="text-lg font-bold mt-3">{item.title}</h3>
+                <h3 className="text-[#1E3A8A] text-lg font-bold mt-3">{item.title}</h3>
                 <p className="text-sm text-gray-600">{item.venue}</p>
-                <p className="text-[11px] text-gray-500">{item.date} | {item.time}</p>
+                <p className="text-[11px] text-gray-600">{item.date} | {item.time}</p>
               </div>
             </div>            
             ))}
