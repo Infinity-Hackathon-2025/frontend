@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { usePathname } from "next/navigation";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -18,9 +19,9 @@ const Navbar = () => {
     <header className="w-full fixed top-0 left-0 z-50 flex items-center justify-between px-10 py-6">
       <div className="flex items-center gap-2">
         <img
-          src="/images/logo.png" 
+          src="/images/logo.png"
           alt="Trustix Logo"
-          className="w-[120px] h-auto" 
+          className="w-[120px] h-auto"
         />
       </div>
 
@@ -42,9 +43,10 @@ const Navbar = () => {
           ))}
         </ul>
       </nav>
-      <button className="border border-[#1E3A8A] text-[#1E3A8A] px-5 py-2 rounded-full font-medium hover:bg-[#1E3A8A] hover:text-white transition">
+      <ConnectButton />
+      {/* <button className="border border-[#1E3A8A] text-[#1E3A8A] px-5 py-2 rounded-full font-medium hover:bg-[#1E3A8A] hover:text-white transition">
         Connect Wallet
-      </button>
+      </button> */}
     </header>
   );
 };
