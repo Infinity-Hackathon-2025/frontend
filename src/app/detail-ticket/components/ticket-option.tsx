@@ -5,26 +5,24 @@ import { useState } from 'react';
 interface TicketOptionProps {
   title: string;
   description: string;
-  price: string;
+  price: number;
   quantity?: number;
   onQuantityChange?: (quantity: number) => void;
 }
 
-const TicketOption: React.FC<TicketOptionProps> = ({ 
-  title, 
-  description, 
+const TicketOption: React.FC<TicketOptionProps> = ({
+  title,
+  description,
   price,
-  quantity: initialQuantity = 1,
-  onQuantityChange
+  quantity: initialQuantity = 0,
+  onQuantityChange,
 }) => {
   const [quantity, setQuantity] = useState(initialQuantity);
 
   const handleQuantityChange = (newQuantity: number) => {
     const validQuantity = Math.max(0, newQuantity);
     setQuantity(validQuantity);
-    if (onQuantityChange) {
-      onQuantityChange(validQuantity);
-    }
+    onQuantityChange?.(validQuantity);
   };
 
   return (
@@ -32,7 +30,9 @@ const TicketOption: React.FC<TicketOptionProps> = ({
       <h3 className="font-bold text-lg text-gray-800">{title}</h3>
       <p className="text-sm text-gray-600 mb-3">{description}</p>
       <div className="flex justify-between items-center">
-        <span className="text-lg font-semibold text-gray-900">{price}</span>
+        <span className="text-lg font-semibold text-gray-900">
+          {price.toFixed(3)} ETH
+        </span>
         <div className="flex items-center">
           <label className="mr-2 text-gray-700">Qty</label>
           <input

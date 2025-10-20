@@ -1,5 +1,8 @@
 'use client';
 
+import React from 'react';
+import Image from 'next/image';
+
 interface CardProps {
   title: string;
   description: string;
@@ -11,14 +14,16 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, onClick }) =>
   return (
     <div
       onClick={onClick}
-      className="cursor-pointer flex flex-col items-start transition-all hover:scale-[1.02] mb-[48px]"
+      className="cursor-pointer flex flex-col items-start transition-all hover:scale-[1.02] mb-12"
       style={{ width: '313px' }}
     >
       <div className="rounded-[70px] overflow-hidden shadow-md hover:shadow-xl transition-all">
-        <img
+        <Image
           src={imageUrl}
           alt={title}
-          className="w-[313px] h-[385px] object-cover"
+          width={313}
+          height={385}
+          className="object-cover"
         />
       </div>
 
