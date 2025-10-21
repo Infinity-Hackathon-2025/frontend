@@ -26,21 +26,23 @@ const TicketOption: React.FC<TicketOptionProps> = ({
   };
 
   return (
-    <div className="bg-[#D6E4F0] rounded-[15px] p-5 shadow-sm mb-4">
-      <h3 className="font-bold text-lg text-gray-800">{title}</h3>
-      <p className="text-sm text-gray-600 mb-3">{description}</p>
+    <div className="bg-white rounded-[15px] p-6 shadow-sm mb-5">
+      <h3 className="font-mont text-[20px] lg:text-[22px] text-[#0038BD] font-semibold">
+        {title}
+      </h3>
+      <p className="font-nexa text-[15px] text-[#122B59] mb-4">{description}</p>
       <div className="flex justify-between items-center">
-        <span className="text-lg font-semibold text-gray-900">
+        <span className="font-nexa text-[18px] font-semibold text-[#122B59]">
           {price.toFixed(3)} ETH
         </span>
         <div className="flex items-center">
-          <label className="mr-2 text-gray-700">Qty</label>
+          <label className="mr-2 text-[15px] font-roboto text-[#122B59]">Qty</label>
           <input
             type="number"
             value={quantity}
             onChange={(e) => handleQuantityChange(parseInt(e.target.value) || 0)}
             min={0}
-            className="w-16 p-2 border border-gray-300 rounded-md text-center focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-16 p-2 border border-[#0038BD] rounded-md text-center focus:ring-2 focus:ring-[#0038BD] outline-none text-[15px]"
           />
         </div>
       </div>

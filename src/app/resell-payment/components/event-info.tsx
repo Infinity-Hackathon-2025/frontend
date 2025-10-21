@@ -2,11 +2,13 @@
 
 export default function EventInfo() {
   return (
-    <div>
-      <h2 className="text-2xl font-bold text-[#1E2B59] uppercase">KONSER</h2>
-      <p className="text-gray-700 mt-2 text-sm leading-relaxed max-w-md">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    <div className="w-full max-w-[800px]">
+      <h2 className="font-mont text-[#0038BD] text-[28px] md:text-[36px] font-bold mb-3">
+        EVENT
+      </h2>
+      <p className="font-roboto text-[#122B59] text-[16px] leading-relaxed">
+        Nikmati pengalaman konser tak terlupakan dengan penampilan langsung dari berbagai musisi terbaik. 
+        Dapatkan tiketmu sekarang dan rasakan energi panggung yang luar biasa bersama ribuan penonton lainnya.
       </p>
     </div>
   );

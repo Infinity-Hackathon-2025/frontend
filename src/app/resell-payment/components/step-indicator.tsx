@@ -15,7 +15,7 @@ export default function StepIndicator({ currentStep, totalSteps }: StepIndicator
         return (
           <div
             key={i}
-            className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold shadow-md ${
+            className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-nexa font-semibold shadow-md ${
               isActive
                 ? 'bg-[#1E2B59] text-white'
                 : 'bg-[#E5E7EB] text-[#1E2B59]'

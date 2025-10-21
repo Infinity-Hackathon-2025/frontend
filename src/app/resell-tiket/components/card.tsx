@@ -19,17 +19,19 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, onClick }) =>
     >
       <div className="rounded-[70px] overflow-hidden shadow-md hover:shadow-xl transition-all">
         <Image
-          src={imageUrl}
-          alt={title}
+          src="/images/concert1.jpg"
+          alt="Konser Musik"
           width={313}
-          height={385}
+          height={450} 
           className="object-cover"
         />
       </div>
 
-      <div className="mt-3 text-left px-1">
-        <h3 className="text-lg font-semibold text-gray-900 mb-1">{title}</h3>
-        <p className="text-sm text-gray-600 leading-snug line-clamp-2">
+      <div className="mt-4 text-left px-1">
+        <h3 className="font-nexa text-[#0038BD] text-[18px] md:text-[20px] font-semibold mb-1">
+          {title}
+        </h3>
+        <p className="font-roboto text-[#122B59] text-[14px] md:text-[16px] leading-snug line-clamp-2">
           {description}
         </p>
       </div>

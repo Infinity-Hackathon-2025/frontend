@@ -27,7 +27,7 @@ export default function Section() {
       <div className="flex flex-col md:flex-row items-start gap-8 mb-10">
         <div className="w-[702px] h-[397px] bg-gray-200 rounded-[12px] overflow-hidden relative">
           <Image
-            src="/images/concert-placeholder.jpg"
+            src="/images/concert1.jpg"
             alt="Concert placeholder"
             fill
             className="object-cover"
@@ -36,9 +36,12 @@ export default function Section() {
         </div>
 
         <div className="flex-1">
-          <h2 className="text-4xl font-bold text-[#1E3A8A] mb-3">KONSER</h2>
-          <p className="text-base text-gray-700 leading-relaxed">
-            Tiket konser
+          <h2 className="font-mont text-[#0038BD] text-[28px] md:text-[36px] font-bold mb-3">
+            KONSER
+          </h2>
+          <p className="font-roboto text-[#122B59] text-[16px] leading-relaxed">
+            Nikmati pengalaman konser tak terlupakan dengan penampilan langsung dari berbagai musisi terbaik.
+            Dapatkan tiketmu sekarang dan rasakan energi panggung yang luar biasa bersama ribuan penonton lainnya.
           </p>
         </div>
       </div>

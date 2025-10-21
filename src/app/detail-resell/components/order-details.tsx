@@ -1,6 +1,6 @@
 'use client';
 
-import Image from "next/image";
+import React from "react";
 
 interface OrderDetailsProps {
   location: string;
@@ -16,70 +16,60 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ location, date, ticketDetai
   );
 
   return (
-    <div className="relative w-full lg:w-[300px] rounded-[12px] shadow-lg overflow-hidden text-gray-800 bg-white">
-      <div className="relative w-full min-h-[350px]">
-        <Image
-          src="/images/cardtiket.png"
-          alt="Background tiket konser"
-          fill
-          className="object-cover"
-          priority
-        />
+    <div className="w-full lg:w-[320px] bg-white rounded-[16px] shadow-md p-7 text-[#122B59]">
+      <h3 className="font-mont text-[#0038BD] text-[22px] font-semibold mb-5">
+        Detail Pesanan
+      </h3>
 
-        <div className="relative bg-black/30 backdrop-blur-sm p-6 flex flex-col justify-between rounded-[12px]">
-          <div>
-            <h3 className="font-semibold text-lg mb-4 text-white">Detail Pesanan</h3>
-
-            <div className="mb-5 text-sm text-white">
-              <div className="flex justify-between mb-1">
-                <span>Lokasi</span>
-                <span className="text-right break-words">{location}</span>
-              </div>
-              <div className="flex justify-between mb-1">
-                <span>Tanggal</span>
-                <span>{date}</span>
-              </div>
-
-              <div className="border-b border-white/50 mt-2"></div>
-            </div>
-
-            {visibleTickets.length > 0 ? (
-              <div className="mb-4">
-                <h4 className="font-medium mb-2 text-white">Tiket</h4>
-                {visibleTickets.map((ticket, index) => (
-                  <div key={index} className="flex justify-between mb-2 text-white">
-                    <span>{ticket.title}</span>
-                    <span>
-                      x{ticket.quantity} — {(ticket.price * ticket.quantity).toFixed(3)} ETH
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-white/70 italic">
-                Belum ada tiket yang dipilih
-              </p>
-            )}
-          </div>
-
-          <div className="pt-3 border-t border-white/40 mt-3">
-            <div className="flex justify-between text-white font-semibold mb-3">
-              <span>Total</span>
-              <span>{totalPrice.toFixed(3)} ETH</span>
-            </div>
-
-            <button
-              disabled={visibleTickets.length === 0}
-              className={`font-medium py-2.5 rounded-full w-full transition-all ${
-                visibleTickets.length === 0
-                  ? 'bg-gray-400 cursor-not-allowed text-white/70'
-                  : 'bg-[#FFAA33] hover:bg-[#e29a2d] text-white'
-              }`}
-            >
-              Lanjut
-            </button>
-          </div>
+      <div className="mb-4 font-roboto text-[15px]">
+        <div className="flex justify-between mb-2">
+          <span className="font-nexa text-[15px] text-[#122B59]">Lokasi</span>
+          <span className="text-right">{location}</span>
         </div>
+        <div className="flex justify-between mb-3">
+          <span className="font-nexa text-[15px] text-[#122B59]">Tanggal</span>
+          <span>{date}</span>
+        </div>
+        <div className="border-b border-[#D1D5DB] my-2"></div>
+      </div>
+
+      {visibleTickets.length > 0 ? (
+        <div className="mb-5">
+          <h4 className="font-nexa text-[17px] text-[#122B59] mb-3">Tiket</h4>
+          {visibleTickets.map((ticket, index) => (
+            <div
+              key={index}
+              className="flex justify-between mb-2 font-roboto text-[15px]"
+            >
+              <span>{ticket.title}</span>
+              <span>
+                x{ticket.quantity} — {(ticket.price * ticket.quantity).toFixed(3)} ETH
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="font-roboto text-[#122B59]/70 text-[15px] italic">
+          Belum ada tiket yang dipilih
+        </p>
+      )}
+
+      <div className="border-t border-[#D1D5DB] pt-4 mt-4">
+        <div className="flex justify-between font-nexa text-[18px] font-semibold mb-4">
+          <span>Total</span>
+          <span>{totalPrice.toFixed(3)} ETH</span>
+        </div>
+
+        <button
+          disabled={visibleTickets.length === 0}
+          className={`font-nexa text-[15px] py-3 rounded-full w-full transition-all ${
+            visibleTickets.length === 0
+              ? 'bg-gray-300 cursor-not-allowed text-white/70'
+              : 'bg-[#FFAA33] hover:bg-[#e29a2d] text-white'
+          }`}
+        >
+          Lanjut
+        </button>
       </div>
     </div>
   );
