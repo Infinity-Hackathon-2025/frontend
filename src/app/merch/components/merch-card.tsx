@@ -4,44 +4,36 @@ import Image from "next/image";
 import { X } from "lucide-react";
 
 interface MerchCardProps {
-  merch: {
-    title: string;
-    desc: string;
-    price: string;
-    stock: number;
-  };
-  onDelete?: (title: string) => void;
+  merch: { title: string; desc: string; price: string };
+  onDelete: () => void;
 }
 
 export default function MerchCard({ merch, onDelete }: MerchCardProps) {
   return (
-    <div className="relative bg-white shadow-md rounded-2xl p-5 text-left hover:scale-[1.02] transition-all cursor-pointer border border-gray-100 font-roboto">
-      {onDelete && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(merch.title);
-          }}
-          className="absolute -top-3 -left-3 bg-[#E60000] hover:opacity-80 text-white rounded-full p-2 shadow-md transition"
-        >
-          <X size={16} />
-        </button>
-      )}
-      <div className="w-full h-[200px] bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+    <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all font-roboto">
+      <button
+        onClick={onDelete}
+        className="absolute -top-3 -left-3 bg-[#E60000] text-white p-2 rounded-full shadow-md hover:opacity-80 transition"
+      >
+        <X size={16} />
+      </button>
+
+      <div className="relative w-full h-[220px] bg-gray-200">
         <Image
-          src="/images/merch.jpg"
+          src="/background/images/merch.jpg"
           alt={merch.title}
           fill
-          className="object-cover rounded-lg"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, 400px"
           priority
         />
       </div>
-      <h3 className="text-lg font-mont font-semibold text-[#0038BD]">
-        {merch.title}
-      </h3>
-      <p className="text-sm font-nexa text-[#122B59] mt-1">{merch.desc}</p>
-      <p className="text-sm font-roboto text-[#7C7C7C] mt-1">{merch.price}</p>
+
+      <div className="p-5">
+        <h3 className="font-mont text-[#0038BD] text-lg font-bold mb-1">{merch.title}</h3>
+        <p className="font-nexa text-[#122B59] text-sm mb-2">{merch.desc}</p>
+        <p className="text-[#7C7C7C] font-roboto text-sm">{merch.price}</p>
+      </div>
     </div>
   );
 }
