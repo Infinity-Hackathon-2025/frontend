@@ -10,9 +10,9 @@ interface Concert {
 export default async function TicketPage() {
   const concerts: Concert[] = Array.from({ length: 8 }).map((_, index) => ({
     id: index + 1,
-    title: `Konser ${index + 1}`,
+    title: `Event ${index + 1}`,
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
+      'Rasakan keseruan konser yang penuh dengan kejutan dan penampilan spesial.',
     imageUrl: '/images/concert-placeholder.jpg',
   }));
 
@@ -20,10 +20,10 @@ export default async function TicketPage() {
     <main
       className="min-h-screen bg-cover bg-center bg-no-repeat flex justify-center"
       style={{
-        backgroundImage: "url('/background/bg-landingpage.png')",
+        backgroundImage: "url('/background/bg-desktop.png')",
       }}
     >
-      <div className="w-full max-w-[1440px] px-[50px] py-[100px]">
+      <div className="w-full max-w-[1440px] px-[20px] md:px-[50px] py-[60px] md:py-[100px]">
         <SearchConcerts concerts={concerts} />
       </div>
     </main>

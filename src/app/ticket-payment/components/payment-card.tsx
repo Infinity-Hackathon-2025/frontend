@@ -6,30 +6,36 @@ export default function PaymentCard() {
   const router = useRouter();
 
   return (
-    <div className="bg-white w-[503px] h-[618px] rounded-2xl shadow-lg p-8 flex flex-col justify-between mx-auto">
-      <h3 className="font-bold text-xl text-[#1E2B59] mb-6">Detail Pesanan</h3>
+    <div className="bg-white w-full max-w-[480px] rounded-2xl shadow-lg p-6 flex flex-col justify-between mx-auto h-auto">
+      <h3 className="font-mont text-[#0038BD] text-[20px] md:text-[22px] font-bold mb-5">
+        Detail Pesanan
+      </h3>
 
-      <div className="flex-1 text-gray-800 space-y-3">
+      <div className="flex-1 text-[#122B59] space-y-3 font-roboto text-[14px] md:text-[15px] leading-relaxed">
         <div className="flex justify-between">
           <span>Venue</span>
-          <span className="text-right">Lorem ipsum dolor sit amet</span>
+          <span className="text-right">Jakarta Convention Center</span>
         </div>
 
-        <div className="flex justify-between border-b border-gray-300 pb-2">
-          <span>Date</span>
+        <div className="flex justify-between border-b border-gray-300 pb-1">
+          <span>Tanggal</span>
           <span>20 Agustus 2025</span>
         </div>
 
         <div>
-          <p className="uppercase font-semibold text-[#1E2B59] mt-3 mb-1">Ticket</p>
-          <div className="flex justify-between border-b border-gray-300 pb-2">
+          <p className="uppercase font-nexa text-[#0038BD] font-semibold mt-2 mb-1">Tiket</p>
+          <div className="flex justify-between border-b border-gray-300 pb-1">
             <span>Festival x5</span>
             <span>0.25 ETH</span>
           </div>
+          <div className="flex justify-between border-b border-gray-300 pb-1">
+            <span>VIP x2</span>
+            <span>0.20 ETH</span>
+          </div>
         </div>
 
-        <div className="mt-3">
-          <p className="uppercase font-semibold text-[#1E2B59] mb-1">Detail Order</p>
+        <div className="mt-2">
+          <p className="uppercase font-nexa text-[#0038BD] font-semibold mb-1">Detail Order</p>
           <div className="flex justify-between">
             <span>Tax</span>
             <span>0.01 ETH</span>
@@ -40,15 +46,15 @@ export default function PaymentCard() {
           </div>
         </div>
 
-        <div className="flex justify-between font-semibold text-[#1E2B59] pt-4 border-t border-gray-300 mt-2">
+        <div className="flex justify-between font-semibold text-[#0038BD] pt-3 border-t border-gray-300 mt-1">
           <span>Total</span>
-          <span>0.28 ETH</span>
+          <span>0.48 ETH</span>
         </div>
       </div>
 
       <button
         onClick={() => router.push('/done')}
-        className="w-full bg-gradient-to-r from-[#FFB347] to-[#FFCC33] py-3 rounded-full text-white font-semibold text-lg hover:opacity-90 transition mt-6"
+        className="mt-6 w-full bg-gradient-to-r from-[#FFB347] to-[#FFCC33] py-3 rounded-full text-white font-nexa font-semibold text-[15px] md:text-[16px] hover:opacity-90 transition"
       >
         Bayar
       </button>
