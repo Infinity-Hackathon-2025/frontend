@@ -9,7 +9,7 @@ export default function AboutSection() {
       <img
         src="/images/asset2.png" 
         alt="About"
-        className="w-full md:w-[1000px] md:px-0.5 lg:w-[1100px] xl:w-[1200px] max-w-none object-cover rounded-lg -ml-4" 
+        className="w-full md:w-[800px] md:px-0.5 lg:w-[900px] xl:w-[1000px] max-w-none object-cover rounded-lg -ml-4" 
       />
     </div>
 
