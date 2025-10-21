@@ -33,7 +33,7 @@ export default function FAQ() {
           </div>
   
           <div className="rounded-2xl bg-white/60 backdrop-blur-lg p-4 shadow border border-white/40 w-[400px] h-[220px]">
-            <h4 className="font-[Nexa] text-[#1F2B6C] text-3xl font-semibold">Masih Bingung?</h4>
+            <h4 className="font-[Nexa] text-[#1F2B6C] text-2xl font-semibold">Masih Bingung?</h4>
             <p className="text-sm text-[#171717]/70 mt-5 leading-relaxed">
               Butuh bantuan lebih lanjut? Ketik di bawah untuk hubungi customer service kami.
             </p>
