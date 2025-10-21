@@ -22,13 +22,6 @@ export default function AboutSection() {
           </p>
         </div>
         </section>
-
-          <h1 className="text-4xl font-extrabold text-[#0038BD] -mt-[220px]">
-            WHY TRUSTIX?
-          </h1>
-          <p className="text-xl text-gray-700">
-          <b>TRUSTIX</b> adalah platform tiket digital berbasis teknologi terdesentralisasi yang dirancang untuk menciptakan pengalaman pembelian tiket event yang aman, transparan, dan bebas calo. Kami percaya, setiap orang berhak mendapatkan akses ke acara favorit mereka tanpa khawatir akan tiket palsu atau sistem pembelian yang rumit.
-          </p>
     </div>
   );
 }
