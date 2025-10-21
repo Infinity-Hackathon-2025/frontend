@@ -3,7 +3,7 @@ import React from "react";
 
 export default function AboutSection() {
   return (
-<div className="pt-0 px-6 md:px-10 max-w-7xl mx-auto space-y-10">
+<div id="about" className="pt-0 px-6 md:px-10 max-w-7xl mx-auto space-y-10">
   <section className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
     <div className="flex justify-center items-center">
       <img

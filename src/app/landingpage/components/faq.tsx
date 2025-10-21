@@ -8,7 +8,7 @@ export default function FAQ() {
     ];
   
     return (
-      <section className="mx-auto max-w-6xl px-4 mt-10">
+      <section id="help" className="mx-auto max-w-6xl px-4 mt-10">
         <div className="grid md:grid-cols-[2fr_1fr] gap-10">
           <div>
             <h3 className="font-[Nexa] text-2xl text-[#0038BD] font-semibold mb-4">FAQ’S</h3>

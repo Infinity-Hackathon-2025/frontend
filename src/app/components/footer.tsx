@@ -9,28 +9,25 @@ export default function Footer() {
             <div>
               <div className="font-[Mont] text-[36px] font-bold leading-none">Trustix.</div>
               <p className="mt-5 max-w-xs text-sm leading-7 opacity-90">
-                Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua.
-              </p>
+                Setiap tiket adalah NFT unik, memastikan pengalaman yang autentik, aman, dan bebas calo di dunia hiburan digital yang seru dan transparan.</p>
             </div>
 
             <nav className="font-[Nexa]">
               <ul className="space-y-4 text-[18px] font-semibold tracking-wide">
-                <li><Link href="/homepage" className="uppercase">Home</Link></li>
-                <li><Link href="/about" className="uppercase">About</Link></li>
-                <li><Link href="/events" className="uppercase">Events</Link></li>
-                <li><Link href="/merch" className="uppercase">Merch</Link></li>
+                <li><Link href="#hero" className="uppercase hover:underline underline-offset-4 decoration-2 transition-all duration-500 ease-in-out">Home</Link></li>
+                <li><Link href="/landingpage#about" className="uppercase hover:underline underline-offset-4 decoration-2 transition-all duration-500 ease-in-out">About</Link></li>
+                <li><Link href="/landingpage#trending-concert" className="uppercase hover:underline underline-offset-4 decoration-2 transition-all duration-500 ease-in-out">Events</Link></li>
+                <li><Link href="#merch" className="uppercase hover:underline underline-offset-4 decoration-2 transition-all duration-500 ease-in-out">Merch</Link></li>
               </ul>
             </nav>
 
             <nav className="font-[Nexa]">
               <ul className="space-y-4 text-[18px] font-semibold tracking-wide">
-                <li><Link href="/resells" className="uppercase">Resells</Link></li>
+                <li><Link href="#resells" className="uppercase hover:underline underline-offset-4 decoration-2 transition-all duration-500 ease-in-out">Resells</Link></li>
                 <li>
                   <Link
-                    href="/help"
-                    className="uppercase underline underline-offset-4 decoration-white"
+                    href="#help"
+                    className="uppercase hover:underline underline-offset-4 decoration-2 transition-all duration-500 ease-in-out"
                   >
                     Help Center
                   </Link>

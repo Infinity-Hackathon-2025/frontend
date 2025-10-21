@@ -54,7 +54,7 @@ const Resells = () => {
   };
 
   return (
-    <section className="mx-auto w-full max-w-screen-lg">
+    <section id="resells" className="mx-auto w-full max-w-screen-lg">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-3xl font-bold text-[#1E3A8A]">Resells</h2>
         <button className="bg-[#1E3A8A] text-white px-4 py-2 rounded-full shadow-md hover:opacity-90 transition">
