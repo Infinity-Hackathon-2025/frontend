@@ -73,19 +73,16 @@ const TrendingConcerts = () => {
         </button>
       </div>
 
-<div className="mt-4 flex items-center justify-center gap-2">
+<div className="mt-8 flex items-center justify-center gap-2">
   {Array.from({ length: 5 }).map((_, i) => (
     <span
       key={i}
       onClick={() => setIndex(i)}
       className={`h-3 w-3 rounded-full cursor-pointer transition-all
-        ${i === index ? "h-4 w-4 bg-[#1E3A8A] backdrop-blur-lg shadow-xl" : "bg-gray-300 opacity-50"}
+        ${i === index 
+          ? "h-4 w-4 bg-[#0038BD]"
+          : "bg-white"}
       `}
-      style={{
-        backdropFilter: "blur(10px)",
-        backgroundColor: i === index ? "rgba(30, 58, 138, 0.3)" : "rgba(255, 255, 255, 0.2)", 
-        boxShadow: i === index ? "0 4px 10px rgba(0, 0, 0, 0.2), 0 0 15px rgba(30, 58, 138, 0.6)" : "none", 
-      }}
     />
   ))}
 </div>
