@@ -33,8 +33,8 @@ const BestsellingMerch = () => {
   return (
     <section className="mx-auto w-full max-w-screen-lg">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-[Nexa] text-3xl font-bold text-[#1E3A8A]">Bestselling Merch</h2>
-        <button className="font-[Nexa] bg-[#1E3A8A] text-white px-4 py-2 rounded-full shadow-md hover:opacity-90 transition">
+        <h2 className="font-Nexa text-3xl font-bold text-[#1E3A8A]">Bestselling Merch</h2>
+        <button className="font-Nexa bg-[#1E3A8A] text-white px-4 py-2 rounded-full shadow-md hover:opacity-90 transition">
           Lihat lebih banyak
         </button>
       </div>
@@ -53,14 +53,14 @@ const BestsellingMerch = () => {
               <div key={item.id} className="w-1/3 flex-shrink-0 flex justify-center">
               <div className="bg-[#FFF6F6] rounded-[40px] p-4 shadow-lg w-[270px] flex flex-col items-start text-left relative">
                 {item.soldOut && (
-                  <span className="font-[Nexa] absolute top-3 right-4 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                  <span className="font-Nexa absolute top-3 right-4 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
                     SOLD OUT
                   </span>
                 )}
                 <img src={item.img} alt={item.title} className="rounded-[40px] w-full h-[280px] object-cover" />
-                <h3 className="font-[Roboto] text-lg font-bold mt-3">{item.title}</h3>
-                <p className="font-[Roboto] text-sm text-gray-600">{item.venue}</p>
-                <p className="font-[Roboto] text-[11px] text-gray-500">{item.date} | {item.time}</p>
+                <h3 className="font-Roboto text-lg font-bold mt-3">{item.title}</h3>
+                <p className="font-Roboto text-sm text-gray-600">{item.venue}</p>
+                <p className="font-Roboto text-[11px] text-gray-500">{item.date} | {item.time}</p>
               </div>
             </div>            
             ))}

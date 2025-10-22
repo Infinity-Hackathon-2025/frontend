@@ -7,7 +7,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const menu = [
-    { name: "Home", href: "/" },
+    { name: "Home", Linkhref: "/" },
     { name: "About", href: "#about" },
     { name: "Events", href: "#events" },
     { name: "Merch", href: "#merch" },

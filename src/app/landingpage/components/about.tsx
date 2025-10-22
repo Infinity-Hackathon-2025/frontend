@@ -14,10 +14,10 @@ export default function AboutSection() {
     </div>
 
         <div className="space-y-6 text-right"> 
-          <h1 className="font-[Nexa] text-4xl font-extrabold text-[#1A3DA7]">
+          <h1 className="font-Nexa text-4xl font-extrabold text-[#1A3DA7]">
             ABOUT US
           </h1>
-          <p className="font-[Roboto] text-xl text-gray-700">
+          <p className="font-Roboto text-xl text-gray-700">
           <b>TRUSTIX</b> adalah platform tiket digital berbasis teknologi terdesentralisasi yang dirancang untuk menciptakan pengalaman pembelian tiket event yang aman, transparan, dan bebas calo. Kami percaya, setiap orang berhak mendapatkan akses ke acara favorit mereka tanpa khawatir akan tiket palsu atau sistem pembelian yang rumit.
           </p>
         </div>
@@ -25,7 +25,7 @@ export default function AboutSection() {
       
       <div className="space-y-3 -mt-30">
 
-        <h1 className="font-[Nexa] text-4xl font-extrabold text-[#0038BD]">
+        <h1 className="font-Nexa text-4xl font-extrabold text-[#0038BD]">
           WHY TRUSTIX?
         </h1>
         
