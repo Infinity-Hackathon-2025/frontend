@@ -2,8 +2,21 @@
 
 import React from "react";
 import Image from "next/image";
+import { EllipsisVertical } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { cancelEvent, completeEvent } from "@/lib/blockchain/vault";
+import { getSigner } from "@/lib/blockchain/utils";
 
 interface EventCardProps {
+  index: number;
+  eventAddress: string;
   title: string;
   ticketsSold: number;
   totalTickets: number;
@@ -15,6 +28,8 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({
+  index,
+  eventAddress,
   title,
   ticketsSold,
   totalTickets,
@@ -24,6 +39,7 @@ const EventCard: React.FC<EventCardProps> = ({
   status,
   imageUrl,
 }) => {
+  const signer = getSigner();
   const statusColor =
     status === "Berjalan"
       ? "bg-green-100 text-green-600"
@@ -31,10 +47,31 @@ const EventCard: React.FC<EventCardProps> = ({
       ? "bg-blue-100 text-blue-600"
       : "bg-red-100 text-red-600";
 
+  const handleComplete = async () => {
+    try {
+      await completeEvent(await signer, eventAddress);
+      console.log("Event completed");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      await cancelEvent(await signer, eventAddress);
+      console.log("Event Canceled");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <div className="bg-white rounded-[15px] shadow-md border border-gray-200 overflow-hidden flex flex-col">
+    <div
+      key={index}
+      className="bg-white rounded-[15px] shadow-md border border-gray-200 overflow-hidden flex flex-col"
+    >
       <div className="relative w-full h-40 bg-gray-200">
-        <Image
+        <img
           src={imageUrl}
           alt={title}
           width={600}
@@ -44,12 +81,36 @@ const EventCard: React.FC<EventCardProps> = ({
       </div>
 
       <div className="p-5 border-b border-gray-200 flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-        <span
-          className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor}`}
-        >
-          {status}
-        </span>
+        <div className="flex flex-row gap-4">
+          <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor}`}
+          >
+            {status}
+          </span>
+        </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <EllipsisVertical color="black" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56 bg-gray-50 px-4 py-4 border rounded-[12px] shadow-lg">
+            <Button
+              onClick={handleComplete}
+              variant={"outline"}
+              className="w-full mb-2"
+            >
+              Complete Event
+            </Button>
+            <Button
+              onClick={handleCancel}
+              variant={"outline"}
+              className="w-full text-red-600"
+            >
+              Batalkan acara
+            </Button>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <div className="p-5 space-y-4 flex-1">

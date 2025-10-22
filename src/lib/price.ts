@@ -10,5 +10,12 @@ export async function convertEthToIdr(amountEth: number) {
   const data = await res.json();
 
   const ethPriceIdr = data.ethereum.idr;
-  return amountEth * ethPriceIdr;
+  const totalIdr = amountEth * ethPriceIdr;
+
+  const formattedIdr = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(totalIdr);
+
+  return formattedIdr;
 }
