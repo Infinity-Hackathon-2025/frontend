@@ -208,7 +208,7 @@ export default function Form() {
       console.log("✅ Event deployed:", tx);
     } catch (err) {
       console.log("error: ", err);
-      alert("❌ Gagal membuat event");
+      alert(`Gagal membuat event`);
     }
   };
 
@@ -241,7 +241,7 @@ export default function Form() {
 
           <div className="bg-white text-black rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2">
-              Nama Acara *
+              Deskripsi *
             </label>
             <textarea
               name="description"
@@ -250,17 +250,6 @@ export default function Form() {
               placeholder="Masukkan deskripsi acara"
               className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
               rows={3}
-            />
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-md p-5">
-            <label className="block font-semibold text-[#122B59] mb-2">
-              Lokasi *
-            </label>
-            <input
-              type="text"
-              placeholder="Masukkan lokasi acara"
-              className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
 
@@ -277,7 +266,7 @@ export default function Form() {
           </div>
 
           {/* TERMS */}
-          <div className="bg-white rounded-2xl shadow-md p-5">
+          <div className="bg-white h-full rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2">
               Unggah Syarat & Ketentuan *
             </label>

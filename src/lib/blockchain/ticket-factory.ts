@@ -84,7 +84,7 @@ export async function getAllEvents(provider: ethers.Provider) {
           description: e.description,
           image: e.image,
           royaltyFee: Number(e.royaltyFee),
-          eventStatus, // tambahkan hasil getEventStatus di sini
+          eventStatus,
         };
       })
     );
@@ -116,33 +116,6 @@ export async function getMyEvents(provider: ethers.Provider) {
     throw err;
   }
 }
-
-// export async function getEventDetail(
-//   ticketAddress: string,
-//   provider: ethers.Provider
-// ) {
-//   const factory = new ethers.Contract(
-//     FACTORY_ADDRESS,
-//     factoryAbi.abi,
-//     provider
-//   );
-
-//   const allEvents = await getAllEvents(provider);
-
-//   const index = await factory.eventIndex(ticketAddress);
-
-//   const eventDetail = await allEvents.allEvents(index);
-
-//   return {
-//     address: eventDetail.ticketAddress,
-//     eventId: eventDetail.eventId,
-//     name: eventDetail.eventName,
-//     description: eventDetail.description,
-//     image: eventDetail.image,
-//     organizer: eventDetail.organizer,
-//     royaltyFee: Number(eventDetail.royaltyFee),
-//   };
-// }
 
 export async function getEventByAddress(
   provider: ethers.Provider,
