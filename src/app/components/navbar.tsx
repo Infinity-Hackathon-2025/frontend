@@ -26,7 +26,7 @@ const Navbar = () => {
       </div>
 
       <nav className="absolute left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-md border border-white/30 shadow-lg rounded-full px-10 py-3 flex items-center justify-center">
-        <ul className="flex items-center gap-8 text-sm font-medium text-[#1E3A8A]">
+        <ul className="font-[Nexa] flex items-center gap-8 text-sm font-medium text-[#1E3A8A]">
           {menu.map((item) => (
             <li key={item.name}>
               <a

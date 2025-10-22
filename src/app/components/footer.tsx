@@ -8,7 +8,7 @@ export default function Footer() {
           <div className="grid gap-10 md:grid-cols-4">
             <div>
               <div className="font-[Mont] text-[36px] font-bold leading-none">Trustix.</div>
-              <p className="mt-5 max-w-xs text-sm leading-7 opacity-90">
+              <p className="font-[Roboto] mt-5 max-w-xs text-sm leading-7 opacity-90">
                 Lorem ipsum dolor sit amet, consectetur
                 adipiscing elit, sed do eiusmod tempor
                 incididunt ut labore et dolore magna aliqua.
@@ -30,7 +30,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/help"
-                    className="uppercase underline underline-offset-4 decoration-white"
+                    className="font-[Nexa] uppercase underline underline-offset-4 decoration-white"
                   >
                     Help Center
                   </Link>
@@ -39,8 +39,8 @@ export default function Footer() {
             </nav>
 
             <div>
-              <div className="text-xs tracking-wider opacity-90">E-MAIL :</div>
-              <div className="mt-1 text-sm">TRUSTIX@TRUSTIX.ID</div>
+              <div className="font-[Nexa] text-xs tracking-wider opacity-90">E-MAIL :</div>
+              <div className="font-[Nexa] mt-1 text-sm">TRUSTIX@TRUSTIX.ID</div>
 
               <div className="mt-6 font-[Nexa] text-[18px] font-semibold uppercase tracking-wide text-[#FFC126]">
                 Follow Us!
