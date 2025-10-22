@@ -9,17 +9,17 @@ const WeeklyTicketSales = () => (
     }}
   >
     <div className="flex items-center justify-between mb-5">
-      <h3 className="text-lg font-semibold text-gray-800">
+      <h3 className="text-lg font-nexa font-semibold text-[#122B59]">
         Weekly Ticket Sales
       </h3>
-      <span className="text-sm text-gray-500">Minggu ini</span>
+      <span className="text-sm text-[#525252] font-roboto">Minggu ini</span>
     </div>
 
-    <p className="text-sm text-gray-600 mb-6">
+    <p className="text-sm text-[#525252] mb-6 font-roboto">
       Ringkasan penjualan tiket selama 7 hari terakhir.
     </p>
 
-    <div className="flex-1 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 text-sm">
+    <div className="bg-white rounded-[20px] flex-1 flex items-center justify-center text-[#7C7C7C] text-sm font-roboto border border-gray-200 shadow-sm">
       Grafik penjualan mingguan (coming soon)
     </div>
   </div>
