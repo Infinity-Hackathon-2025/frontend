@@ -6,7 +6,7 @@ export default function Hero() {
           <p className="mt-4 text-2xl md:text-3xl text-gray-700 font-Nexa leading-relaxed">
             Transparent Access to <br /> Unforgettable Moments. <br />
           </p>
-          <button className="font-Nexa mt-[54px] rounded-full bg-[#153E9C] text-white px-5 py-2 text-sm shadow hover:bg-[#2F54EB] transition">
+          <button className="font-Nexa font-bold mt-[54px] rounded-full bg-[#153E9C] text-white px-5 py-2 text-sm shadow hover:bg-[#2F54EB] transition">
             Connect wallet
           </button>
         </div>
