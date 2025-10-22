@@ -2,6 +2,7 @@ import { useWriteContract, useReadContract, useAccount } from "wagmi";
 import factoryAbi from "@/constants/abi/ticket-factory.json";
 import { ethers, parseEther } from "ethers";
 import { createHash } from "crypto";
+import { getEventStatus } from "./vault";
 
 const FACTORY_ADDRESS = process.env
   .NEXT_PUBLIC_FACTORY_ADDRESS as `0x${string}`;
@@ -68,17 +69,27 @@ export async function getAllEvents(provider: ethers.Provider) {
   const factory = getFactoryContract(provider);
 
   try {
-    const events = await factory.getAllEvents();
+    const getEvents = await factory.getAllEvents();
 
-    return events.map((e: any) => ({
-      eventAddress: e.eventAddress,
-      organizer: e.organizer,
-      eventName: e.eventName,
-      eventId: e.eventId,
-      description: e.description,
-      image: e.image,
-      royaltyFee: Number(e.royaltyFee),
-    }));
+    // Ambil data dasar dari event
+    const events = await Promise.all(
+      getEvents.map(async (e: any) => {
+        const eventStatus = await getEventStatus(provider, e.eventAddress);
+
+        return {
+          eventAddress: e.eventAddress,
+          organizer: e.organizer,
+          eventName: e.eventName,
+          eventId: e.eventId,
+          description: e.description,
+          image: e.image,
+          royaltyFee: Number(e.royaltyFee),
+          eventStatus, // tambahkan hasil getEventStatus di sini
+        };
+      })
+    );
+
+    return events;
   } catch (err) {
     console.error("Failed to fetch events:", err);
     throw err;
@@ -106,32 +117,32 @@ export async function getMyEvents(provider: ethers.Provider) {
   }
 }
 
-export async function getEventDetail(
-  ticketAddress: string,
-  provider: ethers.Provider
-) {
-  const factory = new ethers.Contract(
-    FACTORY_ADDRESS,
-    factoryAbi.abi,
-    provider
-  );
+// export async function getEventDetail(
+//   ticketAddress: string,
+//   provider: ethers.Provider
+// ) {
+//   const factory = new ethers.Contract(
+//     FACTORY_ADDRESS,
+//     factoryAbi.abi,
+//     provider
+//   );
 
-  const allEvents = await getAllEvents(provider);
+//   const allEvents = await getAllEvents(provider);
 
-  const index = await factory.eventIndex(ticketAddress);
+//   const index = await factory.eventIndex(ticketAddress);
 
-  const eventDetail = await allEvents.allEvents(index);
+//   const eventDetail = await allEvents.allEvents(index);
 
-  return {
-    address: eventDetail.ticketAddress,
-    eventId: eventDetail.eventId,
-    name: eventDetail.eventName,
-    description: eventDetail.description,
-    image: eventDetail.image,
-    organizer: eventDetail.organizer,
-    royaltyFee: Number(eventDetail.royaltyFee),
-  };
-}
+//   return {
+//     address: eventDetail.ticketAddress,
+//     eventId: eventDetail.eventId,
+//     name: eventDetail.eventName,
+//     description: eventDetail.description,
+//     image: eventDetail.image,
+//     organizer: eventDetail.organizer,
+//     royaltyFee: Number(eventDetail.royaltyFee),
+//   };
+// }
 
 export async function getEventByAddress(
   provider: ethers.Provider,

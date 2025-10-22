@@ -1,20 +1,23 @@
-'use client';
+"use client";
+
+import Link from "next/link";
 
 const EventSummary = () => (
   <div className="space-y-6 mt-12">
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h2 className="text-2xl font-semibold text-[#0038BD] mb-1">
-          My Event
-        </h2>
+        <h2 className="text-2xl font-semibold text-[#0038BD] mb-1">My Event</h2>
         <p className="text-gray-600 text-sm">
           Kelola acara Anda, lacak penjualan, dan lihat analitik.
         </p>
       </div>
 
-      <button className="mt-3 sm:mt-0 px-6 py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 shadow-md">
+      <Link
+        className="mt-3 sm:mt-0 px-6 py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 shadow-md"
+        href={"/create-event"}
+      >
         + Buat Acara
-      </button>
+      </Link>
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
