@@ -213,20 +213,21 @@ export default function Form() {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 font-roboto text-[#7C7C7C]">
+      {/* TITLE */}
       <div className="text-left">
-        <h1 className="text-3xl font-bold text-[#0038BD] mb-2">
+        <h1 className="text-[48px] md:text-[54px] font-nexa font-bold text-[#0038BD] mb-2">
           Create Your Event
         </h1>
-        <p className="text-gray-600">
+        <p className="text-[14px] md:text-[18px] font-roboto text-[#7C7C7C]">
           Atur acara tiket NFT Anda dengan semua detailnya
         </p>
       </div>
-
+  
       <div className="text-[#122B59] grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-5">
-          <div className="bg-white text-black rounded-2xl shadow-md p-5">
-            <label className="block font-semibold text-[#122B59] mb-2">
+          <div className="bg-white rounded-2xl shadow-md p-5">
+            <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
               Nama Acara *
             </label>
             <input
@@ -235,12 +236,12 @@ export default function Form() {
               value={form.eventName}
               type="text"
               placeholder="Masukkan nama acara"
-              className="w-full  p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C]"
             />
           </div>
-
-          <div className="bg-white text-black rounded-2xl shadow-md p-5">
-            <label className="block font-semibold text-[#122B59] mb-2">
+  
+          <div className="bg-white rounded-2xl shadow-md p-5">
+            <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
               Deskripsi *
             </label>
             <textarea
@@ -248,44 +249,43 @@ export default function Form() {
               onChange={handleFormChange}
               value={form.description}
               placeholder="Masukkan deskripsi acara"
-              className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C]"
               rows={3}
             />
           </div>
-
+  
           <div className="bg-white rounded-2xl shadow-md p-5">
-            <label className="block font-semibold text-[#122B59] mb-2">
+            <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
               Tanggal dan Waktu *
             </label>
             <input
               name="eventDateTime"
               onChange={handleFormChange}
               type="datetime-local"
-              className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+              className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full font-roboto text-[#7C7C7C]"
             />
           </div>
-
-          {/* TERMS */}
+  
+          {/* UNGGAH SYARAT & KETENTUAN */}
           <div className="bg-white h-full rounded-2xl shadow-md p-5">
-            <label className="block font-semibold text-[#122B59] mb-2">
+            <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
               Unggah Syarat & Ketentuan *
             </label>
             <div
-              className="border-2 border-dashed border-blue-300 rounded-xl p-6 flex flex-col items-center justify-center text-gray-500"
+              className="border-2 border-dashed border-blue-300 rounded-xl p-6 flex flex-col items-center justify-center text-[#7C7C7C]"
               onClick={handleTermsClick}
             >
               {termsFile ? (
-                <div className="flex flex-col  justify-center gap-4">
-                  {termsFile.name}
+                <div className="flex flex-col justify-center gap-4 items-center">
+                  <span className="font-semibold">{termsFile.name}</span>
                   {form.termsUrl ? (
-                    <div className="bg-[#0038BD]/70  text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit">
+                    <div className="bg-[#0038BD]/70 text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit font-semibold">
                       Uploaded
                     </div>
                   ) : (
                     <button
                       onClick={uploadTerms}
-                      // disabled={form.termsUrl}
-                      className="bg-[#0038BD] hover:bg-blue-700 text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit"
+                      className="bg-[#0038BD] hover:bg-blue-700 text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit font-semibold"
                     >
                       {termsUploading ? "Uploading..." : "Upload"}
                     </button>
@@ -301,7 +301,7 @@ export default function Form() {
                     onChange={handleTermsChange}
                   />
                   <label htmlFor="terms-input" className="cursor-pointer">
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center text-[#7C7C7C]">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -316,11 +316,11 @@ export default function Form() {
                           d="M12 16.5v-9m0 0-3.75 3.75M12 7.5l3.75 3.75"
                         />
                       </svg>
-                      masukkan file PDF/DOC di sini atau klik ke jelajah{" "}
-                      <span className="text-blue-600">click to browse</span>
+                      masukkan file PDF/DOC di sini atau klik{" "}
+                      <span className="text-[#0038BD] font-semibold">browse</span>
                     </div>
                   </label>
-                  <p className="text-xs mt-2 text-gray-400">
+                  <p className="text-xs mt-2 text-[#7C7C7C]">
                     Ukuran file maksimal: 10MB
                   </p>
                 </div>
@@ -328,26 +328,24 @@ export default function Form() {
             </div>
           </div>
         </div>
-
-        {/* POSTER */}
-        <div className="bg-white rounded-2xl shadow-md p-5 flex flex-col">
-          <label className="block font-semibold text-[#122B59] mb-3">
+  
+        <div className="bg-white rounded-2xl shadow-md p-5 flex flex-col text-[#122B59]">
+          <label className="block font-semibold mb-3 text-[16px] md:text-[18px]">
             Poster Acara
           </label>
-
+  
           <div className="border-2 border-dashed border-blue-300 rounded-xl h-[700px] flex flex-col items-center justify-center bg-gray-50 overflow-hidden">
             {posterFile ? (
-              <div className="flex flex-col  justify-center gap-4 items-center">
-                {posterFile.name}
+              <div className="flex flex-col justify-center gap-4 items-center text-[#7C7C7C]">
+                <span className="font-semibold">{posterFile.name}</span>
                 {form.imageUrl ? (
-                  <div className="bg-[#0038BD]/70  text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit">
+                  <div className="bg-[#0038BD]/70 text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit font-semibold">
                     Uploaded
                   </div>
                 ) : (
                   <button
                     onClick={uploadImage}
-                    // disabled={form.termsUrl}
-                    className="bg-[#0038BD] hover:bg-blue-700 text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit"
+                    className="bg-[#0038BD] hover:bg-blue-700 text-white px-10 py-2 rounded-lg flex items-center gap-1 text-sm w-fit font-semibold"
                   >
                     {posterUploading ? "Uploading..." : "Upload"}
                   </button>
@@ -362,48 +360,37 @@ export default function Form() {
                   id="poster-upload"
                   className="hidden"
                 />
-
-                {form.imageUrl ? (
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={form.imageUrl}
-                      alt="Poster preview"
-                      fill
-                      className="object-cover rounded-lg"
-                    />
+                <label
+                  htmlFor="poster-upload"
+                  className="flex flex-col items-center justify-center cursor-pointer text-[#7C7C7C]"
+                >
+                  <div className="bg-yellow-400 rounded-full p-4 mb-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="white"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 16.5v-9m0 0-3.75 3.75M12 7.5l3.75 3.75"
+                      />
+                    </svg>
                   </div>
-                ) : (
-                  <label
-                    htmlFor="poster-upload"
-                    className="flex flex-col items-center justify-center cursor-pointer text-gray-500"
-                  >
-                    <div className="bg-yellow-400 rounded-full p-4 mb-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="white"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 16.5v-9m0 0-3.75 3.75M12 7.5l3.75 3.75"
-                        />
-                      </svg>
-                    </div>
-                    <p>Klik untuk upload poster</p>
-                  </label>
-                )}
+                  <p className="font-semibold">Klik untuk upload poster</p>
+                </label>
               </div>
             )}
           </div>
         </div>
       </div>
-
+  
+      {/* ROYALTI */}
       <div className="bg-white rounded-2xl text-[#122B59] shadow-md p-5">
-        <label className="block font-semibold text-[#122B59] mb-2">
+        <label className="block font-semibold mb-2 text-[16px] md:text-[18px]">
           Royalti *
         </label>
         <input
@@ -412,59 +399,55 @@ export default function Form() {
           onChange={handleFormChange}
           placeholder="Royalti untuk penjualan kedua (Max: 10%)"
           value={form.royaltyFee}
-          className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] text-[#7C7C7C]"
         />
       </div>
-
-      {/* ZONES */}
-      <div className="bg-white rounded-2xl shadow-md p-6">
+  
+      {/* PENGATURAN TEMPAT DUDUK */}
+      <div className="bg-white rounded-2xl shadow-md p-6 text-[#122B59]">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="font-semibold text-[#122B59] text-lg">
+          <h2 className="font-semibold text-[18px] md:text-[28px]">
             Pengaturan tempat duduk
           </h2>
           <button
             onClick={addZone}
-            className="bg-[#0038BD] hover:bg-blue-700 text-white px-3 py-1 rounded-lg flex items-center gap-1 text-sm"
+            className="bg-[#0038BD] hover:bg-blue-700 text-white px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold"
           >
             <Plus size={16} /> Tambah
           </button>
         </div>
+  
         {zones.map((zone, index) => (
           <div
             key={index}
             className="relative bg-gray-50 rounded-xl p-5 mb-4 border shadow-sm transition-all duration-200"
           >
             <div className="flex justify-between items-center mb-3">
-              <h3 className="font-semibold text-[#122B59]">
+              <h3 className="font-semibold text-[16px] md:text-[18px]">
                 Tipe Bangku {index + 1}
               </h3>
               {zones.length > 1 && (
                 <button
                   type="button"
                   onClick={() => removeZones(index)}
-                  className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600 font-medium transition-colors"
+                  className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600 font-semibold"
                 >
                   <X size={16} />
                   Remove
                 </button>
               )}
             </div>
-
-            <div className="flex flex-col text-[#122B59] gap-4 items-center w-full">
-              {/* Nama Bangku */}
+  
+            <div className="flex flex-col gap-4 items-center w-full text-[#7C7C7C]">
               <input
                 placeholder="Nama bangku (e.g., VIP)"
-                onChange={(e) =>
-                  handleZoneChange(index, "name", e.target.value)
-                }
+                onChange={(e) => handleZoneChange(index, "name", e.target.value)}
                 required
                 value={zone.name}
-                className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full"
               />
-
-              {/* Grid Input */}
+  
               <div className="grid grid-cols-3 gap-4 w-full">
-                {/* Jumlah */}
                 <input
                   placeholder="Jumlah"
                   onChange={(e) =>
@@ -472,10 +455,9 @@ export default function Form() {
                   }
                   required
                   value={zone.maxSupply}
-                  className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                  className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full"
                 />
-
-                {/* Harga */}
+  
                 <input
                   placeholder="Harga dalam ETH"
                   onChange={(e) =>
@@ -484,12 +466,11 @@ export default function Form() {
                   type="number"
                   required
                   value={zone.price}
-                  className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                  className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full"
                 />
-
-                {/* Maks */}
-                <div className="p-3 bg-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full">
-                  Konversi IDR:{" "}
+  
+                <div className="p-3 bg-gray-200 rounded-xl w-full">
+                  <span className="font-semibold">Konversi IDR:</span>{" "}
                   {zone.loadingConversion
                     ? "Sedang dikonversi..."
                     : zone.idrPrice}
@@ -499,40 +480,43 @@ export default function Form() {
           </div>
         ))}
       </div>
-
+  
       {/* PAYOUTS */}
-      <div className="bg-white rounded-2xl shadow-md p-6">
+      <div className="bg-white rounded-2xl shadow-md p-6 text-[#122B59]">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="font-semibold text-[#122B59] text-lg">
+          <h2 className="font-semibold text-[18px] md:text-[28px]">
             Pengaturan Payouts
           </h2>
           <button
             onClick={addPayout}
-            className="bg-[#0038BD] hover:bg-blue-700 text-white px-3 py-1 rounded-lg flex items-center gap-1 text-sm"
+            className="bg-[#0038BD] hover:bg-blue-700 text-white px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold"
           >
             <Plus size={16} /> Tambah
           </button>
         </div>
+  
         {payouts.map((payout, index) => (
-          <div className="relative bg-gray-50 rounded-xl p-5 mb-4 border shadow-sm transition-all duration-200">
+          <div
+            key={index}
+            className="relative bg-gray-50 rounded-xl p-5 mb-4 border shadow-sm transition-all duration-200"
+          >
             <div className="flex justify-between items-center mb-3">
-              <h3 className="font-semibold text-[#122B59]">
+              <h3 className="font-semibold text-[16px] md:text-[18px]">
                 Payout {index + 1}
               </h3>
               {payouts.length > 1 && (
                 <button
                   type="button"
                   onClick={() => removePayout(index)}
-                  className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600 font-medium transition-colors"
+                  className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600 font-semibold"
                 >
                   <X size={16} />
                   Remove
                 </button>
               )}
             </div>
-
+  
             <div className="flex flex-row text-[#122B59] gap-4 items-center w-full">
-              {/* Nama Bangku */}
               <input
                 placeholder="Wallet address"
                 onChange={(e) =>
@@ -540,7 +524,7 @@ export default function Form() {
                 }
                 required
                 value={payout.wallet}
-                className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full text-[#7C7C7C]"
               />
               <input
                 placeholder="Share (%)"
@@ -549,13 +533,13 @@ export default function Form() {
                 }
                 required
                 value={payout.share}
-                className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400 w-[30%]"
+                className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-[30%] text-[#7C7C7C]"
               />
             </div>
           </div>
         ))}
       </div>
-
+  
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
@@ -566,4 +550,4 @@ export default function Form() {
       </div>
     </div>
   );
-}
+}  
