@@ -13,14 +13,16 @@ export default function SeatSetting({
   canRemove = false,
 }: SeatSettingProps) {
   return (
-    <div className="relative bg-gray-50 rounded-xl p-5 mb-4 border shadow-sm transition-all duration-200">
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="font-semibold text-[#122B59]">Tipe Bangku {index}</h3>
+    <div className="relative bg-gray-50 rounded-2xl p-6 mb-4 border shadow-sm transition-all duration-200">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="font-mont text-[#122B59] text-lg font-semibold">
+          Tipe Bangku {index}
+        </h3>
         {canRemove && (
           <button
             type="button"
             onClick={onRemove}
-            className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600 font-medium transition-colors"
+            className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600 font-nexa transition-colors"
           >
             <X size={16} />
             Remove
@@ -32,22 +34,22 @@ export default function SeatSetting({
         <input
           type="text"
           placeholder="Nama bangku (e.g., VIP)"
-          className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+          className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C] placeholder:text-[#A0A0A0] text-sm"
         />
         <input
-          type="Jumlah"
+          type="number"
           placeholder="Jumlah"
-          className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+          className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C] placeholder:text-[#A0A0A0] text-sm"
         />
         <input
-          type="Harga"
+          type="number"
           placeholder="Harga"
-          className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+          className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C] placeholder:text-[#A0A0A0] text-sm"
         />
         <input
-          type="Maks"
+          type="number"
           placeholder="Maks"
-          className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400"
+          className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C] placeholder:text-[#A0A0A0] text-sm"
         />
       </div>
     </div>
