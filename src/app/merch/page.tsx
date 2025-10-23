@@ -1,7 +1,7 @@
-import React from "react";
+"use client";
 
-const page = () => {
-  return <div className="">merchhh</div>;
-};
+import MerchList from "./components/merch-list";
 
-export default page;
+export default function Page() {
+  return <MerchList />;
+}
