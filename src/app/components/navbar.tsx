@@ -1,16 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+
 import Link from "next/link";
 import Hamburger from "hamburger-react";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,24 +12,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { MoreHorizontalIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 import ConnectButtonCustom from "./connect-button";
 import { useAccount } from "wagmi";
-import { slice } from "viem";
 
 const Navbar = () => {
   const { isConnected, address } = useAccount();
   const [activeSection, setActiveSection] = useState("home");
+  const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
@@ -95,33 +78,29 @@ const Navbar = () => {
         </nav>
 
         {isConnected ? (
-          <DropdownMenu modal={false}>
+          <DropdownMenu open={isOpen} modal={false}>
             <DropdownMenuTrigger asChild>
-              <div className="bg-none" aria-label="Open menu">
-                <Hamburger />
-              </div>
+              <button className="bg-none" aria-label="Open menu">
+                <Hamburger toggled={isOpen} toggle={setOpen} />
+              </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-fit" align="end">
-              <DropdownMenuGroup className="flex  flex-col py-2 px-2 gap-2">
-                <DropdownMenuItem>
-                  <Link
-                    href={"/my-tickets"}
-                    className=" font-nexa font-semibold text-lg "
-                  >
-                    My Tickets
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link
-                    className="font-nexa font-semibold text-lg"
-                    href={"/my-events"}
-                  >
-                    My Events
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
+              <DropdownMenuGroup className="flex flex-col py-3 px-4 gap-2">
+                <Link
+                  href={"/my-tickets"}
+                  className=" font-nexa font-semibold text-lg hover:bg-zinc-100 py-4 px-4"
+                >
+                  My Tickets
+                </Link>
+                <Link
+                  className="font-nexa font-semibold text-lg hover:bg-zinc-100 py-4 px-4"
+                  href={"/my-events"}
+                >
+                  My Events
+                </Link>
+                <div className="hover:bg-zinc-100 py-2 px-4">
                   <ConnectButtonCustom />
-                </DropdownMenuItem>
+                </div>
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
