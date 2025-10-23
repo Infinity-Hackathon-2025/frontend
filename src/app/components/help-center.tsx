@@ -1,6 +1,9 @@
 export default function HelpCenter() {
   return (
-    <section id="help" className="mx-auto max-w-6xl px-4">
+    <section
+      id="help"
+      className="mx-auto max-w-6xl px-4 flex flex-col justify-start"
+    >
       <h3 className="font-[Mont] text-2xl text-[#1F2B6C] font-semibold mb-4">
         Help Center
       </h3>
