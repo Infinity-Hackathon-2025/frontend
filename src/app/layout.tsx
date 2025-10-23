@@ -6,9 +6,8 @@ import { mont, nexa, roboto } from "@/lib/fonts";
 import Footer from "./components/footer";
 
 export const metadata: Metadata = {
-  title: "Trustix | Event Marketplace",
-  description:
-    "Temukan konser, merch, dan tiket resale favoritmu di satu tempat.",
+  title: "Trustix.",
+  description: "A decentralized event ticketing",
 };
 
 export default function RootLayout({
@@ -82,7 +81,7 @@ export default function RootLayout({
         <Providers>
           <div
             className="pointer-events-none fixed inset-0 -z-10 
-              bg-[url('/background/bg-landingpage.png')]  // Menggunakan gambar sebagai background
+              bg-[url('/background/bg-landingpage.png')] 
               bg-no-repeat bg-center bg-cover"
           />
           <Navbar />
