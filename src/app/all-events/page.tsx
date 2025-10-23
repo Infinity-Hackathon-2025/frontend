@@ -8,7 +8,7 @@ interface Concert {
   imageUrl: string;
 }
 
-export default async function TicketPage() {
+export default async function page() {
   const concerts: Concert[] = Array.from({ length: 8 }).map((_, index) => ({
     id: index + 1,
     title: `Event ${index + 1}`,

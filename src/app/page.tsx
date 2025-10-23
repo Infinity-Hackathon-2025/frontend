@@ -19,11 +19,11 @@ export default function HomePage() {
       >
         Buat Acara
       </Link>
-      <div className="flex flex-col gap-80">
+      <div className="flex flex-col gap-20">
         <ConcertHighlight />
         <TrendingConcerts />
-        <BestsellingMerch />
-        <Resale />
+        {/* <BestsellingMerch /> */}
+        {/* <Resale /> */}
       </div>
       <HelpCenter />
       <FAQ />

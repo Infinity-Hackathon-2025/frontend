@@ -2,13 +2,13 @@ export default function HelpCenter() {
   return (
     <section
       id="help"
-      className="mx-auto max-w-6xl px-4 flex flex-col justify-start"
+      className="mx-auto max-w-6xl px-4 flex flex-col items-start w-full"
     >
       <h3 className="font-[Mont] text-2xl text-[#1F2B6C] font-semibold mb-4">
         Help Center
       </h3>
 
-      <div className="relative">
+      <div className="relative w-full">
         <input
           type="text"
           placeholder="Ketik topik yang Anda ingin cari (misal: Refund)"
