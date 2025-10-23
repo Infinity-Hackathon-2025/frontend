@@ -51,8 +51,12 @@ export default function Section({
   return (
     <div>
       <div className="flex flex-col md:flex-row items-start gap-8 mb-10">
-        <div className="w-[702px] h-[397px] bg-gray-200 rounded-[12px] overflow-hidden relative">
-          <img src={image} alt={eventName} className="object-cover" />
+        <div className="w-[702px] h-[397px]  bg-gray-200 rounded-[12px] overflow-hidden relative">
+          <img
+            src={image}
+            alt={eventName}
+            className="object-cover w-full h-full"
+          />
         </div>
 
         <div className="flex-1">
