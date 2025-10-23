@@ -96,6 +96,43 @@ export async function getAllEvents(provider: ethers.Provider) {
   }
 }
 
+export async function getAllActiveEvents(provider: ethers.Provider) {
+  const factory = getFactoryContract(provider);
+
+  try {
+    const getEvents = await factory.getAllEvents();
+
+    const events = await Promise.all(
+      getEvents.map(async (e: any) => {
+        const eventStatus = await getEventStatus(provider, e.eventAddress);
+
+        return {
+          eventAddress: e.eventAddress,
+          organizer: e.organizer,
+          eventName: e.eventName,
+          eventId: e.eventId,
+          description: e.description,
+          image: e.image,
+          royaltyFee: Number(e.royaltyFee),
+          eventStatus,
+        };
+      })
+    );
+
+    const activeEvents = events.filter(
+      (e) =>
+        e.eventStatus === "Active" ||
+        e.eventStatus === 1 ||
+        e.eventStatus === true
+    );
+
+    return activeEvents;
+  } catch (err) {
+    console.error("Failed to fetch events:", err);
+    throw err;
+  }
+}
+
 export async function getMyEvents(provider: ethers.Provider) {
   const factory = getFactoryContract(provider);
 

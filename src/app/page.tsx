@@ -3,14 +3,14 @@ import About from "./components/about";
 import ConcertHighlight from "./components/concert-highlight";
 import TrendingConcerts from "./components/trending-concerts";
 import BestsellingMerch from "./components/bestselling-merch";
-import Resale from "./components/resells";
+import Resale from "./components/resale";
 import HelpCenter from "./components/help-center";
 import FAQ from "./components/faq";
 import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="space-y-24 pb-20 flex flex-col items-center justify-center">
+    <div className="gap-24 pb-20 flex flex-col items-center justify-center">
       <Hero />
       <About />
       <Link
@@ -19,10 +19,12 @@ export default function HomePage() {
       >
         Buat Acara
       </Link>
-      <ConcertHighlight />
-      <TrendingConcerts />
-      <BestsellingMerch />
-      <Resale />
+      <div className="flex flex-col gap-20">
+        <ConcertHighlight />
+        <TrendingConcerts />
+        {/* <BestsellingMerch /> */}
+        {/* <Resale /> */}
+      </div>
       <HelpCenter />
       <FAQ />
     </div>

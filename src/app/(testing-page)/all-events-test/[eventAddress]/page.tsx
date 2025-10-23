@@ -12,7 +12,6 @@ export default function EventPage({
 }: {
   params: Promise<{ eventAddress: string }>;
 }) {
-  // ✅ Unwrap params promise pakai React.use()
   const { eventAddress } = use(params);
 
   const [event, setEvent] = useState<any>(null);
