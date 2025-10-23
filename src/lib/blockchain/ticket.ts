@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, formatEther, parseEther } from "ethers";
 import ticketAbi from "@/constants/abi/ticket-implementation.json";
 
 const TICKET_ADDRESS = process.env.NEXT_PUBLIC_TICKET_ADDRESS as `0x${string}`;
@@ -17,7 +17,7 @@ export async function getEventZones(
 
   return zones.map((z: any) => ({
     name: z.name,
-    price: z.price,
+    price: formatEther(z.price),
     maxSupply: z.maxSupply,
     totalMinted: z.totalMinted,
   }));

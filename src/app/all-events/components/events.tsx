@@ -1,9 +1,12 @@
 "use client";
 
-import { getAllEvents } from "@/lib/blockchain/ticket-factory";
+import {
+  getAllActiveEvents,
+  getAllEvents,
+} from "@/lib/blockchain/ticket-factory";
 import { getProvider } from "@/lib/blockchain/utils";
 import React, { useEffect, useState } from "react";
-import Card from "./card";
+import EventCard from "./event-card";
 
 const Events = () => {
   const [events, setEvents] = useState<any[]>([]);
@@ -14,7 +17,7 @@ const Events = () => {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const data = await getAllEvents(provider);
+        const data = await getAllActiveEvents(provider);
         console.log("fetched events:", data);
         setEvents(data);
         console.log("events: ", events);
@@ -44,12 +47,15 @@ const Events = () => {
     );
   }
   return (
-    <div>
-      {events.map((event) => {
+    <div className="mt-20 grid grid-cols-4">
+      {events.map((event, index) => {
         return (
-          <Card
-            title={event.title}
-            description={event.description}
+          <EventCard
+            index={index}
+            eventAddress={event.eventAddress}
+            title={event.eventName}
+            desription={event.description}
+            status={event.status}
             imageUrl={event.image}
           />
         );
