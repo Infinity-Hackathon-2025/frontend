@@ -1,9 +1,9 @@
 import "./globals.css";
 import Navbar from "./components/navbar";
-import Footer from "./components/footer";
 import type { Metadata } from "next";
 import { Providers } from "./provider";
 import { mont, nexa, roboto } from "@/lib/fonts";
+import Footer from "./components/footer";
 
 export const metadata: Metadata = {
   title: "Trustix | Event Marketplace",
@@ -17,7 +17,65 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
+      {/* <head>
+        <link
+          rel="preload"
+          href="/fonts/mont/Mont-ExtraLight.otf"
+          as="font"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/mont/Mont-Heavy.otf"
+          as="font"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/nexa/Nexa-Black.otf"
+          as="font"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/nexa/Nexa-Heavy.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/nexa/Nexa-Bold.otf"
+          as="font"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/nexa/Nexa-Regular.otf"
+          as="font"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/nexa/Nexa-Light.otf"
+          as="font"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/nexa/Nexa-ExtraLight.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+      </head> */}
       <body
         className={`${mont.variable} ${nexa.variable} ${roboto.variable} antialiased min-h-screen text-[#171717]`}
       >

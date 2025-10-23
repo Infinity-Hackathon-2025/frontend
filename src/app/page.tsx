@@ -1,11 +1,30 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import Image from "next/image";
+import Hero from "./components/hero";
+import About from "./components/about";
+import ConcertHighlight from "./components/concert-highlight";
+import TrendingConcerts from "./components/trending-concerts";
+import BestsellingMerch from "./components/bestselling-merch";
+import Resale from "./components/resells";
+import HelpCenter from "./components/help-center";
+import FAQ from "./components/faq";
 import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="w-screen flex justify-center py-20">
-      <ConnectButton />
+    <div className="space-y-24 pb-20 flex flex-col items-center justify-center">
+      <Hero />
+      <About />
+      <Link
+        className="sm:mt-0 px-8 py-3 w-fit bg-gradient-to-r from-[#FFB444] to-[#FF9E42] hover:from-[#FF9E42] hover:to-[#E88400] rounded-xl text-white font-nexa font-semibold text-lg shadow-md "
+        href={"/create-event"}
+      >
+        Buat Acara
+      </Link>
+      <ConcertHighlight />
+      <TrendingConcerts />
+      <BestsellingMerch />
+      <Resale />
+      <HelpCenter />
+      <FAQ />
     </div>
   );
 }

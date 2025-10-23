@@ -1,13 +1,9 @@
 "use client";
-
 import React from "react";
-import Image from "next/image";
 import { EllipsisVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
@@ -82,9 +78,11 @@ const EventCard: React.FC<EventCardProps> = ({
 
       <div className="p-5 border-b border-gray-200 flex justify-between items-center">
         <div className="flex flex-row gap-4">
-          <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+          <h3 className="text-lg font-mont font-bold text-[#0038BD]">
+            {title}
+          </h3>
           <span
-            className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor}`}
+            className={`px-3 py-1 rounded-full text-xs font-nexa font-medium ${statusColor}`}
           >
             {status}
           </span>
@@ -92,20 +90,20 @@ const EventCard: React.FC<EventCardProps> = ({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <EllipsisVertical color="black" />
+            <EllipsisVertical color="#122B59" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 bg-gray-50 px-4 py-4 border rounded-[12px] shadow-lg">
+          <DropdownMenuContent className="w-56 bg-gray-50 px-4 py-4 border rounded-[12px] shadow-lg font-roboto text-[#7C7C7C]">
             <Button
               onClick={handleComplete}
               variant={"outline"}
-              className="w-full mb-2"
+              className="w-full mb-2 font-roboto text-[#122B59]"
             >
               Complete Event
             </Button>
             <Button
               onClick={handleCancel}
               variant={"outline"}
-              className="w-full text-red-600"
+              className="w-full text-red-600 font-roboto"
             >
               Batalkan acara
             </Button>
@@ -113,36 +111,38 @@ const EventCard: React.FC<EventCardProps> = ({
         </DropdownMenu>
       </div>
 
-      <div className="p-5 space-y-4 flex-1">
+      <div className="p-5 space-y-4 flex-1 font-roboto text-[#7C7C7C]">
         <div className="bg-gray-50 rounded-[12px] border border-gray-200 p-4 shadow-sm">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">
+          <h4 className="text-sm font-nexa font-semibold text-[#122B59] mb-2">
             Penjualan Tiket
           </h4>
-          <div className="flex justify-between text-sm text-gray-600">
+          <div className="flex justify-between text-sm">
             <span>Tiket Terjual</span>
-            <span className="font-semibold text-gray-900">
+            <span className="font-semibold text-[#122B59]">
               {ticketsSold}/{totalTickets}
             </span>
           </div>
-          <div className="flex justify-between text-sm text-gray-600 mt-1">
+          <div className="flex justify-between text-sm mt-1">
             <span>Total Penjualan</span>
-            <span className="font-semibold text-gray-900">
+            <span className="font-semibold text-[#122B59]">
               {ticketAmount} ETH
             </span>
           </div>
         </div>
 
         <div className="bg-gray-50 rounded-[12px] border border-gray-200 p-4 shadow-sm">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">
+          <h4 className="text-sm font-nexa font-semibold text-[#122B59] mb-2">
             Penjualan Merchandise
           </h4>
-          <div className="flex justify-between text-sm text-gray-600">
+          <div className="flex justify-between text-sm">
             <span>Jumlah Terjual</span>
-            <span className="font-semibold text-gray-900">{merchSold}</span>
+            <span className="font-semibold text-[#122B59]">
+              {merchSold}
+            </span>
           </div>
-          <div className="flex justify-between text-sm text-gray-600 mt-1">
+          <div className="flex justify-between text-sm mt-1">
             <span>Total Penjualan</span>
-            <span className="font-semibold text-gray-900">
+            <span className="font-semibold text-[#122B59]">
               {merchAmount} ETH
             </span>
           </div>

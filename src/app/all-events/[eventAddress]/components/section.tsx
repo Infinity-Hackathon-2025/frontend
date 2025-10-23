@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -40,8 +40,9 @@ export default function Section() {
             KONSER
           </h2>
           <p className="font-roboto text-[#122B59] text-[16px] leading-relaxed">
-            Nikmati pengalaman konser tak terlupakan dengan penampilan langsung dari berbagai musisi terbaik.
-            Dapatkan tiketmu sekarang dan rasakan energi panggung yang luar biasa bersama ribuan penonton lainnya.
+            Nikmati pengalaman konser tak terlupakan dengan penampilan langsung
+            dari berbagai musisi terbaik. Dapatkan tiketmu sekarang dan rasakan
+            energi panggung yang luar biasa bersama ribuan penonton lainnya.
           </p>
         </div>
       </div>

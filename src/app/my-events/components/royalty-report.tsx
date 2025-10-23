@@ -8,29 +8,26 @@ const RoyaltyReport = () => (
       height: "515px",
     }}
   >
-    <h3 className="text-lg font-semibold text-[#122B59] mb-5">
+    <h3 className="text-lg font-mont font-bold text-[#0038BD] mb-5">
       Royalty Report
     </h3>
-
     <div className="bg-[#0038BD] rounded-[20px] shadow-sm border border-blue-100 w-full max-w-[330px] h-[120px] flex flex-col justify-center px-6 mb-6">
-      <p className="text-sm text-white font-medium">
-        Total Royalti Diperoleh
-      </p>
-      <h4 className="text-3xl font-semibold text-white mt-2">2.4 ETH</h4>
+      <p className="text-sm font-nexa text-white">Total Royalti Diperoleh</p>
+      <h4 className="text-3xl font-mont font-bold text-white mt-2">2.4 ETH</h4>
     </div>
 
-    <div className="space-y-3 text-sm text-[#525252]">
+    <div className="space-y-3 text-sm font-roboto text-[#7C7C7C]">
       <div className="flex justify-between">
         <span>Tarif Royalti</span>
-        <span className="font-medium text-gray-900">5%</span>
+        <span className="font-nexa text-[#122B59] font-semibold">5%</span>
       </div>
       <div className="flex justify-between">
         <span>Penjualan Sekunder</span>
-        <span className="font-medium text-gray-900">48</span>
+        <span className="font-nexa text-[#122B59] font-semibold">48</span>
       </div>
       <div className="flex justify-between">
         <span>Rata-Rata Harga Jual Kembali</span>
-        <span className="font-medium text-gray-900">1.2 ETH</span>
+        <span className="font-nexa text-[#122B59] font-semibold">1.2 ETH</span>
       </div>
     </div>
 

@@ -2,12 +2,11 @@
 import React, { useEffect, useState } from "react";
 import EventCard from "./event-card";
 import { getProvider } from "@/lib/blockchain/utils";
-import { getAllEvents, getMyEvents } from "@/lib/blockchain/ticket-factory";
-import { getEventStatus } from "@/lib/blockchain/vault";
+import { getAllEvents } from "@/lib/blockchain/ticket-factory";
+import Link from "next/link";
 
 const Events = () => {
   const [events, setEvents] = useState<any[]>([]);
-  const [eventStatus, setEventStatus] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const provider = getProvider();
@@ -16,9 +15,7 @@ const Events = () => {
     async function fetchEvents() {
       try {
         const data = await getAllEvents(provider);
-        console.log("fetched events:", data);
         setEvents(data);
-        console.log("events: ", events);
       } catch (err) {
         console.error("failed to load events:", err);
       } finally {
@@ -28,33 +25,46 @@ const Events = () => {
     fetchEvents();
   }, []);
 
-  // const events = getAllEvents(provider);
-  if (isLoading) return <p>Loading events...</p>;
-  if (!events || !Array.isArray(events)) return <p>No events found.</p>;
+  if (isLoading) {
+    return <p className="font-roboto text-[#7C7C7C]">Loading events...</p>;
+  }
+  if (events.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center w-full py-20 gap-6">
+        <p className="font-roboto text-[#7C7C7C]">No events found.</p>
+        <Link
+          className="mt-6 sm:mt-0 px-8 py-3 rounded-xl text-white font-nexa font-semibold text-lg bg-gradient-to-r from-[#FFB444] to-[#FF9E42] hover:from-[#FF9E42] hover:to-[#E88400] shadow-md transition-all"
+          href={"/create-event"}
+        >
+          + Buat Acara
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-      {events.map((event, index) => {
-        return (
-          <EventCard
-            index={index}
-            eventAddress={event.eventAddress}
-            title={event.eventName}
-            ticketsSold={450}
-            totalTickets={500}
-            ticketAmount={4.5}
-            merchSold={246}
-            merchAmount={3.2}
-            status={
-              event.eventStatus === "Active"
-                ? "Berjalan"
-                : event.eventStatus === "Complete"
-                ? "Selesai"
-                : "Dibatalkan"
-            }
-            imageUrl={event.image}
-          />
-        );
-      })}
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 font-roboto text-[#7C7C7C]">
+      {events.map((event, index) => (
+        <EventCard
+          key={index}
+          index={index}
+          eventAddress={event.eventAddress}
+          title={event.eventName}
+          ticketsSold={450}
+          totalTickets={500}
+          ticketAmount={4.5}
+          merchSold={246}
+          merchAmount={3.2}
+          status={
+            event.eventStatus === "Active"
+              ? "Berjalan"
+              : event.eventStatus === "Complete"
+              ? "Selesai"
+              : "Dibatalkan"
+          }
+          imageUrl={event.image}
+        />
+      ))}
     </div>
   );
 };
