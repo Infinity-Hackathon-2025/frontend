@@ -1,6 +1,6 @@
 import "./globals.css";
 import Navbar from "./components/navbar";
-import Footer from "./components/footer";
+// import Footer from "./components/footer";
 import type { Metadata } from "next";
 import { Providers } from "./provider";
 import { mont, nexa, roboto } from "@/lib/fonts";
@@ -29,7 +29,7 @@ export default function RootLayout({
           />
           <Navbar />
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </Providers>
       </body>
     </html>
