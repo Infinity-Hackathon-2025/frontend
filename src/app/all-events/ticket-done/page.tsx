@@ -1,7 +1,7 @@
 import SuccessMessage from "./components/success-message";
 import ActionButtons from "./components/action-buttons";
 
-export default function TicketDonePage(props: PageProps<"/ticket-done">) {
+export default function TicketDonePage() {
   return (
     <main
       className="min-h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat"

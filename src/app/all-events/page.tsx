@@ -1,4 +1,5 @@
-import SearchConcerts from './components/search';
+import Events from "./components/events";
+import SearchConcerts from "./components/search";
 
 interface Concert {
   id: number;
@@ -12,8 +13,8 @@ export default async function TicketPage() {
     id: index + 1,
     title: `Event ${index + 1}`,
     description:
-      'Rasakan keseruan konser yang penuh dengan kejutan dan penampilan spesial.',
-    imageUrl: '/images/concert-placeholder.jpg',
+      "Rasakan keseruan konser yang penuh dengan kejutan dan penampilan spesial.",
+    imageUrl: "/images/concert-placeholder.jpg",
   }));
 
   return (
@@ -24,7 +25,8 @@ export default async function TicketPage() {
       }}
     >
       <div className="w-full max-w-[1440px] px-[20px] md:px-[50px] py-[60px] md:py-[100px]">
-        <SearchConcerts concerts={concerts} />
+        {/* <SearchConcerts concerts={concerts} /> */}
+        <Events />
       </div>
     </main>
   );

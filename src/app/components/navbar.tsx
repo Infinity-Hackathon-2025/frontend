@@ -2,17 +2,18 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Link from "next/link";
 
 const Navbar = () => {
   const pathname = usePathname();
 
   const menu = [
     { name: "Home", href: "/" },
-    { name: "About", href: "#about" },
-    { name: "Events", href: "#events" },
-    { name: "Merch", href: "#merch" },
-    { name: "Resells", href: "#resells" },
-    { name: "Help center", href: "#help" },
+    { name: "About", href: "/#about" },
+    { name: "Events", href: "/#events" },
+    { name: "Merch", href: "/#merch" },
+    { name: "Resells", href: "/#resells" },
+    { name: "Help center", href: "/#help" },
   ];
 
   return (
@@ -43,7 +44,15 @@ const Navbar = () => {
           ))}
         </ul>
       </nav>
-      <ConnectButton />
+      <div className="flex flex-row gap-4">
+        <Link
+          className="mt-20 sm:mt-0 px-8 py-3 bg-[#153E9C] hover:bg-[#2F54EB] rounded-xl text-white font-nexa font-semibold text-lg shadow-md "
+          href={"/my-events"}
+        >
+          Tiket Saya
+        </Link>
+        <ConnectButton />
+      </div>
       {/* <button className="border border-[#1E3A8A] text-[#1E3A8A] px-5 py-2 rounded-full font-medium hover:bg-[#1E3A8A] hover:text-white transition">
         Connect Wallet
       </button> */}

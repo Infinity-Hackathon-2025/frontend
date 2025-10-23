@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <section className="mx-auto max-w-7xl px-4 mt-[200px] mb-[100px] grid gap-[16px] md:grid-cols-12">
-      <div className="col-span-12 md:col-span-6 bg-white/40 backdrop-blur-xl rounded-2xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-white/40">
+      <div className="flex flex-col gap-4 col-span-12 md:col-span-6 bg-white/40 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-white/40">
         <h1 className="font-[Mont-Bold] text-4xl md:text-5xl text-[#1F2B6C] mt-[33px]">
           TRUSTIX.
         </h1>
@@ -11,10 +11,10 @@ export default function Hero() {
           Transparent Access to <br /> Unforgettable Moments. <br />
         </p>
         <Link
-          className=" mt-[54px] rounded-full bg-[#153E9C] text-white px-5 py-2 text-sm shadow hover:bg-[#2F54EB] transition"
-          href={"/create-event"}
+          className="mt-20 sm:mt-0 px-8 py-3 w-fit bg-[#153E9C] hover:bg-[#2F54EB] rounded-xl text-white font-nexa font-semibold text-lg shadow-md "
+          href={"/all-events"}
         >
-          Create Event
+          Beli Tiket
         </Link>
       </div>
 

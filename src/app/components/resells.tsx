@@ -1,8 +1,10 @@
 "use client";
+
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
-const Resells = () => {
+const Resale = () => {
   const items = [
     {
       id: 1,
@@ -54,12 +56,15 @@ const Resells = () => {
   };
 
   return (
-    <section className="mx-auto w-full max-w-screen-lg">
+    <section id="resells" className="mx-auto w-full max-w-screen-lg">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl font-bold text-[#1E3A8A]">Resells</h2>
-        <button className="bg-[#1E3A8A] text-white px-4 py-2 rounded-full shadow-md hover:opacity-90 transition">
+        <h2 className="text-3xl font-bold text-[#1E3A8A]">Ticket Resale</h2>
+        <Link
+          className="bg-[#1E3A8A] text-white px-4 py-2 rounded-full shadow-md hover:opacity-90 transition"
+          href={"/ticket-resale"}
+        >
           Lihat lebih banyak
-        </button>
+        </Link>
       </div>
 
       <div className="relative flex items-center">
@@ -79,7 +84,10 @@ const Resells = () => {
             }}
           >
             {items.map((item) => (
-              <div key={item.id} className="w-1/3 flex-shrink-0 flex justify-center">
+              <div
+                key={item.id}
+                className="w-1/3 flex-shrink-0 flex justify-center"
+              >
                 <div className="bg-[#FFF6F6] rounded-[40px] p-4 shadow-lg w-[270px] flex flex-col items-start text-left relative">
                   {item.soldOut && (
                     <span className="absolute top-3 right-4 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
@@ -139,4 +147,4 @@ const Resells = () => {
   );
 };
 
-export default Resells;
+export default Resale;
