@@ -26,6 +26,23 @@ const Events = () => {
     }
     fetchEvents();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col justify-center items-center w-full py-20 gap-6">
+        <p className="font-roboto text-[#7C7C7C]">Loading events...</p>
+      </div>
+    );
+  }
+  if (events.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center w-full py-20 gap-6">
+        <p className="font-roboto text-[#7C7C7C]">
+          Tidak ada acara berlangsung
+        </p>
+      </div>
+    );
+  }
   return (
     <div>
       {events.map((event) => {
