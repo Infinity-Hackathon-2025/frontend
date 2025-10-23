@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
@@ -32,22 +32,40 @@ import { MoreHorizontalIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ConnectButtonCustom from "./connect-button";
 import { useAccount } from "wagmi";
+import { slice } from "viem";
 
 const Navbar = () => {
-  const pathname = usePathname();
   const { isConnected, address } = useAccount();
+  const [activeSection, setActiveSection] = useState("home");
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => sections.forEach((section) => observer.unobserve(section));
+  }, []);
 
   const menu = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/#home" },
     { name: "About", href: "/#about" },
     { name: "Events", href: "/#events" },
     { name: "Merch", href: "/#merch" },
-    { name: "Resells", href: "/#resells" },
+    { name: "Resale", href: "/#resale" },
     { name: "Help center", href: "/#help" },
   ];
 
   return (
-    <div className="fixed flex flex-col w-full items-end">
+    <div className="fixed flex flex-col w-full items-end z-50">
       <header className="w-full  top-0 left-0 z-50 overflow-visible flex items-center justify-between px-10 py-6">
         <div className="flex items-center gap-2">
           <img
@@ -64,7 +82,7 @@ const Navbar = () => {
                 <a
                   href={item.href}
                   className={`px-3 py-2 rounded-full transition ${
-                    pathname === item.href
+                    activeSection == item.href.slice(2)
                       ? "bg-[#1E3A8A] text-white shadow-md"
                       : "hover:bg-[#1E3A8A]/10"
                   }`}
