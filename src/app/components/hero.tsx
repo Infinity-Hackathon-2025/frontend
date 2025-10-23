@@ -2,7 +2,10 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="mx-auto max-w-7xl px-4 mt-[200px] mb-[100px] grid gap-[16px] md:grid-cols-12">
+    <section
+      id="home"
+      className="mx-auto max-w-7xl px-4 mt-[200px] mb-[100px] grid gap-[16px] md:grid-cols-12"
+    >
       <div className="flex flex-col gap-4 col-span-12 md:col-span-6 bg-white/40 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-white/40">
         <h1 className="font-[Mont-Bold] text-4xl md:text-5xl text-[#1F2B6C] mt-[33px]">
           TRUSTIX.
