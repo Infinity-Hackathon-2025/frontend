@@ -205,7 +205,7 @@ export default function Form() {
       };
 
       const tx = await createEvent(signer, eventData);
-      console.log("✅ Event deployed:", tx);
+      console.log("Event deployed:", tx);
     } catch (err) {
       console.log("error: ", err);
       alert(`Gagal membuat event`);
@@ -223,7 +223,7 @@ export default function Form() {
           Atur acara tiket NFT Anda dengan semua detailnya
         </p>
       </div>
-  
+
       <div className="text-[#122B59] grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-5">
           <div className="bg-white rounded-2xl shadow-md p-5">
@@ -239,7 +239,7 @@ export default function Form() {
               className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C]"
             />
           </div>
-  
+
           <div className="bg-white rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
               Deskripsi *
@@ -253,7 +253,7 @@ export default function Form() {
               rows={3}
             />
           </div>
-  
+
           <div className="bg-white rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
               Tanggal dan Waktu *
@@ -265,7 +265,7 @@ export default function Form() {
               className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full font-roboto text-[#7C7C7C]"
             />
           </div>
-  
+
           {/* UNGGAH SYARAT & KETENTUAN */}
           <div className="bg-white h-full rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
@@ -317,7 +317,9 @@ export default function Form() {
                         />
                       </svg>
                       masukkan file PDF/DOC di sini atau klik{" "}
-                      <span className="text-[#0038BD] font-semibold">browse</span>
+                      <span className="text-[#0038BD] font-semibold">
+                        browse
+                      </span>
                     </div>
                   </label>
                   <p className="text-xs mt-2 text-[#7C7C7C]">
@@ -328,12 +330,12 @@ export default function Form() {
             </div>
           </div>
         </div>
-  
+
         <div className="bg-white rounded-2xl shadow-md p-5 flex flex-col text-[#122B59]">
           <label className="block font-semibold mb-3 text-[16px] md:text-[18px]">
             Poster Acara
           </label>
-  
+
           <div className="border-2 border-dashed border-blue-300 rounded-xl h-[700px] flex flex-col items-center justify-center bg-gray-50 overflow-hidden">
             {posterFile ? (
               <div className="flex flex-col justify-center gap-4 items-center text-[#7C7C7C]">
@@ -387,7 +389,7 @@ export default function Form() {
           </div>
         </div>
       </div>
-  
+
       {/* ROYALTI */}
       <div className="bg-white rounded-2xl text-[#122B59] shadow-md p-5">
         <label className="block font-semibold mb-2 text-[16px] md:text-[18px]">
@@ -402,7 +404,7 @@ export default function Form() {
           className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] text-[#7C7C7C]"
         />
       </div>
-  
+
       {/* PENGATURAN TEMPAT DUDUK */}
       <div className="bg-white rounded-2xl shadow-md p-6 text-[#122B59]">
         <div className="flex justify-between items-center mb-4">
@@ -416,7 +418,7 @@ export default function Form() {
             <Plus size={16} /> Tambah
           </button>
         </div>
-  
+
         {zones.map((zone, index) => (
           <div
             key={index}
@@ -437,16 +439,18 @@ export default function Form() {
                 </button>
               )}
             </div>
-  
+
             <div className="flex flex-col gap-4 items-center w-full text-[#7C7C7C]">
               <input
                 placeholder="Nama bangku (e.g., VIP)"
-                onChange={(e) => handleZoneChange(index, "name", e.target.value)}
+                onChange={(e) =>
+                  handleZoneChange(index, "name", e.target.value)
+                }
                 required
                 value={zone.name}
                 className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full"
               />
-  
+
               <div className="grid grid-cols-3 gap-4 w-full">
                 <input
                   placeholder="Jumlah"
@@ -457,7 +461,7 @@ export default function Form() {
                   value={zone.maxSupply}
                   className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full"
                 />
-  
+
                 <input
                   placeholder="Harga dalam ETH"
                   onChange={(e) =>
@@ -468,7 +472,7 @@ export default function Form() {
                   value={zone.price}
                   className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full"
                 />
-  
+
                 <div className="p-3 bg-gray-200 rounded-xl w-full">
                   <span className="font-semibold">Konversi IDR:</span>{" "}
                   {zone.loadingConversion
@@ -480,7 +484,7 @@ export default function Form() {
           </div>
         ))}
       </div>
-  
+
       {/* PAYOUTS */}
       <div className="bg-white rounded-2xl shadow-md p-6 text-[#122B59]">
         <div className="flex justify-between items-center mb-4">
@@ -494,7 +498,7 @@ export default function Form() {
             <Plus size={16} /> Tambah
           </button>
         </div>
-  
+
         {payouts.map((payout, index) => (
           <div
             key={index}
@@ -515,7 +519,7 @@ export default function Form() {
                 </button>
               )}
             </div>
-  
+
             <div className="flex flex-row text-[#122B59] gap-4 items-center w-full">
               <input
                 placeholder="Wallet address"
@@ -539,7 +543,7 @@ export default function Form() {
           </div>
         ))}
       </div>
-  
+
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
@@ -550,4 +554,4 @@ export default function Form() {
       </div>
     </div>
   );
-}  
+}

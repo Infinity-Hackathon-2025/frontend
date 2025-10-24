@@ -61,12 +61,13 @@ export default function page({
     );
   return (
     <div
-      className="min-h-screen bg-gray-50 px-[60px] md:px-[80px] py-[100px] bg-cover bg-center bg-no-repeat"
+      className="min-h-screen bg-gray-50 px-[60px] md:px-20 py-[100px] bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/background/bg-desktop.png')" }}
     >
       <Section
+        eventAddress={event.eventAddress}
         eventName={event.eventName}
-        description={event}
+        description={event.description}
         image={event.image}
         zones={zones}
       />

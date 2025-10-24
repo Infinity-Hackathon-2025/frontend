@@ -41,7 +41,7 @@ const Navbar = () => {
   const menu = [
     { name: "Home", href: "/#home" },
     { name: "About", href: "/#about" },
-    { name: "Events", href: "/#events" },
+    { name: "Events", href: "/all-events" },
     // { name: "Merch", href: "/merch" },
     { name: "Resale", href: "/#resale" },
     { name: "Help center", href: "/#help" },

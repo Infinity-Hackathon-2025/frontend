@@ -47,7 +47,7 @@ const Events = () => {
     );
   }
   return (
-    <div className="mt-20 grid grid-cols-4">
+    <div className="mt-20 gap-8 grid grid-cols-4">
       {events.map((event, index) => {
         return (
           <EventCard
