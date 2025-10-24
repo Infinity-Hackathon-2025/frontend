@@ -5,8 +5,9 @@ import Image from "next/image";
 import TicketOption from "./ticket-option";
 import OrderDetails from "./order-details";
 import { Button } from "@/components/ui/button";
-import { getEventDate } from "@/lib/blockchain/ticket";
-import { getProvider } from "@/lib/blockchain/utils";
+import { buyTicket, getEventDate } from "@/lib/blockchain/ticket";
+import { getProvider, getSigner } from "@/lib/blockchain/utils";
+import { ethers } from "ethers";
 
 interface SectionProps {
   eventAddress: string;
@@ -15,6 +16,16 @@ interface SectionProps {
   description: string;
   image: string;
   zones: any[];
+}
+
+interface TicketMetadata {
+  name: string;
+  description: string;
+  image: string;
+  attributes: {
+    trait_type: string;
+    value: string | number;
+  }[];
 }
 
 export default function Section({
@@ -47,6 +58,7 @@ export default function Section({
   }, [eventAddress]);
 
   const [selectedZone, setSelectedZone] = useState({
+    index: 0,
     name: "",
     price: 0,
     quantity: 1,
@@ -71,9 +83,62 @@ export default function Section({
     }));
   };
 
-  const handleSelect = (name: string, price: number) => {
-    setSelectedZone((prev) => ({ name: name, price: price, quantity: 0 }));
+  const handleSelect = (index: number, name: string, price: number) => {
+    setSelectedZone((prev) => ({
+      index: index,
+      name: name,
+      price: price,
+      quantity: 1,
+    }));
   };
+
+  async function uploadJSONToIPFS(metadata: any) {
+    const res = await fetch("/api/metadata", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(metadata),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    return data.ipfsURI;
+  }
+
+  async function handleBuyTicket() {
+    const metadata: TicketMetadata = {
+      name: `${selectedZone.name} - ${eventName}`,
+      description: description,
+      image: image,
+      attributes: [
+        { trait_type: "Zone", value: selectedZone.name },
+        { trait_type: "Price (ETH)", value: selectedZone.price },
+      ],
+    };
+    const tokenURI = await uploadJSONToIPFS(metadata);
+    console.log("Uploaded metadata to IPFS:", tokenURI);
+
+    try {
+      const signer = await getSigner();
+      const pricePerTicket = ethers.parseEther(selectedZone.price.toString());
+      const totalPrice = pricePerTicket * BigInt(selectedZone.quantity);
+
+      // const totalPrice = ethers.parseEther(
+      //   (selectedZone.price * selectedZone.quantity).toString()
+      // );
+      const tx = await buyTicket(
+        signer,
+        eventAddress,
+        selectedZone.index,
+        selectedZone.quantity,
+        tokenURI,
+        totalPrice
+      );
+      console.log("Event deployed:", tx);
+    } catch (error) {
+      console.error("Error uploading metadata:", error);
+      throw error;
+    }
+  }
 
   return (
     <div>
@@ -113,6 +178,10 @@ export default function Section({
                 </span>
               </div>
 
+              <p>
+                {selectedZone.quantity} : {selectedZone.index}
+              </p>
+
               <div className="flex flex-row gap-10 justify-center items-center">
                 <div className="flex items-center">
                   {selectedZone.name == zone.name ? (
@@ -133,7 +202,9 @@ export default function Section({
                     </div>
                   ) : (
                     <Button
-                      onClick={(e) => handleSelect(zone.name, zone.price)}
+                      onClick={(e) =>
+                        handleSelect(index, zone.name, zone.price)
+                      }
                       className="bg-[#1E3A8A] font-roboto text-lg"
                     >
                       Select Ticket
@@ -150,6 +221,7 @@ export default function Section({
           ))}
         </div>
         <OrderDetails
+          onClick={handleBuyTicket}
           quantity={selectedZone.quantity}
           price={selectedZone.price}
           name={selectedZone.name}

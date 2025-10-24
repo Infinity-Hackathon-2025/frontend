@@ -6,12 +6,14 @@ interface OrderDetailsProps {
   name: string;
   quantity: number;
   price: number;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({
   name,
   quantity,
   price,
+  onClick,
 }) => {
   const totalPrice = quantity * price;
 
@@ -44,6 +46,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
         </div>
 
         <button
+          onClick={quantity > 0 ? onClick : undefined}
           className={`font-nexa text-[15px] py-3 rounded-full w-full transition-all ${
             quantity > 0
               ? "bg-[#FFAA33] hover:bg-[#e29a2d] text-white"

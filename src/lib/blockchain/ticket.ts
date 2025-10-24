@@ -56,12 +56,13 @@ export async function getEventDate(
 
 export async function buyTicket(
   signer: ethers.Signer,
+  eventAddress: string,
   zoneIndex: number,
   quantity: number,
   tokenURI: string,
   totalPrice: bigint
 ) {
-  const ticket = new ethers.Contract(TICKET_ADDRESS, ticketAbi.abi, signer);
+  const ticket = new ethers.Contract(eventAddress, ticketAbi.abi, signer);
 
   try {
     const tx = await ticket.buyTicket(zoneIndex, quantity, tokenURI, {
