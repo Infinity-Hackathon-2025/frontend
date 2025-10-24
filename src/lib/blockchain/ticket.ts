@@ -73,10 +73,17 @@ export async function buyTicket(
     });
 
     const receipt = await tx.wait();
-    console.log("Ticket purchased:", receipt);
-  } catch (error) {
+    console.log("Tiket berhasil dibeli", receipt);
+    alert("Tiket berhasil dibeli");
+  } catch (error: any) {
     console.error("Error buying ticket:", error);
-    throw error;
+    if (
+      error.code === "INSUFFICIENT_FUNDS" ||
+      error.message?.includes("insufficient funds")
+    ) {
+      alert("ETH kamu tidak cukup untuk melakukan transaksi.");
+      return;
+    }
   }
 }
 

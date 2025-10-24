@@ -141,8 +141,6 @@ export default function Section({
         price: 0,
         quantity: 1,
       });
-
-      alert("Tiket berhasil dibeli");
     } catch (error) {
       console.error("Error uploading metadata:", error);
       throw error;

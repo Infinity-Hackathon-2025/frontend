@@ -71,7 +71,7 @@ const Events = () => {
         {filteredEvent.map((event, index) => {
           return (
             <EventCard
-              index={index}
+              key={index}
               eventAddress={event.eventAddress}
               title={event.eventName}
               desription={event.description}
