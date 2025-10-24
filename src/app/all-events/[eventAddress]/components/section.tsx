@@ -37,6 +37,7 @@ export default function Section({
 }: SectionProps) {
   const [isLoading, setLoading] = useState(true);
   const [eventDate, setEventDate] = useState("");
+  const [isBuying, setBuying] = useState(false);
 
   const provider = getProvider();
 
@@ -105,6 +106,7 @@ export default function Section({
   }
 
   async function handleBuyTicket() {
+    setBuying(true);
     const metadata: TicketMetadata = {
       name: `${selectedZone.name} - ${eventName}`,
       description: description,
@@ -145,6 +147,7 @@ export default function Section({
       console.error("Error uploading metadata:", error);
       throw error;
     }
+    setBuying(false);
   }
 
   return (
@@ -225,6 +228,7 @@ export default function Section({
         </div>
         <OrderDetails
           onClick={handleBuyTicket}
+          isBuying={isBuying}
           quantity={selectedZone.quantity}
           price={selectedZone.price}
           name={selectedZone.name}

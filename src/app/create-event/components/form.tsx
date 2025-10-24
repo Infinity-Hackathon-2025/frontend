@@ -7,6 +7,7 @@ import Image from "next/image";
 import { createEvent } from "@/lib/blockchain/ticket-factory";
 import { ethers } from "ethers";
 import { convertEthToIdr } from "@/lib/price";
+import { cn } from "@/lib/utils";
 
 export default function Form() {
   const termsRef = useRef<HTMLInputElement | null>(null);
@@ -19,10 +20,21 @@ export default function Form() {
     description: "",
     eventDateTime: "",
     imageUrl: "",
-    zone: "",
     royaltyFee: "",
     termsUrl: "",
   });
+
+  const refs = {
+    eventName: useRef<HTMLInputElement>(null),
+    description: useRef<HTMLTextAreaElement>(null),
+    eventDateTime: useRef<HTMLInputElement>(null),
+    imageUrl: useRef<HTMLInputElement>(null),
+    royaltyFee: useRef<HTMLInputElement>(null),
+  };
+
+  const [errors, setErrors] = useState<any>({});
+
+  const [shakeField, setShakeFiels] = useState("");
 
   const [posterUploading, setPosterUploading] = useState(false);
   const [termsUploading, setTermsUploading] = useState(false);
@@ -181,8 +193,67 @@ export default function Form() {
     setPayouts(newPayouts);
   };
 
+  const validateForm = () => {
+    const newErrors: any = {};
+
+    if (!form.eventName.trim()) newErrors.eventName = "Nama event wajib diisi";
+    if (!form.description.trim())
+      newErrors.description = "Deskripsi wajib diisi";
+    if (!form.eventDateTime) newErrors.eventDateTime = "Tanggal wajib diisi";
+    if (!form.royaltyFee) newErrors.royaltyFee = "Royalti wajib diisi";
+
+    newErrors.zones = zones.map((zone, i) => {
+      const zoneErrors: any = {};
+      if (!zone.name.trim()) zoneErrors.name = "Nama zona wajib diisi";
+      if (!zone.price.trim()) zoneErrors.price = "Harga wajib diisi";
+      if (!zone.maxSupply.trim()) zoneErrors.maxSupply = "Jumlah wajib diisi";
+      return zoneErrors;
+    });
+
+    // Validasi Payouts
+    newErrors.payouts = payouts.map((payout, i) => {
+      const payoutErrors: any = {};
+      if (!payout.wallet.trim()) payoutErrors.wallet = "Wallet wajib diisi";
+      if (!payout.share.trim()) payoutErrors.share = "Share wajib diisi";
+      return payoutErrors;
+    });
+
+    return newErrors;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const validation = validateForm();
+    setErrors(validation);
+
+    const firstErrorField =
+      Object.keys(validation).find((key) => validation[key]) ||
+      Object.entries(validation.zones || []).find(
+        ([_, z]: any) => Object.keys(z).length > 0
+      )?.[0] ||
+      Object.entries(validation.payouts || []).find(
+        ([_, p]: any) => Object.keys(p).length > 0
+      )?.[0];
+
+    if (firstErrorField) {
+      setShakeFiels(firstErrorField);
+
+      const ref = refs[firstErrorField as keyof typeof refs]?.current;
+      if (ref) {
+        ref.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+
+        setTimeout(() => {
+          ref.focus();
+        }, 300);
+      }
+
+      setTimeout(() => setShakeFiels(""), 600);
+      return;
+    }
+
     console.log("submitting...");
 
     try {
@@ -212,7 +283,6 @@ export default function Form() {
         description: "",
         eventDateTime: "",
         imageUrl: "",
-        zone: "",
         royaltyFee: "",
         termsUrl: "",
       });
@@ -222,7 +292,7 @@ export default function Form() {
       alert("Event berhasil dibuat!");
     } catch (err) {
       console.log("error: ", err);
-      alert(`Gagal membuat event`);
+      alert(`Pastikan kamu mengisi semua info event`);
     }
   };
 
@@ -240,43 +310,70 @@ export default function Form() {
 
       <div className="text-[#122B59] grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-5">
-          <div className="bg-white rounded-2xl shadow-md p-5">
-            <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
-              Nama Acara *
+          <div className={cn("bg-white rounded-2xl shadow-md p-5")}>
+            <label className="flex gap-2 flex-row font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
+              Nama Acara *{" "}
+              {errors.eventName && form.eventName == "" && (
+                <p className="text-red-500 font-normal text-lg">
+                  {errors.eventName}
+                </p>
+              )}
             </label>
             <input
+              ref={refs.eventName}
               name="eventName"
               onChange={handleFormChange}
               value={form.eventName}
               type="text"
               placeholder="Masukkan nama acara"
-              className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C]"
+              className={cn(
+                "w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C]",
+                shakeField === "eventName" && "animate-shake"
+              )}
             />
           </div>
 
           <div className="bg-white rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
-              Deskripsi *
+              Deskripsi *{" "}
+              {errors.description && form.description == "" && (
+                <p className="text-red-500 font-normal text-lg">
+                  {errors.description}
+                </p>
+              )}
             </label>
             <textarea
+              ref={refs.description}
               name="description"
               onChange={handleFormChange}
               value={form.description}
               placeholder="Masukkan deskripsi acara"
-              className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C]"
+              className={cn(
+                "w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C]",
+                shakeField === "description" && "animate-shake"
+              )}
               rows={3}
             />
           </div>
 
           <div className="bg-white rounded-2xl shadow-md p-5">
             <label className="block font-semibold text-[#122B59] mb-2 text-[16px] md:text-[18px]">
-              Tanggal dan Waktu *
+              Tanggal dan Waktu *{" "}
+              {errors.eventDateTime && form.eventDateTime == "" && (
+                <p className="text-red-500 font-normal text-lg">
+                  {errors.eventDateTime}
+                </p>
+              )}
             </label>
             <input
+              ref={refs.eventDateTime}
               name="eventDateTime"
               onChange={handleFormChange}
               type="datetime-local"
-              className="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] w-full font-roboto text-[#7C7C7C]"
+              className={cn(
+                "w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C]",
+                shakeField === "eventDateTime" && "animate-shake"
+              )}
             />
           </div>
 
@@ -347,7 +444,7 @@ export default function Form() {
 
         <div className="bg-white rounded-2xl shadow-md p-5 flex flex-col text-[#122B59]">
           <label className="block font-semibold mb-3 text-[16px] md:text-[18px]">
-            Poster Acara
+            Poster Acara{" "}
           </label>
 
           <div className="border-2 border-dashed border-blue-300 rounded-xl h-[700px] flex flex-col items-center justify-center bg-gray-50 overflow-hidden">
@@ -407,7 +504,12 @@ export default function Form() {
       {/* ROYALTI */}
       <div className="bg-white rounded-2xl text-[#122B59] shadow-md p-5">
         <label className="block font-semibold mb-2 text-[16px] md:text-[18px]">
-          Royalti *
+          Royalti *{" "}
+          {errors.royaltyFee && form.royaltyFee == "" && (
+            <p className="text-red-500 font-normal text-lg">
+              {errors.royaltyFee}
+            </p>
+          )}
         </label>
         <input
           name="royaltyFee"
@@ -415,7 +517,10 @@ export default function Form() {
           onChange={handleFormChange}
           placeholder="Royalti untuk penjualan kedua (Max: 10%)"
           value={form.royaltyFee}
-          className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] text-[#7C7C7C]"
+          className={cn(
+            "w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-[#0038BD] font-roboto text-[#7C7C7C]",
+            shakeField === "royaltyFee" && "animate-shake"
+          )}
         />
       </div>
 
@@ -423,7 +528,7 @@ export default function Form() {
       <div className="bg-white rounded-2xl shadow-md p-6 text-[#122B59]">
         <div className="flex justify-between items-center mb-4">
           <h2 className="font-semibold text-[18px] md:text-[28px]">
-            Pengaturan tempat duduk
+            Pengaturan tempat duduk{" "}
           </h2>
           <button
             onClick={addZone}
