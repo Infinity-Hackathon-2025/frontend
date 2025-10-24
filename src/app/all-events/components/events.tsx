@@ -46,7 +46,7 @@ const Events = () => {
     return (
       <div className="flex flex-col justify-center items-center w-full min-h-screen py-20 gap-6">
         <p className="font-roboto text-[#7C7C7C]">
-          Tidak ada acara berlangsung
+          Pastikan wallet sudah terkoneksi.
         </p>
       </div>
     );
