@@ -24,7 +24,7 @@ export default async function page() {
         backgroundImage: "url('/background/bg-desktop.png')",
       }}
     >
-      <div className="w-full max-w-[1440px] px-[20px] md:px-[50px] py-[60px] md:py-[100px]">
+      <div className="w-full max-w-[1440px] px-5 md:px-[50px] py-[60px] md:py-[100px]">
         {/* <SearchConcerts concerts={concerts} /> */}
         <Events />
       </div>

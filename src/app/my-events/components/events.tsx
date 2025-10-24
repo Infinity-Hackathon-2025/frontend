@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import EventCard from "./event-card";
 import { getProvider } from "@/lib/blockchain/utils";
-import { getAllEvents } from "@/lib/blockchain/ticket-factory";
+import { getAllEvents, getMyEvents } from "@/lib/blockchain/ticket-factory";
 import Link from "next/link";
 
 const Events = () => {
@@ -33,7 +33,7 @@ const Events = () => {
       <div className="flex flex-col justify-center items-center w-full py-20 gap-6">
         <p className="font-roboto text-[#7C7C7C]">No events found.</p>
         <Link
-          className="mt-6 sm:mt-0 px-8 py-3 rounded-xl text-white font-nexa font-semibold text-lg bg-gradient-to-r from-[#FFB444] to-[#FF9E42] hover:from-[#FF9E42] hover:to-[#E88400] shadow-md transition-all"
+          className="mt-6 sm:mt-0 px-8 py-3 rounded-xl text-white font-nexa font-semibold text-lg bg-linear-to-r from-[#FFB444] to-[#FF9E42] hover:from-[#FF9E42] hover:to-[#E88400] shadow-md transition-all"
           href={"/create-event"}
         >
           + Buat Acara

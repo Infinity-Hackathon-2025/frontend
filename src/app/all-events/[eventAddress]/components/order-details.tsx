@@ -6,17 +6,19 @@ interface OrderDetailsProps {
   name: string;
   quantity: number;
   price: number;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({
   name,
   quantity,
   price,
+  onClick,
 }) => {
   const totalPrice = quantity * price;
 
   return (
-    <div className="w-full lg:w-[320px] bg-white rounded-2xl shadow-md p-7 text-[#122B59]">
+    <div className="w-full h-fit lg:w-[320px] bg-white rounded-2xl shadow-md p-7 text-[#122B59]">
       <h3 className="font-mont text-[#0038BD] text-[22px] font-semibold mb-5">
         Detail Pesanan
       </h3>
@@ -44,6 +46,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
         </div>
 
         <button
+          onClick={quantity > 0 ? onClick : undefined}
           className={`font-nexa text-[15px] py-3 rounded-full w-full transition-all ${
             quantity > 0
               ? "bg-[#FFAA33] hover:bg-[#e29a2d] text-white"

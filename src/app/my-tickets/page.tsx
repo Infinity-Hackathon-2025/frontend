@@ -40,12 +40,13 @@ export default function MyTicketsPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-12 gap-[16px]">
+        <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12">
-            {activeTab === "tiket" && <Tiket />}
+            {/* {activeTab === "tiket" && <Tiket />}
             {activeTab === "riwayat" && <RiwayatTiket />}
             {activeTab === "resell" && <ResellReport />}
-            {activeTab === "refund" && <Refund />}
+            {activeTab === "refund" && <Refund />} */}
+            <div className="font-roboto text-lg">Sedang dalam perbaikan</div>
           </div>
         </div>
       </div>
