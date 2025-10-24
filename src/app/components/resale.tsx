@@ -56,7 +56,10 @@ const Resale = () => {
   };
 
   return (
-    <section id="resale" className="mx-auto w-full max-w-5xl">
+    <section
+      id="resale"
+      className="mx-auto w-full max-w-5xl flex flex-col gap-8"
+    >
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-3xl font-bold text-[#1E3A8A]">
           Ticket Resale (Cooming Soon)
@@ -90,7 +93,7 @@ const Resale = () => {
                 key={item.id}
                 className="w-1/3 transition-all hover:scale-105 shrink-0 flex justify-center"
               >
-                <div className="bg-[#FFF6F6] rounded-[40px] p-4 shadow-lg w-[270px] flex flex-col items-start text-left relative">
+                <div className="bg-[#FFF6F6] rounded-[40px] p-4 shadow-lg w-[90%] flex flex-col items-start text-left relative">
                   {item.soldOut && (
                     <span className="absolute top-3 right-4 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
                       SOLD OUT

@@ -8,14 +8,6 @@ interface Concert {
 }
 
 export default async function page() {
-  const concerts: Concert[] = Array.from({ length: 8 }).map((_, index) => ({
-    id: index + 1,
-    title: `Event ${index + 1}`,
-    description:
-      "Rasakan keseruan konser yang penuh dengan kejutan dan penampilan spesial.",
-    imageUrl: "/images/concert-placeholder.jpg",
-  }));
-
   return (
     <main
       className="min-h-screen bg-cover bg-center bg-no-repeat flex justify-center"

@@ -51,14 +51,12 @@ export default function page({
   }, [eventAddress]);
 
   if (loading)
-    return <p className="text-gray-400 p-8">Loading event details...</p>;
+    return (
+      <p className="text-gray-400 p-8 min-h-screen">Loading event details...</p>
+    );
 
   if (!event)
-    return (
-      <p className="text-red-500 p-8">
-        Event not found or failed to load data.
-      </p>
-    );
+    return <p className="text-red-500 p-8 min-h-screen">Event tidak valid</p>;
   return (
     <div
       className="min-h-screen bg-gray-50 px-[60px] md:px-20 py-[100px] bg-cover bg-center bg-no-repeat"
