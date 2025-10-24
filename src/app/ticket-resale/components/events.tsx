@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
+import Card from "./card";
 
 interface Concert {
   id: number;
@@ -17,7 +18,7 @@ interface ConcertCategory {
   imageUrl: string;
 }
 
-export default function SearchConcerts({ concerts }: { concerts: Concert[] }) {
+export default function Events({ concerts }: { concerts: Concert[] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
@@ -45,7 +46,7 @@ export default function SearchConcerts({ concerts }: { concerts: Concert[] }) {
   return (
     <section className="w-full">
       <h1 className="font-mont text-[28px] md:text-[40px] font-bold text-[#0038BD] text-center mb-[40px]">
-        Tiket
+        Resale Ticket
       </h1>
 
       <div className="col-span-12 flex justify-center mb-[60px]">
@@ -62,7 +63,7 @@ export default function SearchConcerts({ concerts }: { concerts: Concert[] }) {
           </span>
         </div>
       </div>
-      <div className="col-span-12 mb-[80px] flex justify-center mt-[40px]">
+      <div className="col-span-12 mb-20 flex justify-center mt-10">
         <div
           className="overflow-x-auto"
           style={{
@@ -70,7 +71,7 @@ export default function SearchConcerts({ concerts }: { concerts: Concert[] }) {
           }}
         >
           <div
-            className="flex flex-nowrap gap-[16px] px-[50px] pb-4"
+            className="flex flex-nowrap gap-4 px-[50px] pb-4"
             style={{
               width: "max-content",
             }}
@@ -79,7 +80,7 @@ export default function SearchConcerts({ concerts }: { concerts: Concert[] }) {
               <div
                 key={category.id}
                 onClick={() => handleCategoryClick(category.title)}
-                className="flex items-center justify-start flex-shrink-0 
+                className="flex items-center justify-start shrink-0 
                      bg-white/30 backdrop-blur-md border border-white/40 
                      rounded-[20px] shadow-md hover:shadow-xl transition-all 
                      cursor-pointer hover:scale-[1.03]"
@@ -89,7 +90,7 @@ export default function SearchConcerts({ concerts }: { concerts: Concert[] }) {
                   padding: "10px 16px",
                 }}
               >
-                <div className="relative w-[72px] h-[72px] flex-shrink-0 overflow-hidden rounded-[16px] mr-4">
+                <div className="relative w-[72px] h-[72px] shrink-0 overflow-hidden rounded-2xl mr-4">
                   <Image
                     src={category.imageUrl}
                     alt={category.title}
@@ -106,26 +107,29 @@ export default function SearchConcerts({ concerts }: { concerts: Concert[] }) {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-[16px] justify-items-center">
-        {filteredConcerts.length > 0 ? (
+      <div className="flex justify-center items-center gap-4 justify-items-center w-full ">
+        <p className="w-full text-center font-roboto text-lg">
+          Sedang Dalam Perbaikan
+        </p>
+        {/* {filteredConcerts.length > 0 ? (
           filteredConcerts.map((concert) => (
             <div
               key={concert.id}
               className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 flex justify-center"
             >
-              {/* <Card
+              <Card
                 title={concert.title}
                 description={concert.description}
                 imageUrl={concert.imageUrl}
                 onClick={() => handleCardClick(concert.id)}
-              /> */}
+              />
             </div>
           ))
         ) : (
           <p className="col-span-12 font-roboto text-[#122B59] text-[14px] md:text-[18px] text-center mt-10 opacity-80">
             Tidak ada konser yang sesuai.
           </p>
-        )}
+        )} */}
       </div>
     </section>
   );

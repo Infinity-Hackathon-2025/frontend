@@ -206,6 +206,20 @@ export default function Form() {
 
       const tx = await createEvent(signer, eventData);
       console.log("Event deployed:", tx);
+
+      setForm({
+        eventName: "",
+        description: "",
+        eventDateTime: "",
+        imageUrl: "",
+        zone: "",
+        royaltyFee: "",
+        termsUrl: "",
+      });
+      setPayouts([]);
+      setZones([]);
+
+      alert("Event berhasil dibuat!");
     } catch (err) {
       console.log("error: ", err);
       alert(`Gagal membuat event`);

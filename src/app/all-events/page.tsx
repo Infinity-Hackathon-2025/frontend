@@ -1,5 +1,4 @@
 import Events from "./components/events";
-import SearchConcerts from "./components/search";
 
 interface Concert {
   id: number;
@@ -25,7 +24,6 @@ export default async function page() {
       }}
     >
       <div className="w-full max-w-[1440px] px-5 md:px-[50px] py-[60px] md:py-[100px]">
-        {/* <SearchConcerts concerts={concerts} /> */}
         <Events />
       </div>
     </main>

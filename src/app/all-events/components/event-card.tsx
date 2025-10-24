@@ -78,7 +78,7 @@ const EventCard: React.FC<EventCardProps> = ({
         </div>
       </div>
 
-      <div className="p-5 space-y-4 flex-1 font-roboto text-[#7C7C7C] line-clamp-5 mb-6">
+      <div className="p-5 space-y-4 flex-1 font-roboto text-[#7C7C7C] line-clamp-1 mb-6">
         {desription}
       </div>
     </Link>

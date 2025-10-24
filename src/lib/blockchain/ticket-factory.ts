@@ -3,6 +3,7 @@ import factoryAbi from "@/constants/abi/ticket-factory.json";
 import { ethers, parseEther } from "ethers";
 import { createHash } from "crypto";
 import { getEventStatus } from "./vault";
+import { getEventDate } from "./ticket";
 
 const FACTORY_ADDRESS = process.env
   .NEXT_PUBLIC_FACTORY_ADDRESS as `0x${string}`;
@@ -75,6 +76,7 @@ export async function getAllEvents(provider: ethers.Provider) {
     const events = await Promise.all(
       getEvents.map(async (e: any) => {
         const eventStatus = await getEventStatus(provider, e.eventAddress);
+        const eventDate = await getEventDate(provider, e.eventAddress);
 
         return {
           eventAddress: e.eventAddress,
@@ -85,6 +87,7 @@ export async function getAllEvents(provider: ethers.Provider) {
           image: e.image,
           royaltyFee: Number(e.royaltyFee),
           eventStatus,
+          eventDate,
         };
       })
     );
@@ -105,6 +108,7 @@ export async function getAllActiveEvents(provider: ethers.Provider) {
     const events = await Promise.all(
       getEvents.map(async (e: any) => {
         const eventStatus = await getEventStatus(provider, e.eventAddress);
+        const eventDate = await getEventDate(provider, e.eventAddress);
 
         return {
           eventAddress: e.eventAddress,
@@ -115,6 +119,7 @@ export async function getAllActiveEvents(provider: ethers.Provider) {
           image: e.image,
           royaltyFee: Number(e.royaltyFee),
           eventStatus,
+          eventDate,
         };
       })
     );

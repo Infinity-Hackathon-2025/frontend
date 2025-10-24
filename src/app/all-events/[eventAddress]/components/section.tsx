@@ -133,7 +133,16 @@ export default function Section({
         tokenURI,
         totalPrice
       );
-      console.log("Event deployed:", tx);
+      console.log("Ticket bought:", tx);
+
+      setSelectedZone({
+        index: 0,
+        name: "",
+        price: 0,
+        quantity: 1,
+      });
+
+      alert("Tiket berhasil dibeli");
     } catch (error) {
       console.error("Error uploading metadata:", error);
       throw error;
@@ -177,10 +186,6 @@ export default function Section({
                   {zone.price} ETH
                 </span>
               </div>
-
-              <p>
-                {selectedZone.quantity} : {selectedZone.index}
-              </p>
 
               <div className="flex flex-row gap-10 justify-center items-center">
                 <div className="flex items-center">
