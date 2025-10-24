@@ -1,39 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { useWalletClient } from "wagmi";
+import { getProvider } from "@/lib/blockchain/utils";
+import { getMyTickets } from "@/lib/blockchain/ticket";
 
 export default function Tiket() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const refunds = [
-    {
-      title: "CAS",
-      type: "FESTIVAL",
-      date: "17 Januari 2025",
-      desc: "Bandung Creative Park",
-    },
-    {
-      title: "ENHYPEN",
-      type: "CAT 2",
-      date: "14 Desember 2025",
-      desc: "M Bloc Space, Jakarta",
-    },
-  ];
+  const { data: walletClient } = useWalletClient();
+  const provider = getProvider();
+  const [tickets, setTickets] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!walletClient || !provider) return;
+
+    const fetchTickets = async () => {
+      const myTickets = await getMyTickets(
+        provider,
+        walletClient.account.address
+      );
+      setTickets(myTickets);
+    };
+
+    fetchTickets();
+  }, [walletClient, provider]);
+
+  // const refunds = [
+  //   {
+  //     title: "CAS",
+  //     type: "FESTIVAL",
+  //     date: "17 Januari 2025",
+  //     desc: "Bandung Creative Park",
+  //   },
+  //   {
+  //     title: "ENHYPEN",
+  //     type: "CAT 2",
+  //     date: "14 Desember 2025",
+  //     desc: "M Bloc Space, Jakarta",
+  //   },
+  // ];
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  if (!tickets) {
+    return <p>Belum punya tiket</p>;
+  }
+
   return (
-    <div className="flex flex-col gap-[16px]">
-      {refunds.map((refund, index) => {
+    <div className="flex flex-col gap-4">
+      {tickets.map((t, index) => {
         const isOpen = openIndex === index;
         return (
           <div
             key={index}
-            className="w-[1319px] max-w-full bg-gradient-to-b from-[#dee3f5] to-[#bcc6e0] rounded-2xl shadow-sm transition-all duration-500 overflow-hidden"
+            className="w-[1319px] max-w-full bg-linear-to-b from-[#dee3f5] to-[#bcc6e0] rounded-2xl shadow-sm transition-all duration-500 overflow-hidden"
             style={{
               height: isOpen ? "200px" : "182px",
             }}
@@ -42,18 +67,18 @@ export default function Tiket() {
             <button
               onClick={() => toggle(index)}
               className={`w-full flex justify-between items-start p-6 transition-all duration-500 ${
-                isOpen ? "translate-y-[10px]" : "translate-y-0"
+                isOpen ? "translate-y-2.5" : "translate-y-0"
               }`}
             >
               <div className="text-left transition-all duration-500">
                 <h2 className="text-2xl font-semibold text-[#122B59]">
-                  {refund.title}
+                  {t.metadata}
                 </h2>
-                <p className="text-sm text-[#122B59]">{refund.type}</p>
-                <p className="text-sm mt-3 text-[#122B59]">{refund.desc}</p>
+                <p className="text-sm text-[#122B59]">{t.type}</p>
+                <p className="text-sm mt-3 text-[#122B59]">{t.desc}</p>
               </div>
               <div className="flex flex-col items-end">
-                <p className="text-sm text-[#122B59]">{refund.date}</p>
+                <p className="text-sm text-[#122B59]">{t.date}</p>
                 <div className="mt-3">
                   {isOpen ? (
                     <ChevronUp size={18} className="text-[#122B59]" />
@@ -67,7 +92,9 @@ export default function Tiket() {
             {/* Dropdown Detail */}
             <div
               className={`transition-all duration-500 ${
-                isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+                isOpen
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 -translate-y-2"
               }`}
               style={{
                 height: isOpen ? "107px" : "0px",
@@ -75,9 +102,7 @@ export default function Tiket() {
             >
               {isOpen && (
                 <div className="flex justify-between items-center border-t border-gray-300 pt-5 px-6 gap-2">
-                  <p className="font-semibold text-sm text-[#122B59]">
-                    ETH XX
-                  </p>
+                  <p className="font-semibold text-sm text-[#122B59]">ETH XX</p>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setShowModal(true)}
@@ -146,7 +171,7 @@ export default function Tiket() {
                 <span>ETH 2</span>
               </div>
 
-              <button className="mt-5 bg-gradient-to-r from-[#f4b640] to-[#f1a83b] text-white py-2 rounded-lg font-semibold">
+              <button className="mt-5 bg-linear-to-r from-[#f4b640] to-[#f1a83b] text-white py-2 rounded-lg font-semibold">
                 RESELL
               </button>
             </div>
