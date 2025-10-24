@@ -7,7 +7,6 @@ import Resale from "./components/resale";
 import HelpCenter from "./components/help-center";
 import FAQ from "./components/faq";
 import Link from "next/link";
-import EventHighlight from "./components/event-highlight";
 
 export default function HomePage() {
   return (
@@ -23,8 +22,8 @@ export default function HomePage() {
       <div className="flex flex-col gap-20">
         <ConcertHighlight />
         <TrendingEvents />
-        {/* <BestsellingMerch /> */}
-        {/* <Resale /> */}
+        <BestsellingMerch />
+        <Resale />
       </div>
       <HelpCenter />
       <FAQ />

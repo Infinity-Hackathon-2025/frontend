@@ -72,7 +72,7 @@ const TrendingEvents = () => {
           <ChevronLeft size={24} />
         </button>
 
-        <div className="flex gap-8 overflow-hidden justify-center w-full">
+        <div className="flex gap-8 overflow-x-clip justify-center w-full">
           <div
             className="flex transition-transform duration-500"
             style={{
@@ -81,7 +81,11 @@ const TrendingEvents = () => {
             }}
           >
             {events.map((e, index) => (
-              <div key={index} className="w-1/3 shrink-0 flex justify-center">
+              <Link
+                href={`/all-events/${e.eventAddress}`}
+                key={index}
+                className="w-1/3 transition-all hover:scale-105 shrink-0 flex justify-center"
+              >
                 <div className="bg-[#FFF6F6] rounded-[40px] p-4 shadow-lg w-[270px] flex flex-col items-start text-left relative">
                   {/* {e.soldOut && (
                     <span className="absolute top-3 right-4 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
@@ -97,7 +101,7 @@ const TrendingEvents = () => {
                   {/* <p className="text-sm text-gray-600">{e.venue}</p> */}
                   <p className="text-[11px] text-gray-500">{e.eventDate}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Hamburger from "hamburger-react";
 
+import { usePathname } from "next/navigation";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +19,7 @@ import ConnectButtonCustom from "./connect-button";
 import { useAccount } from "wagmi";
 
 const Navbar = () => {
+  const pathname = usePathname();
   const { isConnected, address } = useAccount();
   const [activeSection, setActiveSection] = useState("home");
   const [isOpen, setOpen] = useState(false);
@@ -39,11 +42,11 @@ const Navbar = () => {
   }, []);
 
   const menu = [
-    { name: "Home", href: "/#home" },
-    { name: "About", href: "/#about" },
+    { name: "Home", href: "/" },
+    // { name: "About", href: "/#about" },
     { name: "Events", href: "/all-events" },
-    // { name: "Merch", href: "/merch" },
-    { name: "Resale", href: "/#resale" },
+    { name: "Merch", href: "/#merch" },
+    { name: "Resale", href: "/ticket-resale" },
     { name: "Help center", href: "/#help" },
   ];
 
@@ -65,7 +68,7 @@ const Navbar = () => {
                 <a
                   href={item.href}
                   className={`px-3 py-2 rounded-full transition ${
-                    activeSection == item.href.slice(2)
+                    pathname === item.href
                       ? "bg-[#1E3A8A] text-white shadow-md"
                       : "hover:bg-[#1E3A8A]/10"
                   }`}
