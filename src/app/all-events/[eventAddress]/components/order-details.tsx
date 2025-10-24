@@ -16,7 +16,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
   const totalPrice = quantity * price;
 
   return (
-    <div className="w-full lg:w-[320px] bg-white rounded-2xl shadow-md p-7 text-[#122B59]">
+    <div className="w-full h-fit lg:w-[320px] bg-white rounded-2xl shadow-md p-7 text-[#122B59]">
       <h3 className="font-mont text-[#0038BD] text-[22px] font-semibold mb-5">
         Detail Pesanan
       </h3>

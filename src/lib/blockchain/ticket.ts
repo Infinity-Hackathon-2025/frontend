@@ -30,18 +30,23 @@ export async function getEventDate(
   const contract = new ethers.Contract(eventAddress, ticketAbi.abi, provider);
 
   try {
-    const eventDate = contract.eventDateTime();
+    const eventDate = await contract.eventDateTime();
     const timestamp = Number(eventDate);
-    const date = new Date(timestamp * 1000);
+    const _date = new Date(timestamp * 1000);
 
-    const formatted = date.toLocaleString("id-ID", {
+    const date = _date.toLocaleDateString("id-ID", {
       weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
+    });
+
+    const time = _date.toLocaleTimeString("id-ID", {
       hour: "2-digit",
       minute: "2-digit",
     });
+
+    const formatted = `${date} (${time})`;
 
     return formatted;
   } catch (error) {

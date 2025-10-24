@@ -1,24 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import TicketOption from "./ticket-option";
 import OrderDetails from "./order-details";
 import { Button } from "@/components/ui/button";
+import { getEventDate } from "@/lib/blockchain/ticket";
+import { getProvider } from "@/lib/blockchain/utils";
 
 interface SectionProps {
+  eventAddress: string;
   eventName: string;
+
   description: string;
   image: string;
   zones: any[];
 }
 
 export default function Section({
+  eventAddress,
   eventName,
   description,
   image,
   zones,
 }: SectionProps) {
+  const [isLoading, setLoading] = useState(true);
+  const [eventDate, setEventDate] = useState("");
+
+  const provider = getProvider();
+
+  useEffect(() => {
+    const fetchDate = async () => {
+      try {
+        if (!eventAddress) return;
+
+        const date = await getEventDate(provider, eventAddress);
+        setEventDate(date);
+      } catch (error) {
+        console.error("Error fetching date:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDate();
+  }, [eventAddress]);
+
   const [selectedZone, setSelectedZone] = useState({
     name: "",
     price: 0,
@@ -59,10 +86,11 @@ export default function Section({
           />
         </div>
 
-        <div className="flex-1">
-          <h2 className="font-mont text-[#0038BD] text-[28px] md:text-[36px] font-bold mb-3">
+        <div className="flex-1 flex flex-col gap-4">
+          <h2 className="font-mont text-[#0038BD] text-[28px] md:text-[36px] font-bold">
             {eventName}
           </h2>
+          <p className="text-lg font-roboto font-bold">{eventDate}</p>
           <p className="font-roboto text-[#122B59] text-[16px] leading-relaxed">
             {description}
           </p>

@@ -65,6 +65,7 @@ export default function page({
       style={{ backgroundImage: "url('/background/bg-desktop.png')" }}
     >
       <Section
+        eventAddress={event.eventAddress}
         eventName={event.eventName}
         description={event.description}
         image={event.image}
