@@ -12,7 +12,7 @@ import { getSigner } from "@/lib/blockchain/utils";
 import Link from "next/link";
 
 interface EventCardProps {
-  index: number;
+  key: number;
   eventAddress: string;
   title: string;
   desription: string;
@@ -21,7 +21,7 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({
-  index,
+  key,
   eventAddress,
   title,
   desription,
@@ -56,7 +56,7 @@ const EventCard: React.FC<EventCardProps> = ({
 
   return (
     <Link
-      key={index}
+      key={key}
       className="bg-white hover:scale-[1.02] transition-all rounded-[15px] shadow-md border border-gray-200 overflow-hidden flex flex-col"
       href={`/all-events/${eventAddress}`}
     >
@@ -78,7 +78,7 @@ const EventCard: React.FC<EventCardProps> = ({
         </div>
       </div>
 
-      <div className="p-5 space-y-4 flex-1 font-roboto text-[#7C7C7C] line-clamp-5 mb-6">
+      <div className="p-5 space-y-4 flex-1 font-roboto text-[#7C7C7C] line-clamp-1 mb-6">
         {desription}
       </div>
     </Link>

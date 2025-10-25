@@ -1,7 +1,7 @@
 import Hero from "./components/hero";
 import About from "./components/about";
 import ConcertHighlight from "./components/concert-highlight";
-import TrendingConcerts from "./components/trending-concerts";
+import TrendingEvents from "./components/trending-events";
 import BestsellingMerch from "./components/bestselling-merch";
 import Resale from "./components/resale";
 import HelpCenter from "./components/help-center";
@@ -14,16 +14,16 @@ export default function HomePage() {
       <Hero />
       <About />
       <Link
-        className="sm:mt-0 px-8 py-3 w-fit bg-gradient-to-r from-[#FFB444] to-[#FF9E42] hover:from-[#FF9E42] hover:to-[#E88400] rounded-xl text-white font-nexa font-semibold text-lg shadow-md "
+        className="sm:mt-0 px-8 py-3 w-fit bg-linear-to-r from-[#FFB444] to-[#FF9E42] hover:from-[#FF9E42] hover:to-[#E88400] rounded-xl text-white font-nexa font-semibold text-lg shadow-md "
         href={"/create-event"}
       >
         Buat Acara
       </Link>
       <div className="flex flex-col gap-20">
         <ConcertHighlight />
-        <TrendingConcerts />
-        {/* <BestsellingMerch /> */}
-        {/* <Resale /> */}
+        <TrendingEvents />
+        <BestsellingMerch />
+        <Resale />
       </div>
       <HelpCenter />
       <FAQ />

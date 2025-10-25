@@ -5,7 +5,7 @@ import WeeklyTicketSales from "./components/weekly-ticketsales";
 import QuickAction from "./components/quick-action";
 import EventSummary from "./components/summary";
 
-import Events from "./components/events";
+import Content from "./components/content";
 
 const MyEvents = (props: PageProps<"/my-events">) => {
   return (
@@ -15,29 +15,7 @@ const MyEvents = (props: PageProps<"/my-events">) => {
         backgroundImage: "url('/background/bg-landingpage.png')",
       }}
     >
-      <div className="max-w-7xl mx-auto space-y-10">
-        <EventSummary />
-
-        <Events />
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <FinancialReport />
-          </div>
-          <div>
-            <RoyaltyReport />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <WeeklyTicketSales />
-          </div>
-          <div>
-            <QuickAction />
-          </div>
-        </div>
-      </div>
+      <Content />
     </div>
   );
 };

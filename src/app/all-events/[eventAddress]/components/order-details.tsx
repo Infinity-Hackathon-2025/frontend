@@ -1,12 +1,15 @@
 "use client";
 
 import React from "react";
+import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
+import { Spinner } from "@/components/ui/spinner";
 
 interface OrderDetailsProps {
   name: string;
   quantity: number;
   price: number;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
+  isBuying: Boolean;
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({
@@ -14,6 +17,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
   quantity,
   price,
   onClick,
+  isBuying,
 }) => {
   const totalPrice = quantity * price;
 
@@ -45,16 +49,29 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
           <span>{totalPrice.toFixed(3)} ETH</span>
         </div>
 
-        <button
-          onClick={quantity > 0 ? onClick : undefined}
-          className={`font-nexa text-[15px] py-3 rounded-full w-full transition-all ${
-            quantity > 0
-              ? "bg-[#FFAA33] hover:bg-[#e29a2d] text-white"
-              : "bg-gray-300 cursor-not-allowed text-white/70"
-          }`}
-        >
-          Beli
-        </button>
+        {isBuying ? (
+          <Item variant="muted">
+            <ItemMedia>
+              <Spinner />
+            </ItemMedia>
+            <ItemContent>
+              <ItemTitle className="line-clamp-1 font-roboto text-lg">
+                Processing payment...
+              </ItemTitle>
+            </ItemContent>
+          </Item>
+        ) : (
+          <button
+            onClick={quantity > 0 ? onClick : undefined}
+            className={`font-nexa text-[15px] py-3 rounded-full w-full transition-all ${
+              name && quantity > 0
+                ? "bg-[#FFAA33] hover:bg-[#e29a2d] text-white"
+                : "bg-gray-300 cursor-not-allowed text-gray-700"
+            }`}
+          >
+            Beli
+          </button>
+        )}
       </div>
     </div>
   );

@@ -37,6 +37,7 @@ export default function Section({
 }: SectionProps) {
   const [isLoading, setLoading] = useState(true);
   const [eventDate, setEventDate] = useState("");
+  const [isBuying, setBuying] = useState(false);
 
   const provider = getProvider();
 
@@ -105,6 +106,7 @@ export default function Section({
   }
 
   async function handleBuyTicket() {
+    setBuying(true);
     const metadata: TicketMetadata = {
       name: `${selectedZone.name} - ${eventName}`,
       description: description,
@@ -133,11 +135,19 @@ export default function Section({
         tokenURI,
         totalPrice
       );
-      console.log("Event deployed:", tx);
+      console.log("Ticket bought:", tx);
+
+      setSelectedZone({
+        index: 0,
+        name: "",
+        price: 0,
+        quantity: 1,
+      });
     } catch (error) {
       console.error("Error uploading metadata:", error);
       throw error;
     }
+    setBuying(false);
   }
 
   return (
@@ -177,10 +187,6 @@ export default function Section({
                   {zone.price} ETH
                 </span>
               </div>
-
-              <p>
-                {selectedZone.quantity} : {selectedZone.index}
-              </p>
 
               <div className="flex flex-row gap-10 justify-center items-center">
                 <div className="flex items-center">
@@ -222,6 +228,7 @@ export default function Section({
         </div>
         <OrderDetails
           onClick={handleBuyTicket}
+          isBuying={isBuying}
           quantity={selectedZone.quantity}
           price={selectedZone.price}
           name={selectedZone.name}
