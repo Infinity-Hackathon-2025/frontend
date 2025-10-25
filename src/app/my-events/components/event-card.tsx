@@ -16,7 +16,7 @@ interface EventCardProps {
   title: string;
   ticketsSold: number;
   totalTickets: number;
-  ticketAmount: number;
+  balance: number;
   merchSold: number;
   merchAmount: number;
   status: string;
@@ -29,7 +29,7 @@ const EventCard: React.FC<EventCardProps> = ({
   title,
   ticketsSold,
   totalTickets,
-  ticketAmount,
+  balance,
   merchSold,
   merchAmount,
   status,
@@ -119,14 +119,13 @@ const EventCard: React.FC<EventCardProps> = ({
           <div className="flex justify-between text-sm">
             <span>Tiket Terjual</span>
             <span className="font-semibold text-[#122B59]">
-              {ticketsSold}/{totalTickets}
+              {/* {ticketsSold}/{totalTickets} */}
+              N/A
             </span>
           </div>
           <div className="flex justify-between text-sm mt-1">
             <span>Total Penjualan</span>
-            <span className="font-semibold text-[#122B59]">
-              {ticketAmount} ETH
-            </span>
+            <span className="font-semibold text-[#122B59]">{balance} ETH</span>
           </div>
         </div>
 
@@ -134,7 +133,10 @@ const EventCard: React.FC<EventCardProps> = ({
           <h4 className="text-sm font-nexa font-semibold text-[#122B59] mb-2">
             Penjualan Merchandise
           </h4>
-          <div className="flex justify-between text-sm">
+          <h4 className="text-sm font-nexa font-normal text-[#122B59]/80 mb-2">
+            Cooming soon
+          </h4>
+          {/* <div className="flex justify-between text-sm">
             <span>Jumlah Terjual</span>
             <span className="font-semibold text-[#122B59]">
               {merchSold}
@@ -145,7 +147,7 @@ const EventCard: React.FC<EventCardProps> = ({
             <span className="font-semibold text-[#122B59]">
               {merchAmount} ETH
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -73,8 +73,11 @@ export async function getEventBalance(
   const vault = new ethers.Contract(VAULT_ADDRESS, vaultAbi.abi, provider);
 
   try {
-    const balance = await vault.getEventBalance(eventAddress);
-    console.log("💰 Event balance:", ethers.formatEther(balance), "ETH");
+    const balance = ethers.formatEther(
+      await vault.getEventBalance(eventAddress)
+    );
+
+    console.log("💰 Event balance:", balance, "ETH");
     return balance;
   } catch (error) {
     console.error(error);

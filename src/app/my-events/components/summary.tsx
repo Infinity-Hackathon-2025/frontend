@@ -5,18 +5,27 @@ import { getProvider } from "@/lib/blockchain/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const EventSummary = () => {
-  const [events, setEvents] = useState<any[]>([]);
-  const [isLoading, setLoading] = useState(true);
+interface Event {
+  eventStatus: string;
+  // Add other event properties as needed
+}
 
-  const [incomingCount, setIncomingCount] = useState(0);
+interface EventSummaryProps {
+  allEventsBalance: number;
+}
+
+const EventSummary: React.FC<EventSummaryProps> = ({ allEventsBalance }) => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(true);
+
+  const [incomingCount, setIncomingCount] = useState<number>(0);
 
   const provider = getProvider();
 
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const data = await getAllEvents(provider);
+        const data: Event[] = await getAllEvents(provider);
         setEvents(data);
 
         const count = data.filter((e) => e.eventStatus === "Active").length;
@@ -53,7 +62,9 @@ const EventSummary = () => {
         <div className="bg-[#0038BD] text-white p-7 rounded-2xl shadow-md flex flex-col justify-between">
           <div>
             <h3 className="text-base font-nexa opacity-90">Total Pendapatan</h3>
-            <p className="text-4xl font-mont font-bold mt-3">26.9 ETH</p>
+            <p className="text-4xl font-mont font-bold mt-3">
+              {allEventsBalance.toFixed(3)} ETH
+            </p>
             <p className="text-sm font-roboto mt-2 text-blue-100">
               +15.3% dari bulan lalu
             </p>
@@ -61,22 +72,22 @@ const EventSummary = () => {
         </div>
         <div className="bg-white p-7 rounded-2xl shadow-md border border-gray-200">
           <h3 className="text-base font-nexa text-gray-600">Penjualan Tiket</h3>
-          <p className="text-4xl font-mont font-bold text-[#122B59] mt-3">
-            99,999+
+          <p className="text-4xl font-roboto font-black text-[#122B59] mt-3">
+            N/A
           </p>
           <p className="text-sm font-roboto text-[#7C7C7C] mt-2">
-            Dalam 3 acara
+            Cooming Soon
           </p>
         </div>
 
         {/* Penjualan Merch */}
         <div className="bg-white p-7 rounded-2xl shadow-md border border-gray-200">
           <h3 className="text-base font-nexa text-gray-600">Penjualan Merch</h3>
-          <p className="text-4xl font-mont font-bold text-[#122B59] mt-3">
-            23,257
+          <p className="text-4xl font-roboto font-black text-[#122B59] mt-3">
+            N/A
           </p>
           <p className="text-sm font-roboto text-[#7C7C7C] mt-2">
-            5.3 ETH total
+            Cooming Soon
           </p>
         </div>
 
